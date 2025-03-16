@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accounting for Managers - 13002</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Accounting for Managers - 13002 🌟</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-            line-height: 1.6;
+            background: linear-gradient(to bottom, #eef2f7, #ffffff);
+            color: #2d3436;
+            line-height: 1.8;
+            padding: 40px;
             overflow-x: hidden;
         }
 
         header {
+            background: linear-gradient(120deg, #6c5ce7, #00cec9);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            padding: 50px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-in;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3); }
+            100% { box-shadow: 0 10px 40px rgba(0, 206, 201, 0.4); }
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
-            animation: slideInDown 1s ease-in;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         header p {
-            font-size: 1.2rem;
-            animation: slideInUp 1s ease-in;
+            font-size: 1.3rem;
         }
 
         .container {
@@ -45,35 +54,70 @@
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: #fff;
             padding: 30px;
+            border-radius: 15px;
             margin-bottom: 30px;
-            animation: fadeInUp 1s ease-in;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
         }
 
         .section h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
+            color: #6c5ce7;
             margin-bottom: 20px;
-            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "✨";
+            position: absolute;
+            right: -30px;
+            font-size: 1.5rem;
         }
 
         .download-btn {
             display: inline-block;
-            padding: 20px 40px;
-            background: #ffd700;
-            color: #1e3c72;
-            font-size: 1.5rem;
+            padding: 20px 50px;
+            background: linear-gradient(45deg, #ff3e3e, #ff914d);
+            color: white;
+            font-size: 1.6rem;
             font-weight: bold;
             text-decoration: none;
-            border-radius: 50px;
-            transition: transform 0.3s, background 0.3s;
-            animation: pulse 2s infinite;
+            border-radius: 60px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 62, 62, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: "🔥";
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 10px;
+            opacity: 1;
         }
 
         .download-btn:hover {
-            transform: scale(1.1);
-            background: #ffeb3b;
+            transform: scale(1.15) translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 145, 77, 0.7);
+            background: linear-gradient(45deg, #ff914d, #ff3e3e);
+            padding-left: 60px;
         }
 
         .stats {
@@ -86,112 +130,119 @@
         .stat-item {
             flex: 1;
             padding: 20px;
-            animation: bounceIn 1s ease-in;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin: 0 10px;
         }
 
         .stat-item h3 {
             font-size: 1.5rem;
-            color: #ffd700;
+            color: #ff6b6b;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            padding: 25px;
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
         }
 
         footer a {
-            color: #ffd700;
+            color: #fff;
             text-decoration: none;
             margin: 0 10px;
+            font-weight: bold;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        footer a:hover {
+            text-decoration: underline;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        ul {
+            list-style: none;
+            padding-left: 0;
         }
 
-        @keyframes slideInDown {
-            from { transform: translateY(-100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        ul li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
         }
 
-        @keyframes slideInUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        ul li::before {
+            content: "📊";
+            color: #6c5ce7;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .email {
+            font-weight: bold;
+            color: #2d3436; /* Changed from red to a classy dark gray */
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            60% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); }
+        .email:hover {
+            background: rgba(255, 255, 255, 1);
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Accounting for Managers - 13002</h1>
-        <p>Semester 2025B Course by Dr. Shay Tsaban</p>
+        <h1>Accounting for Managers - 13002 🌟</h1>
+        <p>Semester 2025B Course by Dr. Shay Tsaban 🎓</p>
     </header>
 
     <div class="container">
         <div class="section">
-            <h2>About the Course</h2>
-            <p>Welcome to Accounting for Managers (Course 13002)! This course, led by Dr. Shay Tsaban, provides a comprehensive introduction to financial accounting and reporting. It is designed to equip managers with the tools to analyze financial data, understand key financial statements, and make informed economic decisions.</p>
-            <p>The coursebook contains all necessary information for the semester, structured as lesson summaries. For formal expansions, refer to the official course website and study guide.</p>
+            <h2>🎯 About This Epic Course</h2>
+            <p>Hey there, future financial wizards! Welcome to <strong>Accounting for Managers (13002)</strong> 🚀! Led by the one and only Dr. Shay Tsaban 🧙‍♂️, this course is your ticket to mastering financial accounting and reporting. Get ready to analyze data like a pro, decode financial statements, and make boss-level economic decisions! 💼</p>
+            <p>The coursebook here has all the juicy details you’ll need 📚—lesson summaries, key concepts, and more. The official course site has forums and assignments 📝, but this page is your treasure chest of required data and extra goodies! 🎁</p>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <h2>📥 Grab the Coursebook Now</h2>
+            <p>Snag the full course notes for Accounting for Managers - 13002 (2025B) in one slick file! 📖</p>
+            <a href="https://github.com/shaytsaban/13002/raw/main/CourseNotes%20-%2013002%20-%202025%20B.docx" class="download-btn" download>Download Now 🚀</a>
         </div>
 
         <div class="section">
-            <h2>Download Coursebook</h2>
-            <p>Get the complete course notes for Accounting for Managers - 13002 (2025B) in one convenient file.</p>
-            <!-- Replace the href with the actual GitHub raw file URL -->
-            <a href="https://github.com/shaytsaban/13002/raw/main/CourseNotes%20-%2013002%20-%202025%20B.docx" class="download-btn" download>Download Now</a>
-        </div>
-
-        <div class="section">
-            <h2>Course Highlights</h2>
+            <h2>🔥 Course Highlights</h2>
             <ul>
-                <li>Introduction to financial accounting and its role in decision-making</li>
-                <li>Structure and purpose of key financial statements</li>
-                <li>Definitions of assets, liabilities, equity, revenues, and expenses</li>
-                <li>Practical exercises based on real-world transactions</li>
-                <li>Open-book, online final exam</li>
+                <li>Intro to financial accounting & its decision-making superpowers</li>
+                <li>Breaking down key financial statements like a detective 🕵️‍♂️</li>
+                <li>Assets, liabilities, equity, revenues, expenses—defined!</li>
+                <li>Real-world transaction exercises to flex your skills 💪</li>
+                <li>Open-book, online final exam—bring it on! 🎉</li>
             </ul>
         </div>
 
         <div class="stats">
             <div class="stat-item">
-                <h3>0</h3>
+                <h3>0 🌟</h3>
                 <p>Stars</p>
             </div>
             <div class="stat-item">
-                <h3>1</h3>
+                <h3>1 👀</h3>
                 <p>Watching</p>
             </div>
             <div class="stat-item">
-                <h3>0</h3>
+                <h3>0 🍴</h3>
                 <p>Forks</p>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 GitHub, Inc.</p>
+        <p>© 2025 GitHub, Inc. | Reach me at: <span class="email">shay.tsaban@gmail.com</span> 📧</p>
         <p>
             <a href="#">Terms</a> |
             <a href="#">Privacy</a> |
@@ -201,17 +252,5 @@
             <a href="#">Contact</a>
         </p>
     </footer>
-
-    <script>
-        // Optional: Add smooth scrolling for internal links if needed
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
 </html>

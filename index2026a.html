@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Accounting for Managers – 13002 🌟</title>
+    <title>Accounting for Managers – 13002</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
         /* ===============  Design Tokens  ================== */
         :root {
-            --clr-primary-1: #6c5ce7;
-            --clr-primary-2: #00cec9;
-            --clr-accent-1: #ff3e3e;
-            --clr-accent-2: #ff914d;
+            --clr-primary: #2563eb;
+            --clr-primary-dark: #1e40af;
+            --clr-secondary: #0891b2;
+            --clr-accent: #f59e0b;
+            --clr-success: #10b981;
             --clr-neutral-100: #ffffff;
-            --clr-neutral-200: #eef2f7;
-            --radius-lg: 20px;
-            --radius-md: 15px;
-            --radius-sm: 10px;
-            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.06);
-            --transition: 0.4s ease;
+            --clr-neutral-200: #f8fafc;
+            --clr-neutral-300: #e2e8f0;
+            --clr-neutral-700: #334155;
+            --clr-neutral-800: #1e293b;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --transition: 0.3s ease;
         }
 
         /* ========  Global Base Styles  ========= */
@@ -30,302 +36,322 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', sans-serif;
         }
         body {
-            background: linear-gradient(to bottom, var(--clr-neutral-200), var(--clr-neutral-100));
-            color: #2d3436;
-            line-height: 1.8;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            color: var(--clr-neutral-800);
+            line-height: 1.7;
             padding: 40px 20px;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         /* ========  Header / Hero  ========= */
         header {
-            background: linear-gradient(120deg, var(--clr-primary-1), var(--clr-primary-2));
-            color: var(--clr-neutral-100);
+            background: var(--clr-neutral-100);
+            color: var(--clr-neutral-800);
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3.5rem 2rem;
             border-radius: var(--radius-lg);
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow-lg);
-            animation: glow 3s infinite alternate;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes glow {
-            0%   { box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3); }
-            100% { box-shadow: 0 10px 40px rgba(0, 206, 201, 0.4); }
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--clr-primary), var(--clr-secondary), var(--clr-accent));
         }
         header h1 {
-            font-size: clamp(2rem, 5vw, 2.8rem);
-            margin-bottom: .5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--clr-neutral-800);
         }
-        header p {
-            font-size: 1.2rem;
+        header .subtitle {
+            font-size: 1.25rem;
+            color: var(--clr-neutral-700);
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        header .meta {
+            font-size: 1rem;
+            color: var(--clr-neutral-700);
+            margin-top: 1rem;
+        }
+        header .meta a {
+            color: var(--clr-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition);
+        }
+        header .meta a:hover {
+            color: var(--clr-primary-dark);
+            text-decoration: underline;
         }
 
         /* ========  Containers & Sections  ========= */
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
         .section {
             background: var(--clr-neutral-100);
-            padding: 2.2rem;
-            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
             margin-bottom: 2rem;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
             transition: transform var(--transition), box-shadow var(--transition);
+            border-left: 4px solid var(--clr-primary);
         }
         .section:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
         }
         .section h2 {
-            font-size: 2rem;
-            color: var(--clr-primary-1);
-            margin-bottom: 1.2rem;
-            position: relative;
-            display: inline-block;
+            font-size: 1.75rem;
+            color: var(--clr-neutral-800);
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .section h2::after {
-            content: "✨";
-            position: absolute;
-            right: -1.7rem;
-            top: 0;
+        .section h2 .icon {
             font-size: 1.5rem;
+        }
+        .section p {
+            color: var(--clr-neutral-700);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ========  Purpose Section  ========= */
+        .purpose-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--clr-neutral-100);
+            border-left: none;
+        }
+        .purpose-section h2 {
+            color: var(--clr-neutral-100);
+        }
+        .purpose-section p {
+            color: var(--clr-neutral-100);
+            opacity: 0.95;
         }
 
         /* ========  Buttons  ========= */
-        .download-btn, .small-btn {
+        .btn-primary {
             display: inline-block;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--clr-neutral-100);
-            border-radius: 60px;
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .download-btn {
             padding: 1.25rem 3rem;
-            background: linear-gradient(45deg, var(--clr-accent-1), var(--clr-accent-2));
+            background: linear-gradient(135deg, var(--clr-accent), #ef4444);
+            color: var(--clr-neutral-100);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(255, 62, 62, 0.5);
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition);
+            margin-top: 1.5rem;
+            text-align: center;
         }
-        .download-btn::before {
-            content: "🔥";
-            position: absolute;
-            top: 50%;
-            left: -30px;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            opacity: 0;
-            transition: left var(--transition), opacity var(--transition);
-        }
-        .download-btn:hover {
-            transform: scale(1.08) translateY(-4px);
-            box-shadow: 0 15px 40px rgba(255, 145, 77, 0.7);
-            background: linear-gradient(45deg, var(--clr-accent-2), var(--clr-accent-1));
-            padding-left: 3.75rem;
-        }
-        .download-btn:hover::before {
-            left: 15px;
-            opacity: 1;
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, #ef4444, var(--clr-accent));
         }
 
-        .small-btn {
-            padding: .65rem 1.8rem;
-            background: linear-gradient(45deg, var(--clr-primary-1), var(--clr-primary-2));
-            font-size: .95rem;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-            margin-top: 1rem;
+        /* ========  Study Guide List  ========= */
+        .study-list {
+            list-style: none;
+            counter-reset: study-counter;
         }
-        .small-btn:hover {
-            transform: scale(1.06) translateY(-3px);
-            background: linear-gradient(45deg, var(--clr-primary-2), var(--clr-primary-1));
-            box-shadow: 0 8px 20px rgba(0, 206, 201, 0.7);
-        }
-
-        /* Locked link look */
-        .is-locked {
-            filter: grayscale(0.6) brightness(0.9);
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        /* ========  Lists  ========= */
-        ul { list-style: none; }
-        ul li {
-            margin-bottom: .75rem;
-            padding-left: 1.6rem;
+        .study-list li {
+            counter-increment: study-counter;
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
             position: relative;
+            line-height: 1.8;
         }
-        ul li::before {
-            content: "📊";
+        .study-list li::before {
+            content: counter(study-counter);
             position: absolute;
             left: 0;
-            font-size: 1.2rem;
-            color: var(--clr-primary-1);
             top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary));
+            color: var(--clr-neutral-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .study-list li strong {
+            color: var(--clr-primary);
+        }
+
+        /* ========  Coming Soon Badge  ========= */
+        .coming-soon {
+            background: var(--clr-neutral-200);
+            border-left-color: var(--clr-neutral-300);
+            position: relative;
+        }
+        .coming-soon::after {
+            content: "Coming Soon";
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--clr-accent);
+            color: var(--clr-neutral-100);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .coming-soon h2,
+        .coming-soon p {
+            opacity: 0.6;
         }
 
         /* ========  Footer  ========= */
         footer {
-            background: linear-gradient(135deg, #00b894, #55efc4);
-            color: var(--clr-neutral-100);
+            background: var(--clr-neutral-100);
+            color: var(--clr-neutral-700);
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 2rem;
             margin-top: 3rem;
-            border-radius: var(--radius-md);
-            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        footer p {
+            margin-bottom: 0.5rem;
         }
         footer a {
-            color: var(--clr-neutral-100);
-            margin: 0 .4rem;
-            font-weight: 700;
+            color: var(--clr-primary);
             text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition);
         }
-        footer a:hover { text-decoration: underline; }
-        .email {
-            font-weight: 700;
-            background: rgba(255,255,255,0.85);
-            padding: .2rem .6rem;
-            border-radius: 5px;
-            transition: background var(--transition);
-            color: #2d3436;
+        footer a:hover {
+            color: var(--clr-primary-dark);
+            text-decoration: underline;
         }
-        .email:hover { background: rgba(255,255,255,1); }
+
+        /* ========  Responsive  ========= */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            header {
+                padding: 2.5rem 1.5rem;
+            }
+            .section {
+                padding: 2rem 1.5rem;
+            }
+            .btn-primary {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            .coming-soon::after {
+                top: 1.5rem;
+                right: 1.5rem;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- =====  Hero  ===== -->
     <header>
-        <h1>Accounting for Managers - 13002 🌟</h1>
-        <p>Semester 2025C course by Dr. Shay Tsaban 🎓</p>
+        <h1>Accounting for Managers</h1>
+        <div class="subtitle">Course 13002 • Semester 2026A</div>
+        <div class="meta">
+            Instructor: <strong>Dr. Shay Tsaban, Ph.D.</strong><br>
+            📧 <a href="mailto:shay.tsaban@gmail.com">shay.tsaban@gmail.com</a>
+        </div>
     </header>
 
     <div class="container">
-        <!-- =====  About  ===== -->
-        <div class="section">
-            <h2>🎯 About This Course</h2>
-            <p>Welcome to <strong>Accounting for Managers (13002)</strong> – your launchpad to becoming fluent in the language of business. Under the guidance of Dr. Shay Tsaban, you'll master financial statements and turn numbers into informed managerial decisions.</p>
-        </div>
-
-        <!-- =====  Materials Towards Final Exam  ===== -->
-        <div class="section" style="text-align:center;">
-            <h2>📚 Materials Towards Final Exam</h2>
-            <p>Here you will find a huge updated questions pool towards the final exam in semester 2025C! Good luck.</p>
-            <a href="https://github.com/shaytsaban/13002/raw/main/Questions%20Pool%20Towards%20Exam%20-%202025C.docx" class="download-btn" download>
-                Questions Pool File - Download Here!
+        <!-- =====  Purpose  ===== -->
+        <div class="section purpose-section">
+            <h2><span class="icon">🎯</span> Course Purpose & Materials</h2>
+            <p><strong>Everything you need for success in this course is right here.</strong></p>
+            <p>The <strong>"Course Materials"</strong> button below provides access to a comprehensive resource that includes:</p>
+            <p>✓ <strong>Complete lecture summaries</strong> covering all course topics<br>
+            ✓ <strong>Additional practice exercises</strong> with detailed, in-depth solutions<br>
+            ✓ <strong>Implementation examples</strong> to strengthen your understanding before assignments and exams</p>
+            <p>As the semester progresses, this page will be updated with <strong>assignment solutions</strong> and <strong>final exam preparation materials</strong> to support your learning journey.</p>
+            
+            <a href="https://mypac-my.sharepoint.com/:w:/g/personal/shay_tsaban_pac_org_il/EUK4Wy63GNlDh3UpmdNexTkB1azUjQR1bLBAqob7EaAe4A" 
+               class="btn-primary" 
+               target="_blank">
+                📚 Access Course Materials
             </a>
         </div>
 
-        <!-- =====  Materials 2025C  ===== -->
-        <div class="section" style="text-align:center;">
-            <h2>📥 Semester 2025 C Materials</h2>
-            <p>Semester 2025 C kicked off on July 13 2025. Grab the complete class notebook below:</p>
-            <a href="https://github.com/shaytsaban/13002/raw/main/Course Notes - 2025C.docx" class="download-btn" download>Download 2025 C Notebook 🚀</a>
-        </div>
-
-        <!-- =====  Assignment Solutions – 2025C ===== -->
-        <div class="section" style="text-align:center;">
-            <h2>📝 Assignment Solutions – 2025C</h2>
-            <p>Find detailed walkthroughs of your assignments below:</p>
-            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2011%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 11 - Detailed Solution 📑</a>
-            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2012%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 12 - Detailed Solution 📑</a>
-            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2013%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 13 - Detailed Solution 📑</a>
-            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2014%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 14 - Detailed Solution 📑</a>
-            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2015%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 15 - Detailed Solution 📑</a>
-
-            <!-- Locked Assignment 16 -->
-            <a id="a16-link" class="download-btn is-locked" role="button" aria-disabled="true">
-              Assignment 16 - Detailed Solution 📑
-            </a>
-            <div id="a16-msg" style="margin-top:.5rem; font-weight:600;">
-              Assignment 16 solution file is temporarily locked - will become Available on Oct 1, 2025 (Asia/Jerusalem).
-            </div>
-        </div>
-
-        <!-- =====  Course Highlights  ===== -->
+        <!-- =====  How to Study  ===== -->
         <div class="section">
-            <h2>🔥 Course Highlights</h2>
-            <ul>
-                <li>Financial accounting fundamentals for real-world decision-making</li>
-                <li>Hands-on analysis of key financial statements</li>
-                <li>Deep dive into assets, liabilities, equity, revenue &amp; expenses</li>
-                <li>Practice exercises based on authentic transactions</li>
-                <li>Open-book online final exam – show what you've learned!</li>
-            </ul>
+            <h2><span class="icon">📖</span> How to Study This Course</h2>
+            <p>Follow this roadmap to maximize your learning and achieve success:</p>
+            <ol class="study-list">
+                <li>
+                    <strong>🎓 Attend all lectures</strong> — The live sessions provide essential guidance, context, and practical insights that go beyond written materials. Active participation helps clarify concepts and solidify understanding.
+                </li>
+                <li>
+                    <strong>📝 Master the core materials</strong> — Work through the comprehensive materials linked above. You don't need to solve every exercise immediately, but ensure you thoroughly understand the key implementations, especially those reviewed during lectures.
+                </li>
+                <li>
+                    <strong>✍️ Submit assignments consistently</strong> — Complete and submit as many assignments as possible. Regular practice reinforces learning and helps identify areas that need attention.
+                </li>
+                <li>
+                    <strong>🔍 Study assignments deeply</strong> — Regardless of your grades, review each assignment solution thoroughly. These provide crucial clarifications and deepen your understanding of practical applications.
+                </li>
+                <li>
+                    <strong>⏰ Dedicate time for exam preparation</strong> — Reserve sufficient time before the final exam to review all definitions, concepts, and procedures. Consolidate your knowledge and ensure you're comfortable with all course topics.
+                </li>
+            </ol>
         </div>
 
-        <!-- =====  Previous Version  ===== -->
-        <div class="section" style="text-align:center;">
-            <p>Want the previous version of the notebook?<br>
-            <a href="https://github.com/shaytsaban/13002/raw/main/CourseNotes%20-%2013002%20-%202025%20B.docx" class="small-btn" download>Click here if you studied the course before July 2025</a></p>
+        <!-- =====  Assignment Solutions  ===== -->
+        <div class="section coming-soon">
+            <h2><span class="icon">✅</span> Assignment Solutions</h2>
+            <p>Detailed solutions for course assignments will be posted here throughout the semester. Each solution will include step-by-step explanations to help you understand the methodology and improve your problem-solving skills.</p>
+        </div>
+
+        <!-- =====  Final Exam Preparation  ===== -->
+        <div class="section coming-soon">
+            <h2><span class="icon">🎯</span> Final Exam Preparation Materials</h2>
+            <p>Comprehensive exam preparation resources, including practice questions, summary sheets, and key concepts review, will be available here as we approach the final exam period.</p>
+        </div>
+
+        <!-- =====  About the Course  ===== -->
+        <div class="section">
+            <h2><span class="icon">💼</span> About This Course</h2>
+            <p><strong>Accounting for Managers</strong> introduces you to the language of business through financial accounting fundamentals. You'll learn to read and analyze financial statements, understand key financial metrics, and make informed managerial decisions based on accounting information.</p>
+            <p>This course covers assets, liabilities, equity, revenue, and expenses, with practical exercises based on real-world transactions. The final exam is open-book and conducted online, allowing you to demonstrate your comprehensive understanding of the material.</p>
         </div>
     </div>
 
     <!-- =====  Footer  ===== -->
     <footer>
-        <p>© 2025 GitHub, Inc. | Reach me at: <span class="email">shay.tsaban@gmail.com</span> 📧</p>
-        <p>
-            <a href="#">Terms</a> |
-            <a href="#">Privacy</a> |
-            <a href="#">Security</a> |
-            <a href="#">Status</a> |
-            <a href="#">Docs</a> |
-            <a href="#">Contact</a>
-        </p>
+        <p><strong>Accounting for Managers – 13002</strong></p>
+        <p>© 2026 • Dr. Shay Tsaban, Ph.D. • <a href="mailto:shay.tsaban@gmail.com">shay.tsaban@gmail.com</a></p>
     </footer>
-
-    <!-- Unlock script -->
-    <script>
-      (function () {
-        // Unlock at 2025-10-01 00:00 Asia/Jerusalem.
-        // Asia/Jerusalem = UTC+3 then, so 2025-09-30T21:00:00Z.
-        const releaseDateUTC = new Date(Date.UTC(2025, 8, 30, 21, 0, 0)); // Sept=8
-        const targetHref = "https://mypac-my.sharepoint.com/:x:/g/personal/shay_tsaban_pac_org_il/Ebpn75U8eyNFgvwsYJe3SMsBEeo7f1ZEru37uXrZJsw9Zw?e=WxZVUc";
-        const linkEl = document.getElementById("a16-link");
-        const msgEl  = document.getElementById("a16-msg");
-
-        function unlock() {
-          linkEl.href = targetHref;
-          linkEl.setAttribute("target", "_blank");
-          linkEl.removeAttribute("aria-disabled");
-          linkEl.classList.remove("is-locked");
-          if (msgEl) msgEl.textContent = "Now available.";
-          linkEl.style.pointerEvents = "";
-          linkEl.style.cursor = "";
-          linkEl.style.filter = "";
-          linkEl.style.opacity = "";
-        }
-
-        const now = new Date();
-        if (now >= releaseDateUTC) {
-          unlock();
-          return;
-        }
-
-        function updateCountdown() {
-          const diffMs = releaseDateUTC - new Date();
-          if (diffMs <= 0) {
-            unlock();
-            return;
-          }
-          if (!msgEl) return;
-          const mins  = Math.floor(diffMs / 60000) % 60;
-          const hrs   = Math.floor(diffMs / 3600000) % 24;
-          const days  = Math.floor(diffMs / 86400000);
-          msgEl.textContent =
-            `Assignment 16 Solution will become Available on Oct 1, 2025 (Asia/Jerusalem). Time left: ${days}d ${hrs}h ${mins}m`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 60000);
-      })();
-    </script>
 </body>
 </html>
-

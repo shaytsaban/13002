@@ -1,1 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accounting for Managers – 13002 🌟</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===============  Design Tokens  ================== */
+        :root {
+            --clr-primary-1: #6c5ce7;
+            --clr-primary-2: #00cec9;
+            --clr-accent-1: #ff3e3e;
+            --clr-accent-2: #ff914d;
+            --clr-neutral-100: #ffffff;
+            --clr-neutral-200: #eef2f7;
+            --radius-lg: 20px;
+            --radius-md: 15px;
+            --radius-sm: 10px;
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.06);
+            --transition: 0.4s ease;
+        }
+
+        /* ========  Global Base Styles  ========= */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        body {
+            background: linear-gradient(to bottom, var(--clr-neutral-200), var(--clr-neutral-100));
+            color: #2d3436;
+            line-height: 1.8;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        /* ========  Header / Hero  ========= */
+        header {
+            background: linear-gradient(120deg, var(--clr-primary-1), var(--clr-primary-2));
+            color: var(--clr-neutral-100);
+            text-align: center;
+            padding: 3rem 1rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+            animation: glow 3s infinite alternate;
+        }
+        @keyframes glow {
+            0%   { box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3); }
+            100% { box-shadow: 0 10px 40px rgba(0, 206, 201, 0.4); }
+        }
+        header h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: .5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* ========  Containers & Sections  ========= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: var(--clr-neutral-100);
+            padding: 2.2rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .section:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+        .section h2 {
+            font-size: 2rem;
+            color: var(--clr-primary-1);
+            margin-bottom: 1.2rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section h2::after {
+            content: "✨";
+            position: absolute;
+            right: -1.7rem;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        /* ========  Buttons  ========= */
+        .download-btn, .small-btn {
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--clr-neutral-100);
+            border-radius: 60px;
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .download-btn {
+            padding: 1.25rem 3rem;
+            background: linear-gradient(45deg, var(--clr-accent-1), var(--clr-accent-2));
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(255, 62, 62, 0.5);
+        }
+        .download-btn::before {
+            content: "🔥";
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: left var(--transition), opacity var(--transition);
+        }
+        .download-btn:hover {
+            transform: scale(1.08) translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 145, 77, 0.7);
+            background: linear-gradient(45deg, var(--clr-accent-2), var(--clr-accent-1));
+            padding-left: 3.75rem;
+        }
+        .download-btn:hover::before {
+            left: 15px;
+            opacity: 1;
+        }
+
+        .small-btn {
+            padding: .65rem 1.8rem;
+            background: linear-gradient(45deg, var(--clr-primary-1), var(--clr-primary-2));
+            font-size: .95rem;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+            margin-top: 1rem;
+        }
+        .small-btn:hover {
+            transform: scale(1.06) translateY(-3px);
+            background: linear-gradient(45deg, var(--clr-primary-2), var(--clr-primary-1));
+            box-shadow: 0 8px 20px rgba(0, 206, 201, 0.7);
+        }
+
+        /* Locked link look */
+        .is-locked {
+            filter: grayscale(0.6) brightness(0.9);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* ========  Lists  ========= */
+        ul { list-style: none; }
+        ul li {
+            margin-bottom: .75rem;
+            padding-left: 1.6rem;
+            position: relative;
+        }
+        ul li::before {
+            content: "📊";
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            color: var(--clr-primary-1);
+            top: 0;
+        }
+
+        /* ========  Footer  ========= */
+        footer {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: var(--clr-neutral-100);
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+        }
+        footer a {
+            color: var(--clr-neutral-100);
+            margin: 0 .4rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+        .email {
+            font-weight: 700;
+            background: rgba(255,255,255,0.85);
+            padding: .2rem .6rem;
+            border-radius: 5px;
+            transition: background var(--transition);
+            color: #2d3436;
+        }
+        .email:hover { background: rgba(255,255,255,1); }
+    </style>
+</head>
+<body>
+    <!-- =====  Hero  ===== -->
+    <header>
+        <h1>Accounting for Managers - 13002 🌟</h1>
+        <p>Semester 2025C course by Dr. Shay Tsaban 🎓</p>
+    </header>
+
+    <div class="container">
+        <!-- =====  About  ===== -->
+        <div class="section">
+            <h2>🎯 About This Course</h2>
+            <p>Welcome to <strong>Accounting for Managers (13002)</strong> – your launchpad to becoming fluent in the language of business. Under the guidance of Dr. Shay Tsaban, you'll master financial statements and turn numbers into informed managerial decisions.</p>
+        </div>
+
+        <!-- =====  Materials Towards Final Exam  ===== -->
+        <div class="section" style="text-align:center;">
+            <h2>📚 Materials Towards Final Exam</h2>
+            <p>Here you will find a huge updated questions pool towards the final exam in semester 2025C! Good luck.</p>
+            <a href="https://github.com/shaytsaban/13002/raw/main/Questions%20Pool%20Towards%20Exam%20-%202025C.docx" class="download-btn" download>
+                Questions Pool File - Download Here!
+            </a>
+        </div>
+
+        <!-- =====  Materials 2025C  ===== -->
+        <div class="section" style="text-align:center;">
+            <h2>📥 Semester 2025 C Materials</h2>
+            <p>Semester 2025 C kicked off on July 13 2025. Grab the complete class notebook below:</p>
+            <a href="https://github.com/shaytsaban/13002/raw/main/Course Notes - 2025C.docx" class="download-btn" download>Download 2025 C Notebook 🚀</a>
+        </div>
+
+        <!-- =====  Assignment Solutions – 2025C ===== -->
+        <div class="section" style="text-align:center;">
+            <h2>📝 Assignment Solutions – 2025C</h2>
+            <p>Find detailed walkthroughs of your assignments below:</p>
+            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2011%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 11 - Detailed Solution 📑</a>
+            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2012%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 12 - Detailed Solution 📑</a>
+            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2013%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 13 - Detailed Solution 📑</a>
+            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2014%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 14 - Detailed Solution 📑</a>
+            <a href="https://github.com/shaytsaban/13002/raw/main/13002%20-%20Assignment%2015%20-%202025%20C%20-%20ANS.xlsx" class="download-btn" download>Assignment 15 - Detailed Solution 📑</a>
+
+            <!-- Locked Assignment 16 -->
+            <a id="a16-link" class="download-btn is-locked" role="button" aria-disabled="true">
+              Assignment 16 - Detailed Solution 📑
+            </a>
+            <div id="a16-msg" style="margin-top:.5rem; font-weight:600;">
+              Assignment 16 solution file is temporarily locked - will become Available on Oct 1, 2025 (Asia/Jerusalem).
+            </div>
+        </div>
+
+        <!-- =====  Course Highlights  ===== -->
+        <div class="section">
+            <h2>🔥 Course Highlights</h2>
+            <ul>
+                <li>Financial accounting fundamentals for real-world decision-making</li>
+                <li>Hands-on analysis of key financial statements</li>
+                <li>Deep dive into assets, liabilities, equity, revenue &amp; expenses</li>
+                <li>Practice exercises based on authentic transactions</li>
+                <li>Open-book online final exam – show what you've learned!</li>
+            </ul>
+        </div>
+
+        <!-- =====  Previous Version  ===== -->
+        <div class="section" style="text-align:center;">
+            <p>Want the previous version of the notebook?<br>
+            <a href="https://github.com/shaytsaban/13002/raw/main/CourseNotes%20-%2013002%20-%202025%20B.docx" class="small-btn" download>Click here if you studied the course before July 2025</a></p>
+        </div>
+    </div>
+
+    <!-- =====  Footer  ===== -->
+    <footer>
+        <p>© 2025 GitHub, Inc. | Reach me at: <span class="email">shay.tsaban@gmail.com</span> 📧</p>
+        <p>
+            <a href="#">Terms</a> |
+            <a href="#">Privacy</a> |
+            <a href="#">Security</a> |
+            <a href="#">Status</a> |
+            <a href="#">Docs</a> |
+            <a href="#">Contact</a>
+        </p>
+    </footer>
+
+    <!-- Unlock script -->
+    <script>
+      (function () {
+        // Unlock at 2025-10-01 00:00 Asia/Jerusalem.
+        // Asia/Jerusalem = UTC+3 then, so 2025-09-30T21:00:00Z.
+        const releaseDateUTC = new Date(Date.UTC(2025, 8, 30, 21, 0, 0)); // Sept=8
+        const targetHref = "https://mypac-my.sharepoint.com/:x:/g/personal/shay_tsaban_pac_org_il/Ebpn75U8eyNFgvwsYJe3SMsBEeo7f1ZEru37uXrZJsw9Zw?e=WxZVUc";
+        const linkEl = document.getElementById("a16-link");
+        const msgEl  = document.getElementById("a16-msg");
+
+        function unlock() {
+          linkEl.href = targetHref;
+          linkEl.setAttribute("target", "_blank");
+          linkEl.removeAttribute("aria-disabled");
+          linkEl.classList.remove("is-locked");
+          if (msgEl) msgEl.textContent = "Now available.";
+          linkEl.style.pointerEvents = "";
+          linkEl.style.cursor = "";
+          linkEl.style.filter = "";
+          linkEl.style.opacity = "";
+        }
+
+        const now = new Date();
+        if (now >= releaseDateUTC) {
+          unlock();
+          return;
+        }
+
+        function updateCountdown() {
+          const diffMs = releaseDateUTC - new Date();
+          if (diffMs <= 0) {
+            unlock();
+            return;
+          }
+          if (!msgEl) return;
+          const mins  = Math.floor(diffMs / 60000) % 60;
+          const hrs   = Math.floor(diffMs / 3600000) % 24;
+          const days  = Math.floor(diffMs / 86400000);
+          msgEl.textContent =
+            `Assignment 16 Solution will become Available on Oct 1, 2025 (Asia/Jerusalem). Time left: ${days}d ${hrs}h ${mins}m`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+      })();
+    </script>
+</body>
+</html>
 

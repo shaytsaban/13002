@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13002 - Accounting for Managers | Assignment 01 Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #c53030;
+            --success: #276749;
+            --success-bg: #c6f6d5;
+            --error: #c53030;
+            --error-bg: #fed7d7;
+            --neutral-bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border: #e2e8f0;
+            --gold: #d69e2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Hebrew', 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .course-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .answers-summary {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--gold);
+            display: inline-block;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .answer-cell {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .answer-cell:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
+        }
+
+        .answer-cell .q-num {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+
+        .answer-cell .answer {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .question-header:hover {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        .question-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .question-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            font-weight: 300;
+        }
+
+        .question-card.open .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        .correct-answer-badge {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .question-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .question-card.open .question-body {
+            padding: 1.5rem;
+            max-height: 3000px;
+        }
+
+        .statement {
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 10px;
+            border-right: 4px solid transparent;
+            position: relative;
+        }
+
+        .statement-correct {
+            background: var(--success-bg);
+            border-right-color: var(--success);
+        }
+
+        .statement-wrong {
+            background: var(--error-bg);
+            border-right-color: var(--error);
+        }
+
+        .statement-neutral {
+            background: var(--neutral-bg);
+            border-right-color: var(--border);
+        }
+
+        .statement-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .statement-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .icon-correct {
+            background: var(--success);
+            color: white;
+        }
+
+        .icon-wrong {
+            background: var(--error);
+            color: white;
+        }
+
+        .statement-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed rgba(0,0,0,0.15);
+            font-size: 0.9rem;
+        }
+
+        .explanation-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .calculation {
+            background: #faf5ff;
+            border: 1px solid #d6bcfa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.75rem;
+            font-family: 'Source Sans Pro', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-line {
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0 auto 1rem;
+            border-radius: 2px;
+        }
+
+        .click-hint {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.75rem;
+            }
+            .answers-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 0.5rem;
+            }
+            .answer-cell {
+                padding: 0.75rem 0.5rem;
+            }
+            .meta-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="course-number">Course 13002</div>
+            <h1 class="main-title">Accounting for Managers</h1>
+            <p class="subtitle">Semester 2026A | Assignment 01 - Detailed Solution</p>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">Initial version:</span>
+                    <span>Orit Levi, CPA</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Editor of current version:</span>
+                    <span>Dr. Shay Tsaban</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Answers Summary -->
+        <section class="answers-summary">
+            <h2 class="section-title">Quick Reference - Answer Key</h2>
+            <div class="answers-grid">
+                <a href="#q1" class="answer-cell"><div class="q-num">Q1</div><div class="answer">ג</div></a>
+                <a href="#q2" class="answer-cell"><div class="q-num">Q2</div><div class="answer">א</div></a>
+                <a href="#q3" class="answer-cell"><div class="q-num">Q3</div><div class="answer">ג</div></a>
+                <a href="#q4" class="answer-cell"><div class="q-num">Q4</div><div class="answer">ה</div></a>
+                <a href="#q5" class="answer-cell"><div class="q-num">Q5</div><div class="answer">א</div></a>
+                <a href="#q6" class="answer-cell"><div class="q-num">Q6</div><div class="answer">ג</div></a>
+                <a href="#q7" class="answer-cell"><div class="q-num">Q7</div><div class="answer">ה</div></a>
+                <a href="#q8" class="answer-cell"><div class="q-num">Q8</div><div class="answer">א</div></a>
+                <a href="#q9" class="answer-cell"><div class="q-num">Q9</div><div class="answer">ג</div></a>
+                <a href="#q10" class="answer-cell"><div class="q-num">Q10</div><div class="answer">א</div></a>
+            </div>
+            <p class="click-hint">לחצו על תשובה כדי לעבור לפתרון המפורט</p>
+        </section>
+
+        <!-- Question 1 -->
+        <article class="question-card" id="q1">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 1</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ג</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 1 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        כאשר חברה נוטלת הלוואה שכספיה מוזרמים לעו"ש, ההון העצמי בחברה יגדל – וזאת לאור העובדה שהעלייה בעו"ש משמעה עלייה ביתרות המזומנים בחברה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        נטילת הלוואה אינה משפיעה על ההון העצמי. בעת נטילת הלוואה, המזומן (נכס) עולה, אך במקביל נוצרת התחייבות באותו סכום. המשוואה החשבונאית נשמרת: נכסים = התחייבויות + הון עצמי. מאחר שהנכסים וההתחייבויות עולים באותו סכום, ההון העצמי אינו משתנה.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        אם חברה ביצעה מכירות בשנה מסוימת אך טרם גבתה את תמורתן, ההכנסה בגין מכירות אלו תוכר רק בשנה בה מתבצעת הגבייה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        לפי עיקרון ההכרה בהכנסה (בסיס צבירה), הכנסה מוכרת כאשר היא הופקה - כלומר כאשר הסחורה או השירות סופקו ללקוח, ללא תלות במועד קבלת התשלום. מועד הגבייה אינו רלוונטי להכרה בהכנסה.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 3 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        אם חברה צרכה שירותים בשנה מסוימת אך טרם שילמה בעדם, ההוצאות יוכרו בשנת צריכת השירות, ואילו בשנת התשלום לא יוכרו הוצאות בגין שירותים אלו.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        לפי עיקרון ההקבלה (בסיס צבירה), הוצאות מוכרות בתקופה בה נצרך השירות או נוצרה ההטבה הכלכלית, ללא קשר למועד התשלום בפועל. כאשר השירות נצרך בשנה מסוימת, ההוצאה תוכר באותה שנה, גם אם התשלום יבוצע בשנה אחרת.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענה 3 בלבד נכונה. ההכרה בהכנסה ובהוצאה אינה תלויה בהכרח בתקבול או בתשלום בפועל, אלא בצריכת השירות או הפקת ההכנסה בשנה הנדונה.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 2 -->
+        <article class="question-card" id="q2">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 2</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: א</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 1 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        רישום הכנסות מוביל בעקיפין לעלייה בהון העצמי.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        הכנסות מגדילות את הרווח הנקי. הרווח הנקי מועבר לרווח הנצבר (Retained Earnings), שהוא חלק מההון העצמי. לכן, רישום הכנסות מוביל בעקיפין להגדלת ההון העצמי.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        פירוט ההכנסות וההוצאות של החברה בחלוקה לתחומי פעילות נמצא בקבוצת ההון העצמי בדוח על המצב הכספי.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        פירוט ההכנסות וההוצאות מופיע בדוח רווח והפסד, לא בדוח על המצב הכספי (המאזן). הדוח על המצב הכספי מציג את מצב הנכסים, ההתחייבויות וההון העצמי לנקודת זמן מסוימת, ולא את תוצאות הפעילות לתקופה.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 3 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        כאשר חברה מבצעת רכישה של נכס בר קיימא כזה שצפוי לשרת אותה תקופה ממושכת, בהנחה ששילמה על נכס זה במזומן במועד הרכישה – היא תרשום הוצאה במועד הרכישה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        רכישת נכס בר-קיימא (רכוש קבוע) אינה הוצאה אלא השקעה הונית. במועד הרכישה נרשם נכס חדש במאזן. ההוצאה תוכר בהדרגה לאורך חיי הנכס באמצעות פחת (Depreciation), בהתאם לעיקרון ההקבלה.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענה 1 בלבד נכונה. ההכנסות מעלות את הרווח, אשר מגדיל את הרווח הנצבר - סעיף שמהווה חלק מההון העצמי.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 3 -->
+        <article class="question-card" id="q3">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 3</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ג</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 1 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        אם חברה קיבלה מקדמה מלקוח על חשבון שירות שטרם סופק לו על ידה, לא יבוצע תיעוד לעסקה הואיל וטרם סופק השירות.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        קבלת מקדמה מלקוח היא אירוע כלכלי המחייב תיעוד חשבונאי. יש לרשום עלייה במזומן (נכס) וכנגד עלייה בהתחייבות "מקדמות מלקוחות" - שכן החברה מחויבת לספק את השירות בעתיד.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        אם חברה קיבלה מקדמה מלקוח על חשבון שירות שטרם סופק לו על ידה, תיעוד העסקה יכלול את רישום המזומן שהתקבל בלבד (ללא רישום מקביל של הכנסה או פריט אחר).
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        יש לרשום גם את ההתחייבות כלפי הלקוח ("מקדמות מלקוחות"), שכן החברה טרם סיפקה את השירות.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 3 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        אם חברה שילמה לספק בעד שירות שטרם סופק לה בשנת התשלום, בסך הכל לא יחול שינוי בסך נכסי החברה בעקבות הפעולה בשנת החיווד.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        כאשר חברה משלמת מקדמה לספק: המזומן (נכס שוטף) קטן, אך נוצר סעיף "מקדמות לספקים" (גם הוא נכס שוטף) באותו סכום. סך הנכסים נשאר זהה - מדובר בהחלפה של נכס אחד (מזומן) בנכס אחר (מקדמות לספקים).
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענה 3 בלבד נכונה. תשלום מקדמה לספק מקטין את העו"ש (נכס שוטף) ויוצר סעיף "מקדמות לספקים" (גם הוא נכס שוטף) - כך שסך הנכסים לא משתנה.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 4 -->
+        <article class="question-card" id="q4">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 4</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ה</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 1 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        מטרת דוח רווח והפסד היא להציג את זרמי המזומנים (תשלומים ותקבולים) בחברה בשנת הדיווח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        מטרת דוח רווח והפסד היא להציג את ההכנסות וההוצאות של התקופה ואת הרווח או ההפסד הנקי. תזרימי המזומנים מוצגים בדוח נפרד - דוח על תזרימי המזומנים. דוח רווח והפסד מבוסס על בסיס צבירה, לא על בסיס מזומן.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        כל עסקה המתועדת ברמה החשבונאית בחברה אשר מגדילה את נכסיה, משמעה עלייה בהון העצמי של החברה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        לא כל הגדלת נכסים מובילה להגדלת הון עצמי. עסקה יכולה להגדיל נכסים כנגד הגדלת התחייבויות (למשל: נטילת הלוואה, רכישה באשראי). במקרים כאלה ההון העצמי אינו משתנה.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 3 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בחברה שיש בה הון עצמי בסך 100 מיליון ש"ח, ייתכן שסך הנכסים יהיה נמוך מ-100 מיליון ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        לפי המשוואה החשבונאית: נכסים = התחייבויות + הון עצמי. מאחר שהתחייבויות לא יכולות להיות שליליות, אם ההון העצמי הוא 100 מיליון ש"ח, סך הנכסים חייב להיות לפחות 100 מיליון ש"ח (או יותר, אם יש התחייבויות).
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    כל הטענות שגויות. יש להבחין בין דוח רווח והפסד לדוח תזרימי מזומנים, להבין שלא כל הגדלת נכסים מגדילה הון עצמי, ולזכור שסך הנכסים לא יכול להיות נמוך מההון העצמי.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 5 -->
+        <article class="question-card" id="q5">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 5</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: א</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 1 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת 2024 החברה תכיר בהוצאות בדוח רווח והפסד בסכום של 50,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        ההוצאה מוכרת בהתאם לשווי השירות שנצרך בכל שנה, ללא קשר למועד התשלום. בשנת 2024 נצרך שירות בשווי 50,000 ש"ח, ולכן זו ההוצאה שתוכר.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת 2024 החברה לא תכיר בהוצאות בדוח רווח והפסד.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        נצרך שירות בשווי 50,000 ש"ח בשנת 2024, ולכן יש להכיר בהוצאה זו. העובדה שלא בוצע תשלום בשנה זו אינה רלוונטית - ההכרה בהוצאה מבוססת על צריכת השירות.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 3 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת 2025 החברה תכיר בהוצאות בדוח רווח והפסד בסכום של 200,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        בשנת 2025 נצרך שירות בשווי 150,000 ש"ח (לא 200,000 ש"ח). סכום התשלום (200,000 ש"ח) אינו רלוונטי להכרה בהוצאה.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 4 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת 2027 החברה תכיר בהוצאות בדוח רווח והפסד בסכום של 250,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        בשנת 2027 נצרך שירות בשווי 200,000 ש"ח (לא 250,000 ש"ח). סכום התשלום (250,000 ש"ח) אינו רלוונטי להכרה בהוצאה.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענה 1 בלבד נכונה. החברה תכיר בהוצאה בהתאם לסך ערך השירות שנצרך בשנה הנדונה, ללא קשר לסכום ששולם באותה שנה.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 6 -->
+        <article class="question-card" id="q6">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 6</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ג</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 1 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת חתימת ההסכם יוכרו הכנסות בסך 25,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        בשנת החתימה סופקו 40% מהשירות, לא 25%. ההכנסה שתוכר היא 40% × 100,000 = 40,000 ש"ח.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 2 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        בשנת חתימת ההסכם יוכרו הכנסות בסך 40,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        החברה סיפקה 40% מהשירות בשנת החתימה. לפי עיקרון ההכרה בהכנסה, יש להכיר בהכנסה בהתאם לשיעור ההתקדמות: 40% × 100,000 ש"ח = 40,000 ש"ח.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 3 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        בכל שנה עוקבת לשנת חתימת ההסכם, עד סיומו, יוכרו הכנסות בסך 25,000 ש"ח לשנה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        יתרת השירות (60%) תיפרס על פני 3 שנים באופן אחיד. 60,000 ש"ח ÷ 3 שנים = 20,000 ש"ח לשנה, לא 25,000 ש"ח.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 4 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        בכל שנה עוקבת לשנת חתימת ההסכם, עד סיומו, יוכרו הכנסות בסך 20,000 ש"ח לשנה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        יתרת התמורה: 100,000 - 40,000 = 60,000 ש"ח. יתרה זו תיפרס באופן אחיד על פני 3 שנים: 60,000 ÷ 3 = 20,000 ש"ח לשנה.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענות 2 ו-4 נכונות. יש להכיר בהכנסה בהתאם לשווי השירות שסופק בכל שנה:
+                    <div class="calculation">
+                        שנה ראשונה (חתימה): 40,000 = 100,000 × 40%<br>
+                        שנים 2-4: 20,000 לשנה = 3 ÷ (100,000 - 40,000)
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 7 -->
+        <article class="question-card" id="q7">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 7</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ה</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה א - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה בהכנסות בסך 20,000 ש"ח ועלייה במזומן בסך 20,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        רכישת נכס אינה הכנסה. בנוסף, המזומן לא עולה אלא יורד (שולמו 10,000 ש"ח).
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ב - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה בהוצאות בסך 20,000 ש"ח ועלייה במזומן בסך 20,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        רכישת נכס בר-קיימא אינה הוצאה מיידית (אלא השקעה הונית). המזומן לא עולה אלא יורד.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ג - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה בהוצאות בסך 20,000 ש"ח וירידה במזומן בסך 20,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        רכישת נכס בר-קיימא אינה הוצאה. ירידת המזומן היא רק 10,000 ש"ח (50% ששולמו), לא 20,000 ש"ח.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ד - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        ירידה בהון העצמי בסך 20,000 ש"ח וירידה במזומן בסך 10,000 ש"ח לצד עלייה בהתחייבות לספקים בסך 10,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        רכישת נכס אינה משפיעה על ההון העצמי. זוהי עסקה שמחליפה נכס אחד (מזומן) בנכס אחר (מכונה) ויוצרת התחייבות.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">תשובה ה - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה בנכס מכונת נקניק בסך 20,000 ש"ח, ירידה במזומן בסך 10,000 ש"ח, ועלייה בהתחייבות לספקים בסך 10,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        יש לרשום את עלות הנכס המלאה (20,000 ש"ח) גם אם הסכום טרם שולם במלואו. המזומן יורד ב-10,000 ש"ח (מה ששולם), והיתרה (10,000 ש"ח) נרשמת כהתחייבות לספק.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    תשובה ה נכונה. רכישת רכוש קבוע נרשמת במלואה כנכס, ללא תלות בסכום ששולם. ירידת המזומן והתחייבות לספק משלימות את המימון.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 8 -->
+        <article class="question-card" id="q8">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 8</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: א</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">תשובה א - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה במזומן בסך 120,000 ש"ח לצד עלייה בהון המניות בסך 120,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        הונפקו 40,000 מניות בנות 3 ש"ח ערך נקוב כל אחת, בתמורה ל-120,000 ש"ח. התמורה שווה לערך הנקוב הכולל (40,000 × 3 = 120,000 ש"ח). לכן, המזומן והון המניות עולים שניהם ב-120,000 ש"ח.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ב - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה במזומן בסך 40,000 ש"ח לצד עלייה בהון המניות בסך 120,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        התמורה שהתקבלה היא 120,000 ש"ח ולא 40,000 ש"ח. שווי התמורה נרשם כנכס מזומן, ומקור המימון נרשם כעלייה בסעיף ההוני המתאים (הון מניות) לפי ההגדרה.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ג - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        עלייה במזומן בסך 120,000 ש"ח לצד עלייה בהון המניות בסך 40,000 ש"ח ועלייה ברווח בסך 80,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        הנפקת מניות אינה יוצרת רווח. ההפרש בין תמורת ההנפקה לערך הנקוב (אם קיים) נרשם כפרמיה על מניות (חלק מההון העצמי), לא כרווח. במקרה זה, אין הפרש - התמורה שווה לערך הנקוב.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ד - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        ירידה במזומן בסך 120,000 ש"ח לצד עלייה בהון המניות בסך 120,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        בהנפקת מניות, החברה מקבלת כסף (עלייה במזומן), לא משלמת. ירידה במזומן הייתה מתרחשת ברכישה עצמית של מניות, לא בהנפקה. (רכישה עצמית של מניות אינה נדונה בקורס זה.)
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    תשובה א נכונה. מדובר בהנפקת מניות תמורת סך הערך הנקוב, כך שהמזומן והון המניות גדלים בסך 120,000 ש"ח.
+                    <div class="calculation">
+                        מספר מניות: 40,000<br>
+                        ערך נקוב למניה: 3 ש"ח<br>
+                        סה"כ תמורה = 120,000 = 3 × 40,000
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 9 -->
+        <article class="question-card" id="q9">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 9</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: ג</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה א - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        לאפשר ניהול שוטף ויומיומי של החברה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        ניהול שוטף ויומיומי מתבסס בעיקר על מערכות חשבונאות ניהולית, לא על הדיווח הכספי החיצוני. הדיווח הכספי מיועד בעיקר למשתמשים חיצוניים.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ב - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        לספק מידע לרשות המסים לצורך מיסוי כל עסק.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        למרות שהדוחות הכספיים משמשים גם את רשויות המס, זו אינה המטרה העיקרית של הדיווח הכספי. חשבונאות המס שונה במקרים רבים מהחשבונאות הפיננסית.
+                    </div>
+                </div>
+
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">תשובה ג - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        לספק מידע כספי ביחס להחלטות הקשורות להקצאת משאבים לישות המדווחת.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        זוהי המטרה העיקרית של הדיווח הכספי לפי המסגרת המושגית לדיווח כספי (IFRS Conceptual Framework). המטרה היא לספק מידע פיננסי שימושי למשקיעים, מלווים ונושים אחרים בקבלת החלטות לגבי הקצאת משאבים.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">תשובה ד - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        חשיבות האפשרויות א, ב, ג זהה – כולן קריטיות ואין להפריד ביניהן.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        למרות שכל האפשרויות חשובות, יש היררכיה ברורה. המטרה העיקרית והחשובה ביותר היא אספקת מידע להחלטות הקצאת משאבים.
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    תשובה ג נכונה. המטרה העיקרית של המידע במערכת הפיננסית היא ביחס לאספקת משאבים לישות המדווחת, כפי שמוגדר במסגרת המושגית לדיווח כספי.
+                </div>
+            </div>
+        </article>
+
+        <!-- Question 10 -->
+        <article class="question-card" id="q10">
+            <div class="question-header" onclick="toggleQuestion(this)">
+                <div class="question-header-left">
+                    <span class="question-number">Question 10</span>
+                    <span class="expand-icon">+</span>
+                </div>
+                <span class="correct-answer-badge">תשובה: א</span>
+            </div>
+            <div class="question-body">
+                <div class="statement statement-correct">
+                    <div class="statement-header">
+                        <span class="status-icon icon-correct">✓</span>
+                        <span class="statement-label">טענה 1 - נכונה</span>
+                    </div>
+                    <div class="statement-text">
+                        הוצאות הריבית בגין העסקה לשנת 2024 הן בסך 25,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע נכון:</div>
+                        ההלוואה נלקחה ב-1.7.2024, ולכן הוצאות הריבית לשנת 2024 הן עבור חצי שנה בלבד (6 חודשים מתוך 12).
+                        <div class="calculation">
+                            הוצאות ריבית 2024 = 25,000 = 6/12 × 10% × 500,000
+                        </div>
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 2 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        סך ההתחייבויות (מכל הסוגים, יחד) בגין העסקה ליום 31.12.2024 היא 750,000 ש"ח, באופן שמשקף את קרן ההלוואה ואת סך תשלומי הריבית לאורך כל תקופת ההלוואה.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        ליום 31.12.2024, ההתחייבויות כוללות את קרן ההלוואה (500,000 ש"ח) ואת הריבית שנצברה עד לאותו מועד (25,000 ש"ח), סה"כ 525,000 ש"ח. אין לכלול את כל תשלומי הריבית העתידיים בהתחייבות - הריבית מוכרת על בסיס צבירה לאורך זמן.
+                    </div>
+                </div>
+
+                <div class="statement statement-wrong">
+                    <div class="statement-header">
+                        <span class="status-icon icon-wrong">✗</span>
+                        <span class="statement-label">טענה 3 - שגויה</span>
+                    </div>
+                    <div class="statement-text">
+                        הוצאות הריבית בגין העסקה לשנת 2025 הן בסך 25,000 ש"ח.
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-title">הסבר מדוע שגוי:</div>
+                        בשנת 2025 ההלוואה קיימת לאורך כל השנה (12 חודשים), ולכן הוצאות הריבית הן:
+                        <div class="calculation">
+                            הוצאות ריבית 2025 = 50,000 = 12/12 × 10% × 500,000
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">💡 סיכום</div>
+                    טענה 1 בלבד נכונה. יש לחשב את הוצאות הריבית על בסיס יחסי (פרו-ראטה) לפי תקופת ההלוואה בכל שנה:
+                    <div class="calculation">
+                        <strong>שנת 2024:</strong> 25,000 = 6/12 × 10% × 500,000 ✓<br>
+                        <strong>שנת 2025:</strong> 50,000 = 12/12 × 10% × 500,000<br>
+                        <strong>התחייבות ליום 31.12.2024:</strong> 525,000 = 25,000 + 500,000
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <footer class="footer">
+            <div class="footer-line"></div>
+            <p>© 2025 | Dr. Tsaban - Accounting for Managers</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleQuestion(header) {
+            const card = header.parentElement;
+            card.classList.toggle('open');
+        }
+
+        // Auto-open question when clicking anchor link
+        document.querySelectorAll('.answer-cell').forEach(cell => {
+            cell.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                const targetCard = document.getElementById(targetId);
+                if (targetCard && !targetCard.classList.contains('open')) {
+                    setTimeout(() => {
+                        targetCard.classList.add('open');
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

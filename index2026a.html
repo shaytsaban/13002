@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Accounting for Managers – 13002</title>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
     <style>
         /* ===============  Design Tokens  ================== */
         :root {
@@ -30,7 +28,6 @@
             --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
             --transition: 0.3s ease;
         }
-
         /* ========  Global Base Styles  ========= */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -47,7 +44,6 @@
             overflow-x: hidden;
             min-height: 100vh;
         }
-
         /* ========  Header / Hero  ========= */
         header {
             background: var(--clr-neutral-100);
@@ -96,7 +92,6 @@
             color: var(--clr-primary-dark);
             text-decoration: underline;
         }
-
         /* ========  Containers & Sections  ========= */
         .container {
             max-width: 1100px;
@@ -135,7 +130,6 @@
         .section p:last-child {
             margin-bottom: 0;
         }
-
         /* ========  Purpose Section  ========= */
         .purpose-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -149,7 +143,6 @@
             color: var(--clr-neutral-100);
             opacity: 0.95;
         }
-
         /* ========  Buttons  ========= */
         .btn-primary {
             display: inline-block;
@@ -170,7 +163,32 @@
             box-shadow: var(--shadow-xl);
             background: linear-gradient(135deg, #ef4444, var(--clr-accent));
         }
-
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--clr-success), #059669);
+            color: var(--clr-neutral-100);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition);
+            margin-top: 1rem;
+            margin-right: 1rem;
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, #059669, var(--clr-success));
+        }
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
         /* ========  Study Guide List  ========= */
         .study-list {
             list-style: none;
@@ -202,7 +220,6 @@
         .study-list li strong {
             color: var(--clr-primary);
         }
-
         /* ========  Coming Soon Badge  ========= */
         .coming-soon {
             background: var(--clr-neutral-200);
@@ -227,7 +244,27 @@
         .coming-soon p {
             opacity: 0.6;
         }
-
+        /* ========  Assignment Section  ========= */
+        .assignments-section {
+            border-left-color: var(--clr-success);
+        }
+        .assignment-item {
+            background: var(--clr-neutral-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--clr-success);
+        }
+        .assignment-item h3 {
+            font-size: 1.2rem;
+            color: var(--clr-neutral-800);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .assignment-item p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
         /* ========  Footer  ========= */
         footer {
             background: var(--clr-neutral-100);
@@ -251,7 +288,6 @@
             color: var(--clr-primary-dark);
             text-decoration: underline;
         }
-
         /* ========  Responsive  ========= */
         @media (max-width: 768px) {
             body {
@@ -266,6 +302,16 @@
             .btn-primary {
                 padding: 1rem 2rem;
                 font-size: 1rem;
+            }
+            .btn-secondary {
+                padding: 0.85rem 1.5rem;
+                font-size: 0.95rem;
+            }
+            .btn-container {
+                flex-direction: column;
+            }
+            .btn-secondary {
+                margin-right: 0;
             }
             .coming-soon::after {
                 top: 1.5rem;
@@ -286,7 +332,6 @@
             📧 <a href="mailto:shay.tsaban@gmail.com">shay.tsaban@gmail.com</a>
         </div>
     </header>
-
     <div class="container">
         <!-- =====  Purpose  ===== -->
         <div class="section purpose-section">
@@ -308,7 +353,6 @@
                 <strong>📘 Note on Official Coursebooks:</strong> The official textbooks listed on the Open University website serve as valuable supplementary resources for those seeking to expand their theoretical knowledge and gain deeper insights into specific topics. However, <strong>the condensed lecture materials provided above contain all the essential knowledge required for the course</strong>, and most students will find them sufficient to master the material and excel in assignments and exams.
             </p>
         </div>
-
         <!-- =====  How to Study  ===== -->
         <div class="section">
             <h2><span class="icon">📖</span> How to Study This Course</h2>
@@ -331,19 +375,29 @@
                 </li>
             </ol>
         </div>
-
         <!-- =====  Assignment Solutions  ===== -->
-        <div class="section coming-soon">
+        <div class="section assignments-section">
             <h2><span class="icon">✅</span> Assignment Solutions</h2>
-            <p>Detailed solutions for course assignments will be posted here throughout the semester. Each solution will include step-by-step explanations to help you understand the methodology and improve your problem-solving skills.</p>
+            <p>Detailed solutions for course assignments are posted here throughout the semester. Each solution includes step-by-step explanations to help you understand the methodology and improve your problem-solving skills.</p>
+            
+            <div class="assignment-item">
+                <h3>📋 Assignment 01 – Financial Statements Fundamentals</h3>
+                <p>Covers: Accounting identity, transaction documentation, income statement and balance sheet preparation, accrual basis concepts, and theoretical foundations.</p>
+                <a href="13002 - 2026A - Assignment 01 - ANS.html" 
+                   class="btn-secondary">
+                    📝 View Detailed Solution
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--clr-neutral-700);">
+                <em>Additional assignment solutions will be posted as the semester progresses.</em>
+            </p>
         </div>
-
         <!-- =====  Final Exam Preparation  ===== -->
         <div class="section coming-soon">
             <h2><span class="icon">🎯</span> Final Exam Preparation Materials</h2>
             <p>Comprehensive exam preparation resources, including practice questions, summary sheets, and key concepts review, will be available here as we approach the final exam period.</p>
         </div>
-
         <!-- =====  About the Course  ===== -->
         <div class="section">
             <h2><span class="icon">💼</span> About This Course</h2>
@@ -351,7 +405,6 @@
             <p>This course covers assets, liabilities, equity, revenue, and expenses, with practical exercises based on real-world transactions. The final exam is open-book and conducted online, allowing you to demonstrate your comprehensive understanding of the material.</p>
         </div>
     </div>
-
     <!-- =====  Footer  ===== -->
     <footer>
         <p><strong>Accounting for Managers – 13002</strong></p>

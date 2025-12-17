@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ממ"ן 4 - חשבונאות למנהלים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2d5a87;
+            --accent: #c9a227;
+            --accent-hover: #b8921f;
+            --bg-main: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: #e2e8f0;
+            --data-bg: #f0f4f8;
+            --claim-bg: #fefce8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', 'Rubik', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.4;
+            padding: 15px;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cover-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .cover-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .cover-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .cover-row {
+            display: flex;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .cover-label {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 130px;
+        }
+
+        .cover-value {
+            color: var(--text-secondary);
+        }
+
+        .cover-topics {
+            background: var(--data-bg);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin: 12px 0;
+        }
+
+        .cover-topics h3 {
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .cover-topics ul {
+            list-style: none;
+            padding-right: 8px;
+        }
+
+        .cover-topics li {
+            padding: 3px 0;
+            border-bottom: 1px dashed var(--border-color);
+            position: relative;
+            padding-right: 12px;
+            font-size: 11px;
+        }
+
+        .cover-topics li::before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .cover-topics li:last-child {
+            border-bottom: none;
+        }
+
+        .cover-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 8px 10px;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+
+        .cover-note strong {
+            color: #856404;
+        }
+
+        .cover-note p {
+            color: #856404;
+            margin-top: 3px;
+        }
+
+        .answer-table-section {
+            background: var(--claim-bg);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        .answer-table-section h3 {
+            color: var(--accent-hover);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .answer-table {
+            width: 100%;
+            max-width: 220px;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .answer-table th,
+        .answer-table td {
+            padding: 4px 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .answer-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .answer-table td {
+            background: white;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 8px 0 0 8px;
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .question-intro {
+            font-size: 12px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .data-section {
+            background: var(--data-bg);
+            border-radius: 5px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-right: 3px solid var(--primary);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 4px 6px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: rgba(30, 58, 95, 0.08);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table .total-row {
+            font-weight: 700;
+            background: rgba(201, 162, 39, 0.1);
+        }
+
+        .transactions-list {
+            margin: 6px 0;
+        }
+
+        .transaction-item {
+            padding: 4px 0;
+            border-bottom: 1px dashed var(--border-color);
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-num {
+            min-width: 18px;
+            height: 18px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .transaction-text {
+            flex: 1;
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.35;
+        }
+
+        .claims-section {
+            background: var(--claim-bg);
+            border-radius: 5px;
+            padding: 8px 10px;
+            margin: 8px 0;
+            border-right: 3px solid var(--accent);
+        }
+
+        .claims-section h4 {
+            font-size: 11px;
+            color: var(--accent-hover);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .claim-item {
+            padding: 3px 0;
+            border-bottom: 1px dotted var(--border-color);
+            display: flex;
+            gap: 6px;
+        }
+
+        .claim-item:last-child {
+            border-bottom: none;
+        }
+
+        .claim-num {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 50px;
+            flex-shrink: 0;
+            font-size: 11px;
+        }
+
+        .claim-text {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        .question-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 8px 0 6px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 8px;
+            background: #fafbfc;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+
+        .option-letter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            background: var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 10px;
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .decorative-line {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 0 auto 8px;
+            border-radius: 2px;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm 8mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                font-size: 10px !important;
+                line-height: 1.3 !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+            }
+
+            .cover-section {
+                padding: 12px 15px !important;
+                margin-bottom: 0 !important;
+                border: 1px solid #999 !important;
+                border-radius: 0 !important;
+            }
+
+            .cover-title {
+                font-size: 1.3rem !important;
+                margin-bottom: 10px !important;
+            }
+
+            .cover-row {
+                font-size: 10px !important;
+            }
+
+            .cover-topics li {
+                font-size: 9px !important;
+                padding: 2px 0 !important;
+            }
+
+            .cover-note {
+                font-size: 9px !important;
+                padding: 6px 8px !important;
+            }
+
+            .answer-table-section h3 {
+                font-size: 10px !important;
+            }
+
+            .answer-table {
+                font-size: 9px !important;
+            }
+
+            .answer-table th,
+            .answer-table td {
+                padding: 2px 8px !important;
+            }
+
+            .question-card {
+                padding: 10px 12px !important;
+                margin-bottom: 8px !important;
+                border: 1px solid #999 !important;
+                border-radius: 0 !important;
+            }
+
+            .question-card::before {
+                display: none !important;
+            }
+
+            .question-number {
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 11px !important;
+                margin-bottom: 5px !important;
+            }
+
+            .question-intro {
+                font-size: 10px !important;
+                margin-bottom: 5px !important;
+                line-height: 1.3 !important;
+            }
+
+            .data-section {
+                padding: 5px 8px !important;
+                margin-bottom: 5px !important;
+            }
+
+            .data-table {
+                font-size: 9px !important;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 2px 5px !important;
+            }
+
+            .transactions-list {
+                margin: 4px 0 !important;
+            }
+
+            .transaction-item {
+                padding: 2px 0 !important;
+            }
+
+            .transaction-num {
+                width: 14px !important;
+                height: 14px !important;
+                min-width: 14px !important;
+                font-size: 8px !important;
+            }
+
+            .transaction-text {
+                font-size: 9px !important;
+                line-height: 1.25 !important;
+            }
+
+            .claims-section {
+                padding: 5px 8px !important;
+                margin: 5px 0 !important;
+            }
+
+            .claims-section h4 {
+                font-size: 9px !important;
+                margin-bottom: 3px !important;
+            }
+
+            .claim-item {
+                padding: 2px 0 !important;
+            }
+
+            .claim-num {
+                font-size: 9px !important;
+                min-width: 45px !important;
+            }
+
+            .claim-text {
+                font-size: 9px !important;
+                line-height: 1.25 !important;
+            }
+
+            .question-text {
+                font-size: 10px !important;
+                margin: 5px 0 !important;
+                padding-top: 5px !important;
+            }
+
+            .options-list {
+                gap: 2px !important;
+            }
+
+            .option-item {
+                padding: 3px 6px !important;
+            }
+
+            .option-letter {
+                width: 18px !important;
+                height: 18px !important;
+                min-width: 18px !important;
+                font-size: 9px !important;
+            }
+
+            .option-text {
+                font-size: 9px !important;
+            }
+
+            .section-title {
+                font-size: 11px !important;
+                padding: 6px 0 !important;
+                margin-bottom: 6px !important;
+            }
+
+            .page-break-before {
+                page-break-before: always !important;
+            }
+
+            footer {
+                padding: 15px 10px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .question-card {
+                padding: 12px;
+            }
+
+            .claim-item {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- עמוד 1: כיסוי + טבלת תשובות -->
+        <div class="cover-section">
+            <h1 class="cover-title">מטלת מנחה (ממ"ן) 4</h1>
+            
+            <div class="cover-info">
+                <div class="cover-row">
+                    <span class="cover-label">קורס:</span>
+                    <span class="cover-value">13002 - חשבונאות למנהלים</span>
+                </div>
+                <div class="cover-row">
+                    <span class="cover-label">חומר הלימוד למטלה:</span>
+                    <span class="cover-value">יחידה 4 – הון עצמי והתחייבויות (אג"ח)</span>
+                </div>
+                <div class="cover-row">
+                    <span class="cover-label">מספר השאלות:</span>
+                    <span class="cover-value">10</span>
+                </div>
+                <div class="cover-row">
+                    <span class="cover-label">משקל המטלה:</span>
+                    <span class="cover-value">3 נקודות</span>
+                </div>
+                <div class="cover-row">
+                    <span class="cover-label">סמסטר:</span>
+                    <span class="cover-value">2026א</span>
+                </div>
+                <div class="cover-row">
+                    <span class="cover-label">מועד אחרון להגשה:</span>
+                    <span class="cover-value">11/01/2026</span>
+                </div>
+            </div>
+
+            <div class="cover-topics">
+                <h3>נושאי המטלה – יחידה 4:</h3>
+                <ul>
+                    <li>הון עצמי: הון מניות, פרמיה, עודפים, כתבי אופציה ועסקאות המשפיעות על רכיבי ההון</li>
+                    <li>מבנה הצגת הדוח על השינויים בהון העצמי</li>
+                    <li>הגדרות ומשמעות של רכיבי ההון העצמי</li>
+                    <li>הגדרה ומדידה של אגרות חוב – כולל היבטים של רווח והפסד (כהתחייבות) וברמת דוח מאזני. הפחתת פרמיה / ניכיון</li>
+                </ul>
+            </div>
+
+            <div class="cover-note">
+                <strong>לתשומת הלב:</strong>
+                <p>ערכים כספיים בתשובות רב ברירה – עשויים להיות מעוגלים לשקל השלם הקרוב. יש לבחור בתשובה הקרובה ביותר בש"ח מעוגל.</p>
+            </div>
+
+            <div class="answer-table-section">
+                <h3>הקפידו לציין לפני הבודק טבלה מרוכזת שתציג את בחירתכם לכל אחת מהתשובות בראש המענה. להדגמה:</h3>
+                <table class="answer-table">
+                    <tr><th>שאלה</th><th>תשובה</th></tr>
+                    <tr><td>1</td><td>א</td></tr>
+                    <tr><td>2</td><td>ג</td></tr>
+                    <tr><td>3</td><td>ב</td></tr>
+                    <tr><td>4</td><td>ד</td></tr>
+                    <tr><td>5</td><td>א</td></tr>
+                    <tr><td>6</td><td>ג</td></tr>
+                    <tr><td>7</td><td>ב</td></tr>
+                    <tr><td>8</td><td>ה</td></tr>
+                    <tr><td>9</td><td>ג</td></tr>
+                    <tr><td>10</td><td>ד</td></tr>
+                </table>
+                <p style="margin-top: 8px; font-size: 10px; color: var(--text-secondary);"><strong>בנוסף,</strong> חובה לציין הנמקה לכל אחת מהשאלות שנענו לאחר מכן. ההנמקה לא חייבת להיות ארוכה ויכולה להתמקד בהצדקת הטיעון הנכון על בסיס ציטוט מחומרי הקורס או הסבר במילים שלכם, או על ידי שלילת מסיחים אחרים בצורה ברורה. <strong>תשובה ללא הנמקה לא תזכה בניקוד.</strong></p>
+            </div>
+        </div>
+
+        <main>
+            <!-- עמוד 2: שאלה 1 עם כותרת -->
+            <div class="page-break-before">
+                <div class="section-title">שאלות הון עצמי (1-8)</div>
+                <div class="question-card">
+                    <div class="question-number">1</div>
+                    <p class="question-intro">להלן נתונים אודות יתרות ההון העצמי בחברת "אלפא" בע"מ ליום 31.12.2024:</p>
+                    
+                    <div class="data-section">
+                        <table class="data-table">
+                            <tr><th>סעיף</th><th>סכום (ש"ח)</th></tr>
+                            <tr><td>הון מניות בנות 1 ש"ח ע.נ. כל אחת</td><td>200,000</td></tr>
+                            <tr><td>פרמיה על מניות</td><td>150,000</td></tr>
+                            <tr><td>עודפים (יתרת רווח)</td><td>80,000</td></tr>
+                            <tr class="total-row"><td>סה"כ הון עצמי</td><td>430,000</td></tr>
+                        </table>
+                    </div>
+
+                    <p class="question-intro">להלן עסקאות ואירועים שהתרחשו בחברה במהלך שנת 2025:</p>
+                    
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <span class="transaction-num">א</span>
+                            <span class="transaction-text">החברה הנפיקה 80,000 מניות בנות 1 ש"ח ע.נ. כל אחת בתמורה ל-200,000 ש"ח במזומן. עלויות הנפקה בעסקה הסתכמו ב-12,000 ש"ח.</span>
+                        </div>
+                        <div class="transaction-item">
+                            <span class="transaction-num">ב</span>
+                            <span class="transaction-text">החברה הנפיקה 30,000 כתבי אופציה. כל כתב אופציה ניתן למימוש ל-2 מניות בנות 1 ש"ח ע.נ. כל אחת, בתמורה לתוספת מימוש של 4 ש"ח. התמורה בהנפקה: 3 ש"ח לכל כתב אופציה. המועד האחרון למימוש: 31.12.2026.</span>
+                        </div>
+                        <div class="transaction-item">
+                            <span class="transaction-num">ג</span>
+                            <span class="transaction-text">הרווח הנקי בחברה בשנת 2025 הסתכם ב-120,000 ש"ח.</span>
+                        </div>
+                        <div class="transaction-item">
+                            <span class="transaction-num">ד</span>
+                            <span class="transaction-text">החברה הכריזה (וטרם חילקה) על דיבידנד בסכום כולל של 50,000 ש"ח.</span>
+                        </div>
+                    </div>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">יתרת ההון העצמי ליום 31.12.2025 היא 778,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">יתרת הפרמיה ליום 31.12.2025 היא 258,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">יתרת העודפים ליום 31.12.2025 היא 150,000 ש"ח</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענות 1 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענה 2 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 3: שאלה 2 -->
+            <div class="page-break-before">
+                <div class="question-card">
+                    <div class="question-number">2</div>
+                    <p class="question-intro">להלן נתונים אודות הון עצמי בחברת "בטא" בע"מ ליום 31.12.2024:</p>
+                    
+                    <div class="data-section">
+                        <table class="data-table">
+                            <tr><th>סעיף</th><th>סכום (ש"ח)</th></tr>
+                            <tr><td>הון מניות בנות 2 ש"ח ע.נ. כל אחת</td><td>300,000</td></tr>
+                            <tr><td>פרמיה</td><td>180,000</td></tr>
+                            <tr><td>כתבי אופציה</td><td>100,000</td></tr>
+                            <tr><td>עודפים</td><td>220,000</td></tr>
+                        </table>
+                    </div>
+
+                    <p class="question-intro">נתונים נוספים בדבר כתבי האופציה: כתבי האופציה הונפקו בשנת 2024. בסך הכל, כתבי האופציה הקיימים למועד זה (31.12.2024) כוללים 25,000 כתבי אופציה, שכל אחד מהם ניתן למימוש ל-5 מניות בנות 2 ש"ח ע.נ. כל אחת, בתמורה לתוספת מימוש של 20 ש"ח. המועד האחרון למימוש הוא 31.12.2025.</p>
+                    
+                    <p class="question-intro">בתאריך 1.7.2025 מומשו 40% מכתבי האופציה.</p>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">עליית ההון העצמי כתוצאה ממימוש כתבי האופציה היא 200,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">מימוש כתבי האופציה יגדיל את הון המניות ב-200,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">יתרת כתבי האופציה ליום 31.12.2025 היא 60,000 ש"ח</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענה 2 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 1 ו-2</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענות 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 4: שאלה 3 -->
+            <div class="page-break-before">
+                <div class="question-card">
+                    <div class="question-number">3</div>
+                    <p class="question-intro">להלן נתונים אודות הון עצמי בחברת "גמא" בע"מ ליום 31.12.2024:</p>
+                    
+                    <div class="data-section">
+                        <table class="data-table">
+                            <tr><th>סעיף</th><th>סכום (ש"ח)</th></tr>
+                            <tr><td>הון מניות רגילות בנות 1 ש"ח ע.נ. כל אחת</td><td>400,000</td></tr>
+                            <tr><td>הון מניות בכורה 6% בנות 2 ש"ח ע.נ. כל אחת</td><td>100,000</td></tr>
+                            <tr><td>פרמיה</td><td>250,000</td></tr>
+                            <tr><td>עודפים</td><td>180,000</td></tr>
+                        </table>
+                    </div>
+
+                    <p class="question-intro">במהלך שנת 2025 התרחשו האירועים הבאים:</p>
+                    
+                    <div class="transactions-list">
+                        <div class="transaction-item"><span class="transaction-num">א</span><span class="transaction-text">הונפקו 50,000 מניות רגילות בנות 1 ש"ח ע.נ. כל אחת בתמורה ל-90,000 ש"ח.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ב</span><span class="transaction-text">הונפקו 30,000 מניות בכורה 6% בנות 2 ש"ח ע.נ. כל אחת בתמורה הזהה לערכן הנקוב.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ג</span><span class="transaction-text">הרווח הנקי בשנת 2025 הסתכם ב-200,000 ש"ח.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ד</span><span class="transaction-text">החברה הכריזה על דיבידנד בשיעור 8% לבעלי המניות הרגילות.</span></div>
+                    </div>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">סך הדיבידנד שהוכרז (כולל לבכורה) הוא 45,600 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">יתרת העודפים ליום 31.12.2025 היא 334,400 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">יתרת ההון העצמי ליום 31.12.2025 היא 1,244,400 ש"ח</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענות 1 ו-2</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 1, 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענה 3 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 5: שאלה 4 -->
+            <div class="page-break-before">
+                <div class="question-card">
+                    <div class="question-number">4</div>
+                    <p class="question-intro">להלן נתונים אודות הון עצמי בחברת "דלתא" בע"מ ליום 31.12.2024:</p>
+                    
+                    <div class="data-section">
+                        <table class="data-table">
+                            <tr><th>סעיף</th><th>סכום (ש"ח)</th></tr>
+                            <tr><td>הון מניות בנות 3 ש"ח ע.נ. כל אחת</td><td>450,000</td></tr>
+                            <tr><td>פרמיה</td><td>200,000</td></tr>
+                            <tr><td>כתבי אופציה</td><td>80,000</td></tr>
+                            <tr><td>עודפים</td><td>170,000</td></tr>
+                        </table>
+                    </div>
+
+                    <p class="question-intro">נתונים נוספים בדבר כתבי האופציה: כתבי האופציה שכלולים בהון העצמי של החברה ליום 31.12.2024 הונפקו במהלך שנת 2024. בסך הכל, כתבי האופציה הקיימים למועד זה (31.12.2024) כוללים 20,000 כתבי אופציה, שכל אחד מהם ניתן למימוש ל-2 מניות בנות 3 ש"ח ע.נ. כל אחת, בתמורה לתוספת מימוש של 10 ש"ח. המועד האחרון למימוש: 31.12.2025.</p>
+                    
+                    <p class="question-intro">במהלך שנת 2025 התרחשו האירועים הבאים:</p>
+                    
+                    <div class="transactions-list">
+                        <div class="transaction-item"><span class="transaction-num">א</span><span class="transaction-text">ביום 1.4.2025 מומשו 50% מכתבי האופציה.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ב</span><span class="transaction-text">הרווח הנקי בשנת 2025 הסתכם ב-90,000 ש"ח.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ג</span><span class="transaction-text">החברה הכריזה על דיבידנד בשיעור 5% לבעלי המניות.</span></div>
+                    </div>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">יתרת הון המניות ליום 31.12.2025 היא 510,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">יתרת הפרמיה ליום 31.12.2025 היא 330,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">הדיבידנד שהוכרז הוא 25,500 ש"ח. יחד עם זאת, הואיל ואין מידע בדבר תשלומו בפועל, הוא לא ישפיע על ההון העצמי לשנת 2025</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענות 1 ו-2</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 1 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענות 1, 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 6: שאלות 5-6 -->
+            <div class="page-break-before">
+                <div class="question-card">
+                    <div class="question-number">5</div>
+                    <p class="question-intro">לפניכם מספר טענות בנושא הון עצמי:</p>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">כאשר מתבצעת הנפקת מניות, סך השינוי בהון העצמי הוא בגובה הפרמיה, המהווה את ההפרש בין תמורת ההנפקה לערך הנקוב של המניות שהונפקו</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">כאשר חברה מנפיקה מניות בתמורה הגבוהה מערכן הנקוב, ההפרש מהווה רווח שנזקף לסעיף העודפים בהון העצמי</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">כאשר חברה מנפיקה כתבי אופציה, ההון העצמי יעלה בגובה התמורה שנתקבלה בעבור הנפקתם של כתבי האופציה</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענה 2 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענה 3 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענות 1 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-number">6</div>
+                    <p class="question-intro">לפניכם מספר טענות בנושא הון עצמי:</p>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">עלויות הנפקה בעסקת הנפקת מניות יירשמו כהוצאה בדוח רווח והפסד ויקטינו את הרווח הנקי</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">כאשר כתבי אופציה פוקעים ללא מימוש במועד פקיעתם, אין שינוי בסך ההון העצמי</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">כאשר חברה מכריזה על דיבידנד, ההון העצמי קטן באופן מיידי ללא קשר לשאלה האם התשלום בוצע בפועל</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענה 2 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענות 1 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 7: שאלות 7-8 -->
+            <div class="page-break-before">
+                <div class="question-card">
+                    <div class="question-number">7</div>
+                    <p class="question-intro">להלן נתונים ל-2 השאלות הבאות (שאלות 7 ו-8). נתוני הון עצמי בחברת "אפסילון" בע"מ ליום 31.12.2024:</p>
+                    
+                    <div class="data-section">
+                        <table class="data-table">
+                            <tr><th>סעיף</th><th>סכום (ש"ח)</th></tr>
+                            <tr><td>הון מניות בנות 2 ש"ח ע.נ. כל אחת</td><td>180,000</td></tr>
+                            <tr><td>פרמיה על מניות</td><td>220,000</td></tr>
+                            <tr><td>עודפים</td><td>150,000</td></tr>
+                        </table>
+                    </div>
+
+                    <p class="question-intro">במהלך שנת 2025 התרחשו הפעולות הבאות:</p>
+                    
+                    <div class="transactions-list">
+                        <div class="transaction-item"><span class="transaction-num">א</span><span class="transaction-text">הונפקו 100,000 מניות בנות 2 ש"ח ע.נ. כל אחת בתמורה ל-350,000 ש"ח. עלויות הנפקה ישירות: 18,000 ש"ח.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ב</span><span class="transaction-text">הונפקו 15,000 כתבי אופציה ב-5 ש"ח כל אחד. כל כתב למימוש ל-3 מניות בנות 2 ש"ח ע.נ., תוספת מימוש 8 ש"ח. מועד אחרון: 31.12.2026.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ג</span><span class="transaction-text">החברה נטלה הלוואה מבנק בסכום של 400,000 ש"ח לתקופה של 6 שנים.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ד</span><span class="transaction-text">הרווח הנקי בשנת 2025 הסתכם ב-180,000 ש"ח.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ה</span><span class="transaction-text">הוכרז דיבידנד 6% לבעלי המניות. 40% שולם ב-2025 והיתרה תשולם בשנה הבאה.</span></div>
+                        <div class="transaction-item"><span class="transaction-num">ו</span><span class="transaction-text">ב-31.12.2025 מומשו 60% מכתבי האופציה.</span></div>
+                    </div>
+
+                    <p class="question-text">יתרת הפרמיה ליום 31.12.2025 (בש"ח) היא:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">352,000</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">397,000</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">415,000</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">460,000</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-number">8</div>
+                    <p class="question-intro">בהתאם לנתונים בשאלה 7:</p>
+
+                    <p class="question-text">יתרת ההון העצמי ליום 31.12.2025 (בש"ח) היא:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">1,139,200</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">1,157,200</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">1,186,200</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">1,217,200</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- עמוד 8: שאלות 9-10 עם כותרת -->
+            <div class="page-break-before">
+                <div class="section-title">שאלות אג"ח (9-10)</div>
+                
+                <div class="question-card">
+                    <div class="question-number">9</div>
+                    <p class="question-intro">ב-1.1.2024 הנפיקה חברה אג"ח שערכה הנקוב 500,000 ש"ח תמורת 550,000 ש"ח. אגרת החוב נושאת ריבית נקובה שנתית בשיעור 8% המשולמת בסוף כל שנה. האג"ח תיפרע בתשלום אחד ב-1.1.2034.</p>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">עסקת ההנפקה הובילה לרישום רווח במועד ההנפקה בסך 50,000 ש"ח לאור העובדה שתמורת ההנפקה עולה על הערך הנקוב שהחברה התחייבה לשלם</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">הוצאות המימון השנתיות בגין האג"ח הן 35,000 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">סך הוצאות המימון לכל חיי האג"ח הן 350,000 ש"ח</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענות 1 ו-2</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענות 1, 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-number">10</div>
+                    <p class="question-intro">ב-1.10.2024 הנפיקה חברה אג"ח שערכה הנקוב 240,000 ש"ח תמורת 200,000 ש"ח. אגרת החוב נושאת ריבית נקובה שנתית בשיעור 6% המשולמת בסוף כל שנה החל מ-1.10.2025. האג"ח תיפרע בתשלום אחד בחלוף 8 שנים מהנפקתה.</p>
+
+                    <div class="claims-section">
+                        <h4>הטענות:</h4>
+                        <div class="claim-item"><span class="claim-num">טענה 1:</span><span class="claim-text">במועד עסקת ההנפקה יש להכיר בהוצאה מיידית בגובה 40,000 ש"ח בגין ניכיון</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 2:</span><span class="claim-text">הוצאות המימון בגין האג"ח לשנת 2024 הן 4,850 ש"ח</span></div>
+                        <div class="claim-item"><span class="claim-num">טענה 3:</span><span class="claim-text">הוצאות המימון לשנת 2025 הן 19,400 ש"ח</span></div>
+                    </div>
+
+                    <p class="question-text">הטענה/הטענות הנכונה/הנכונות:</p>
+                    <ul class="options-list">
+                        <li class="option-item"><span class="option-letter">א</span><span class="option-text">טענה 1 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ב</span><span class="option-text">טענות 1 ו-2</span></li>
+                        <li class="option-item"><span class="option-letter">ג</span><span class="option-text">טענות 2 ו-3</span></li>
+                        <li class="option-item"><span class="option-letter">ד</span><span class="option-text">טענה 3 בלבד</span></li>
+                        <li class="option-item"><span class="option-letter">ה</span><span class="option-text">כל יתר התשובות שגויות</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <div class="decorative-line"></div>
+            <p>מטלת מנחה (ממ"ן) 4 - חשבונאות למנהלים | יחידה 4 – הון עצמי והתחייבויות (אג"ח)</p>
+        </footer>
+    </div>
+</body>
+</html>

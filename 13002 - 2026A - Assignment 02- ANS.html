@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פתרון מטלה 02 - חשבונאות למנהלים 13002</title>
+    <style>
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --success-color: #38a169;
+            --bg-light: #f7fafc;
+            --bg-card: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+        
+        header .course-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        header .info-badge {
+            background: var(--bg-light);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        .summary-table {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .summary-table h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+        
+        .answer-cell {
+            background: linear-gradient(135deg, var(--success-color), #48bb78);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+        }
+        
+        .answer-cell .q-num {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .answer-cell .answer {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .question-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .question-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+        
+        .question-content {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        .claims-list {
+            margin: 15px 0;
+        }
+        
+        .claim {
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-right: 3px solid var(--border-color);
+        }
+        
+        .claim strong {
+            color: var(--primary-color);
+        }
+        
+        .options-list {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .option.correct {
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.1), rgba(72, 187, 120, 0.1));
+            border: 2px solid var(--success-color);
+        }
+        
+        .option.correct::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .correct-answer {
+            background: linear-gradient(135deg, var(--success-color), #48bb78);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+        }
+        
+        .explanation {
+            background: linear-gradient(135deg, #ebf8ff, #bee3f8);
+            padding: 25px;
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        .explanation h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .calculation-table th,
+        .calculation-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .calculation-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calculation-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        
+        .calculation-table tr:last-child {
+            background: #e6fffa;
+            font-weight: bold;
+        }
+        
+        .t-account {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .t-account-box {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .t-account-title {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .t-account-content {
+            padding: 15px;
+        }
+        
+        .t-account-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .t-account-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+        
+        .formula {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .data-section {
+            background: #faf5ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-right: 4px solid #9f7aea;
+        }
+        
+        .data-section h4 {
+            color: #6b46c1;
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background: #fefcbf;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .answers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .t-account {
+                grid-template-columns: 1fr;
+            }
+            
+            header .course-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 פתרון מטלה 02</h1>
+            <div class="subtitle">חשבונאות למנהלים - קורס 13002</div>
+            <div class="course-info">
+                <span class="info-badge">📅 סמסטר 2026א</span>
+                <span class="info-badge">📝 יחידת לימוד 2 - נכסים שוטפים</span>
+                <span class="info-badge">⚖️ משקל: 3 נקודות</span>
+            </div>
+            <div class="credits" style="margin-top: 20px; color: var(--text-secondary); font-size: 0.95em;">
+                <p>כתיבה: רו"ח אורית לוי | עריכה: ד"ר שי צבאן</p>
+            </div>
+        </header>
+        
+        <section class="summary-table">
+            <h2>📋 טבלת תשובות מרוכזת</h2>
+            <div class="answers-grid">
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 1</div>
+                    <div class="answer">ג</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 2</div>
+                    <div class="answer">ד</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 3</div>
+                    <div class="answer">ה</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 4</div>
+                    <div class="answer">ב</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 5</div>
+                    <div class="answer">ד</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 6</div>
+                    <div class="answer">ב</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 7</div>
+                    <div class="answer">ב</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 8</div>
+                    <div class="answer">א</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 9</div>
+                    <div class="answer">ד</div>
+                </div>
+                <div class="answer-cell">
+                    <div class="q-num">שאלה 10</div>
+                    <div class="answer">ה</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- שאלה 1 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">1</div>
+                <h3 class="question-title">השקעות למסחר - סיווג ועדכון ערך</h3>
+            </div>
+            
+            <div class="question-content">
+                <p><strong>לפניכם מספר טענות:</strong></p>
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> השקעות למסחר הן נכס שוטף, והואיל והחברה מחויבת לבצע מכירה שלהן לכל המאוחר עד מועד הדיווח הבא.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> שינויים בשווי השקעות למסחר לא יובילו להשפעה על ההכנסות וההוצאות המדווחות, משום שרווח/הפסד מהשקעות למסחר מדווח רק במועד מכירתן.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> שינויים בשווי השקעות למסחר נזקפים כהכנסות (במקרה של עליית ערך) או כהוצאות (במקרה של ירידת ערך) בתקופה/תקופות בהן חל שינוי בשווי ההשקעות.
+                    </div>
+                </div>
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option">ב. טענה 2 בלבד</div>
+                    <div class="option correct">ג. טענה 3 בלבד</div>
+                    <div class="option">ד. טענות 1 ו-2</div>
+                    <div class="option">ה. טענות 1 ו-3</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ג</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר:</h4>
+                <p><strong>טענה 3 נכונה</strong> - יש לעדכן את ערך ההשקעות למסחר ליום הדו"ח. עליות או ירידות בשווי השקעות אלו יירשמו כ<strong>הכנסות מימון</strong> (במקרה של עליית ערך) או <strong>הוצאות מימון</strong> (במקרה של ירידת ערך) בדו"ח רווח והפסד.</p>
+                <p style="margin-top: 10px;"><strong>טענה 1 שגויה</strong> - השקעות למסחר הן אמנם נכס שוטף, אך אין חובה למכור אותן עד מועד הדיווח הבא.</p>
+                <p><strong>טענה 2 שגויה</strong> - שינויים בשווי משפיעים על ההכנסות וההוצאות באופן שוטף, לא רק במועד המכירה.</p>
+            </div>
+        </article>
+
+        <!-- שאלה 2 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">2</div>
+                <h3 class="question-title">השקעות למסחר - מקרה מעשי</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="data-section">
+                    <h4>📊 נתוני השאלה:</h4>
+                    <ul>
+                        <li>בתאריך 1.1.2024 רכשה חברה ניירות ערך סחירים בבורסה בת"א בעלות של <strong>40,000 ש"ח</strong></li>
+                        <li>החברה מתכננת להחזיק את ההשקעות לטווח הקצר בלבד (למסחר)</li>
+                        <li>בתאריך 31.12.2024 שווי תיק ההשקעות הסתכם ב-<strong>55,000 ש"ח</strong></li>
+                        <li>בתאריך 31.12.2025 שווי תיק ההשקעות הסתכם ב-<strong>50,000 ש"ח</strong></li>
+                        <li>החברה לא רכשה ולא מכרה השקעות במהלך השנים 2024 ו-2025</li>
+                        <li>בשנת 2025 "נסיבות מיוחדות" מנעו את מימוש התיק, אך הנהלת החברה מתכוונת ומסוגלת לממש את התיק בתחילת 2026</li>
+                    </ul>
+                </div>
+                
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> בשנת 2024 יוכר רווח (הכנסה) בגין השינוי בשווי תיק ההשקעות בסך 15,000 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> נכון ליום 31.12.2024, ההשקעה תסווג כהשקעה למסחר.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> נכון ליום 31.12.2025, ההשקעה תסווג כהשקעה למסחר.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option correct">ד. כל הטענות נכונות</div>
+                    <div class="option">ה. כל האפשרויות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ד</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר:</h4>
+                <p><strong>טענה 1 נכונה:</strong> ערך ההשקעה עלה מ-40,000 ש"ח ל-55,000 ש"ח, ולכן בשנת 2024 תירשם הכנסה בסך <span class="highlight">15,000 ש"ח</span>.</p>
+                <div class="formula">הכנסה מהשקעות = 55,000 - 40,000 = 15,000 ש"ח</div>
+                <p><strong>טענות 2 ו-3 נכונות:</strong> מדובר בהשקעה למסחר שמסווגת כ<strong>נכס שוטף</strong> במאזן. גם אם בשנת 2025 היו "נסיבות מיוחדות" שמנעו את המימוש, העובדה שהחברה מתכוונת ומסוגלת לממש בתחילת 2026 מאשרת שזו עדיין השקעה למסחר (נכס שוטף).</p>
+            </div>
+        </article>
+
+        <!-- שאלה 3 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">3</div>
+                <h3 class="question-title">השקעות למסחר - סוגי ניירות ערך</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> השקעות למסחר כוללות אך ורק השקעות במניות.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> השקעות למסחר כוללות אך ורק השקעות באגרות חוב.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> השקעות למסחר כוללות אך ורק השקעות בניירות ערך מקומיים. כך, למשל, עבור חברה ישראלית – השקעות למסחר יכולות להיות מסווגות רק מהשקעות שבוצעו בבורסה לניירות ערך בתל אביב.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option">ד. טענות 1 ו-3</div>
+                    <div class="option correct">ה. כל הטענות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ה</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר:</h4>
+                <p><strong>כל הטענות שגויות</strong> משום שהשקעות למסחר יכולות לכלול <strong>סוגי ניירות ערך שונים ומגוונים</strong>:</p>
+                <ul style="margin-top: 10px; margin-right: 20px;">
+                    <li>השקעות למסחר יכולות לכלול <strong>מניות, אגרות חוב, קרנות נאמנות</strong> וניירות ערך אחרים</li>
+                    <li>השקעות למסחר יכולות להתבצע בבורסות <strong>מקומיות ובינלאומיות</strong> כאחד</li>
+                    <li>הסיווג כ"השקעה למסחר" תלוי ב<strong>כוונת ההחזקה</strong> (טווח קצר למסחר) ולא בסוג נייר הערך או מיקום הבורסה</li>
+                </ul>
+            </div>
+        </article>
+
+        <!-- נתונים לשאלות 4-6 -->
+        <article class="question-card" style="background: linear-gradient(135deg, #faf5ff, #e9d8fd);">
+            <div class="question-header">
+                <div class="question-number" style="background: linear-gradient(135deg, #6b46c1, #9f7aea);">📊</div>
+                <h3 class="question-title">נתונים משותפים לשאלות 4, 5 ו-6</h3>
+            </div>
+            
+            <div class="data-section">
+                <h4>נתוני חברת תירוא:</h4>
+                <p><strong>שנת 2024:</strong></p>
+                <ul>
+                    <li>החברה הוקמה בתאריך 1.1.2024</li>
+                    <li>מכירות באשראי: <strong>500,000 ש"ח</strong></li>
+                    <li>החזרות מלקוחות: <strong>15,000 ש"ח</strong></li>
+                    <li>גבייה מלקוחות במזומן: <strong>100,000 ש"ח</strong></li>
+                    <li>שיעור הלח"מ נכון ל-31.12.2024: <strong>6%</strong> מיתרת הלקוחות</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>שנת 2025:</strong></p>
+                <ul>
+                    <li>מכירות במזומן: <strong>300,000 ש"ח</strong></li>
+                    <li>מכירות באשראי: <strong>150,000 ש"ח</strong></li>
+                    <li>הנחות ללקוחות (בגין מכר באשראי): <strong>33,000 ש"ח</strong></li>
+                    <li>חובות אבודים שנמחקו: <strong>10,000 ש"ח</strong></li>
+                    <li>שיעור הלח"מ נכון ל-31.12.2025: <strong>8%</strong> מיתרת הלקוחות</li>
+                </ul>
+            </div>
+        </article>
+
+        <!-- שאלה 4 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">4</div>
+                <h3 class="question-title">הוצאות לחומ"ס - שנת 2024</h3>
+            </div>
+            
+            <div class="question-content">
+                <p><strong>הוצאות הלח"מ בחברה לשנת 2024 הן (בש"ח):</strong></p>
+                <div class="options-list">
+                    <div class="option">א. 24,000</div>
+                    <div class="option correct">ב. 23,100</div>
+                    <div class="option">ג. 27,200</div>
+                    <div class="option">ד. 23,200</div>
+                    <div class="option">ה. כל יתר התשובות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ב - 23,100 ש"ח</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <div class="t-account">
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון לקוחות - שנת 2024</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ.</span><span>0 (החברה הוקמה ב-2024)</span></div>
+                            <div class="t-account-row"><span>+ מכירות באשראי</span><span>500,000</span></div>
+                            <div class="t-account-row"><span>- החזרות מלקוחות</span><span>(15,000)</span></div>
+                            <div class="t-account-row"><span>- גבייה מלקוחות</span><span>(100,000)</span></div>
+                            <div class="t-account-row"><span>י.ס. 31/12/2024</span><span>385,000</span></div>
+                        </div>
+                    </div>
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון הלח"מ - שנת 2024</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ.</span><span>0</span></div>
+                            <div class="t-account-row"><span>+ הוצאות לחומ"ס</span><span>N.P. = ?</span></div>
+                            <div class="t-account-row"><span>י.ס. נדרשת</span><span>23,100</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><strong>חישוב יתרת סגירה נדרשת של הלח"מ:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>יתרת לקוחות ל-31.12.2024</td>
+                        <td>385,000</td>
+                    </tr>
+                    <tr>
+                        <td>שיעור הלח"מ</td>
+                        <td>6%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>י.ס. לח"מ נדרשת</strong></td>
+                        <td><strong>23,100</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;">מכיוון שיתרת הפתיחה של חשבון הלח"מ היא 0 (החברה הוקמה בשנת 2024), הוצאות הלח"מ לשנת 2024 שוות ליתרת הסגירה הנדרשת: <span class="highlight">23,100 ש"ח</span></p>
+            </div>
+        </article>
+
+        <!-- שאלה 5 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">5</div>
+                <h3 class="question-title">הוצאות לחומ"ס - שנת 2025</h3>
+            </div>
+            
+            <div class="question-content">
+                <p><strong>הוצאות הלח"מ בחברה לשנת 2025 הן (בש"ח):</strong></p>
+                <div class="options-list">
+                    <div class="option">א. 16,260</div>
+                    <div class="option">ב. 39,360</div>
+                    <div class="option">ג. 6,260</div>
+                    <div class="option correct">ד. 26,260</div>
+                    <div class="option">ה. כל יתר התשובות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ד - 26,260 ש"ח</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <div class="t-account">
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון לקוחות - שנת 2025</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ.</span><span>385,000</span></div>
+                            <div class="t-account-row"><span>+ מכירות באשראי</span><span>150,000</span></div>
+                            <div class="t-account-row"><span>- הנחות ללקוחות</span><span>(33,000)</span></div>
+                            <div class="t-account-row"><span>- מחיקת חוב אבוד</span><span>(10,000)</span></div>
+                            <div class="t-account-row"><span>י.ס. 31/12/2025</span><span>492,000</span></div>
+                        </div>
+                    </div>
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון הלח"מ - שנת 2025</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ.</span><span>23,100</span></div>
+                            <div class="t-account-row"><span>- מחיקת חוב אבוד</span><span>(10,000)</span></div>
+                            <div class="t-account-row"><span>+ הוצאות לחומ"ס</span><span>N.P. = ?</span></div>
+                            <div class="t-account-row"><span>י.ס. נדרשת</span><span>39,360</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><strong>חישוב יתרת סגירה נדרשת של הלח"מ:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>יתרת לקוחות ל-31.12.2025</td>
+                        <td>492,000</td>
+                    </tr>
+                    <tr>
+                        <td>שיעור הלח"מ</td>
+                        <td>8%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>י.ס. לח"מ נדרשת</strong></td>
+                        <td><strong>39,360</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>חישוב הוצאות לחומ"ס:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>יתרת סגירה נדרשת</td>
+                        <td>39,360</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: יתרת פתיחה</td>
+                        <td>(23,100)</td>
+                    </tr>
+                    <tr>
+                        <td>בתוספת: מחיקת חוב אבוד</td>
+                        <td>10,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>הוצאות לחומ"ס (P.N.)</strong></td>
+                        <td><strong>26,260</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </article>
+
+        <!-- שאלה 6 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">6</div>
+                <h3 class="question-title">יתרת לקוחות נטו</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> החברה תדווח על יתרת לקוחות נטו בסעיף הלקוחות בדוח על המצב הכספי (המאזן) ליום 31.12.2025 בסך של 492,000 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> החברה תדווח על יתרת לקוחות נטו בסעיף הלקוחות בדוח על המצב הכספי (המאזן) ליום 31.12.2025 בסך של 452,640 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> רישום חובות אבודים לא יכול להשפיע על הוצאות הלח"מ, שהרי עיקרון רישומם מוביל לכך שהם יירשמו ויישפיעו גם על הלקוחות וגם על הלח"מ, בסכום זהה.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option correct">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option">ד. טענות 1 ו-3</div>
+                    <div class="option">ה. כל יתר האפשרויות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ב</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר:</h4>
+                <p><strong>טענה 2 נכונה.</strong> יתרת לקוחות נטו בשנת 2025:</p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>לקוחות ברוטו</td>
+                        <td>492,000</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: הלח"מ</td>
+                        <td>(39,360)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>לקוחות נטו</strong></td>
+                        <td><strong>452,640</strong></td>
+                    </tr>
+                </table>
+                <p style="margin-top: 15px;"><strong>טענה 1 שגויה</strong> - הסכום 492,000 ש"ח הוא יתרת הלקוחות <strong>ברוטו</strong>, לא נטו.</p>
+                <p><strong>טענה 3 שגויה</strong> - מחיקת חובות אבודים <strong>כן משפיעה</strong> על הוצאות הלח"מ. כאשר מוחקים חוב אבוד, מקטינים הן את חשבון הלקוחות והן את חשבון הלח"מ, אך הוצאות הלח"מ של אותה שנה מושפעות כי צריך "להשלים" את יתרת הלח"מ הנדרשת.</p>
+            </div>
+        </article>
+
+        <!-- שאלה 7 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">7</div>
+                <h3 class="question-title">הלח"מ - מודל מורכב לזיהוי סיכון</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="data-section">
+                    <h4>📊 נתוני השאלה (שאלה עצמאית):</h4>
+                    <ul>
+                        <li>נכון ל-31.12.2020: יתרת לקוחות <strong>800,000 ש"ח</strong>, הלח"מ <strong>5%</strong> מיתרת הלקוחות</li>
+                        <li>במהלך שנת 2021:
+                            <ul>
+                                <li>מכירות כוללות: <strong>850,000 ש"ח</strong> (מתוכן 220,000 במזומן, היתר באשראי)</li>
+                                <li>גביה מלקוחות: <strong>380,000 ש"ח</strong></li>
+                                <li>חוב אבוד שהתגלה: <strong>15,000 ש"ח</strong></li>
+                            </ul>
+                        </li>
+                        <li>נכון ל-31.12.2021 - החברה מיישמת מודל מורכב לזיהוי סיכון:
+                            <ul>
+                                <li>עבור 10% מהלקוחות - שיעור הלח"מ <strong>40%</strong></li>
+                                <li>עבור 30% מהלקוחות - שיעור הלח"מ <strong>7%</strong></li>
+                                <li>עבור 60% מהלקוחות - שיעור הלח"מ <strong>3%</strong></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> הוצאות הלח"מ בחברה בשנת 2021 הן בסך 81,765 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> יתרת הלקוחות נטו ליום 31.12.2021 היא 953,235 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> היישום שהחברה ביצעה לקוי, שכן עליה ליישם שיעור הלח"מ אחיד לכלל לקוחותיה מטעמי שוויוניות.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option correct">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option">ד. טענות 1 ו-2</div>
+                    <div class="option">ה. כל יתר האפשרויות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ב</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <div class="t-account">
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון לקוחות - שנת 2021</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ.</span><span>800,000</span></div>
+                            <div class="t-account-row"><span>+ מכירות באשראי</span><span>630,000 (=850,000-220,000)</span></div>
+                            <div class="t-account-row"><span>- גביה מלקוחות</span><span>(380,000)</span></div>
+                            <div class="t-account-row"><span>- מחיקת חוב אבוד</span><span>(15,000)</span></div>
+                            <div class="t-account-row"><span>י.ס. 31/12/2021</span><span>1,035,000</span></div>
+                        </div>
+                    </div>
+                    <div class="t-account-box">
+                        <div class="t-account-title">חשבון הלח"מ - שנת 2021</div>
+                        <div class="t-account-content">
+                            <div class="t-account-row"><span>י.פ. (5%×800,000)</span><span>40,000</span></div>
+                            <div class="t-account-row"><span>- מחיקת חוב אבוד</span><span>(15,000)</span></div>
+                            <div class="t-account-row"><span>+ הוצאות לחומ"ס</span><span>N.P.</span></div>
+                            <div class="t-account-row"><span>י.ס. נדרשת</span><span>81,765</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><strong>חישוב י.ס. נדרשת של חשבון הלח"מ (מודל מורכב):</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>חלק מהלקוחות</th>
+                        <th>חוב לקוחות</th>
+                        <th>שיעור הלח"מ</th>
+                        <th>הלח"מ</th>
+                    </tr>
+                    <tr>
+                        <td>10%</td>
+                        <td>103,500</td>
+                        <td>40%</td>
+                        <td>41,400</td>
+                    </tr>
+                    <tr>
+                        <td>30%</td>
+                        <td>310,500</td>
+                        <td>7%</td>
+                        <td>21,735</td>
+                    </tr>
+                    <tr>
+                        <td>60%</td>
+                        <td>621,000</td>
+                        <td>3%</td>
+                        <td>18,630</td>
+                    </tr>
+                    <tr>
+                        <td><strong>סה"כ</strong></td>
+                        <td><strong>1,035,000</strong></td>
+                        <td></td>
+                        <td><strong>81,765</strong></td>
+                    </tr>
+                </table>
+                
+                <p><strong>חישוב הוצאות לחומ"ס:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>יתרת סגירה נדרשת</td>
+                        <td>81,765</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: יתרת פתיחה</td>
+                        <td>(40,000)</td>
+                    </tr>
+                    <tr>
+                        <td>בתוספת: מחיקת חוב אבוד</td>
+                        <td>15,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>הוצאות לחומ"ס (P.N.)</strong></td>
+                        <td><strong>56,765</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>חישוב לקוחות נטו:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>יתרת לקוחות ברוטו</td>
+                        <td>1,035,000</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: הלח"מ</td>
+                        <td>(81,765)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>לקוחות נטו ל-31.12.2021</strong></td>
+                        <td><strong>953,235</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>טענה 1 שגויה</strong> - הוצאות הלח"מ הן 56,765 ש"ח (לא 81,765 שזו יתרת הסגירה הנדרשת של הלח"מ).</p>
+                <p><strong>טענה 2 נכונה</strong> - לקוחות נטו = 953,235 ש"ח.</p>
+                <p><strong>טענה 3 שגויה</strong> - יישום מודל מורכב (דיפרנציאלי) הוא <strong>מקובל ונכון</strong>. אין חובה להחיל שיעור אחיד לכל הלקוחות.</p>
+            </div>
+        </article>
+
+        <!-- נתונים לשאלות 8-9 -->
+        <article class="question-card" style="background: linear-gradient(135deg, #faf5ff, #e9d8fd);">
+            <div class="question-header">
+                <div class="question-number" style="background: linear-gradient(135deg, #6b46c1, #9f7aea);">📊</div>
+                <h3 class="question-title">נתונים משותפים לשאלות 8 ו-9</h3>
+            </div>
+            
+            <div class="data-section">
+                <h4>נתוני תנועות מלאי בחברה:</h4>
+                <table class="calculation-table">
+                    <tr>
+                        <th>תאריך</th>
+                        <th>פרטים</th>
+                        <th>יח'</th>
+                        <th>עלות יח'</th>
+                        <th>מחיר מכירה ליח'</th>
+                    </tr>
+                    <tr>
+                        <td>01/01/2024</td>
+                        <td>יתרת פתיחה</td>
+                        <td>1,000</td>
+                        <td>80</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>19/01/2024</td>
+                        <td>קניות</td>
+                        <td>500</td>
+                        <td>70</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>24/02/2024</td>
+                        <td>קניות</td>
+                        <td>700</td>
+                        <td>75</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>15/08/2024</td>
+                        <td>מכירות</td>
+                        <td>600</td>
+                        <td>-</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>19/08/2024</td>
+                        <td>קניות</td>
+                        <td>800</td>
+                        <td>90</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>15/10/2024</td>
+                        <td>מכירות</td>
+                        <td>550</td>
+                        <td>-</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td><strong>סה"כ</strong></td>
+                        <td></td>
+                        <td><strong>3,000</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>נתונים נוספים:</strong></p>
+                <ul>
+                    <li>החברה מעריכה כי נכון ליום 31.12.2024, מכירת כל פריט מלאי צפויה להתבצע בעתיד בתמורה ל-<strong>90 ש"ח</strong></li>
+                    <li>עלויות ההשלמה הכרוכות במכירתו תהיינה <strong>5 ש"ח</strong></li>
+                    <li>עמלת סוכנים לשם מכירת כל יחידה תהיה <strong>7 ש"ח</strong></li>
+                    <li>החברה מנהלת את המלאי בשיטת <strong>FIFO</strong> (נכנס ראשון, יוצא ראשון)</li>
+                </ul>
+            </div>
+        </article>
+
+        <!-- שאלה 8 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">8</div>
+                <h3 class="question-title">עלות מלאי הסגירה</h3>
+            </div>
+            
+            <div class="question-content">
+                <p><strong>עלות מלאי הסגירה ליום 31.12.2024 היא (בש"ח):</strong></p>
+                <div class="options-list">
+                    <div class="option correct">א. 149,000</div>
+                    <div class="option">ב. 144,300</div>
+                    <div class="option">ג. 152,400</div>
+                    <div class="option">ד. 178,200</div>
+                    <div class="option">ה. כל יתר התשובות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: א - 149,000 ש"ח</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <p><strong>שלב 1: חישוב כמות יחידות במלאי סגירה</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>יחידות</th>
+                    </tr>
+                    <tr>
+                        <td>סה"כ יחידות זמינות</td>
+                        <td>3,000</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: מכירות</td>
+                        <td>(1,150)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>מלאי סגירה</strong></td>
+                        <td><strong>1,850</strong></td>
+                    </tr>
+                </table>
+                
+                <p><strong>שלב 2: חישוב עלות מ.ס. לפי FIFO (נכנס ראשון, יוצא ראשון)</strong></p>
+                <p>לפי שיטת FIFO, במלאי הסגירה נשארות היחידות ה<strong>אחרונות</strong> שנרכשו:</p>
+                
+                <table class="calculation-table">
+                    <tr>
+                        <th>מס' יחידות</th>
+                        <th>עלות ליחידה</th>
+                        <th>סה"כ</th>
+                    </tr>
+                    <tr>
+                        <td>800</td>
+                        <td>90</td>
+                        <td>72,000</td>
+                    </tr>
+                    <tr>
+                        <td>700</td>
+                        <td>75</td>
+                        <td>52,500</td>
+                    </tr>
+                    <tr>
+                        <td>350</td>
+                        <td>70</td>
+                        <td>24,500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1,850</strong></td>
+                        <td></td>
+                        <td><strong>149,000</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </article>
+
+        <!-- שאלה 9 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">9</div>
+                <h3 class="question-title">שווי מימוש נטו ועלות המכר</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> ערכו החשבונאי של מלאי הסגירה ליום 31.12.2024 הוא 144,300 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> עלות המכר בחברה לשנת 2024 היא 95,200 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> הרווח הגולמי בחברה לשנת 2024 הוא 36,500 ש"ח.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option correct">ד. טענות 1 ו-2</div>
+                    <div class="option">ה. כל יתר האפשרויות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ד</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <p><strong>חישוב שווי מימוש נטו ל-1 יחידה במלאי:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום (ש"ח)</th>
+                    </tr>
+                    <tr>
+                        <td>מחיר מכירה צפוי</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: עלויות השלמה</td>
+                        <td>(5)</td>
+                    </tr>
+                    <tr>
+                        <td>בניכוי: עמלת סוכנים</td>
+                        <td>(7)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>שווי מימוש נטו ליחידה</strong></td>
+                        <td><strong>78</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>סה"כ שווי מימוש נטו של מ.ס.:</strong></p>
+                <table class="calculation-table">
+                    <tr>
+                        <th>פרט</th>
+                        <th>סכום</th>
+                    </tr>
+                    <tr>
+                        <td>כמות יחידות</td>
+                        <td>1,850</td>
+                    </tr>
+                    <tr>
+                        <td>שווי מימוש נטו ליחידה</td>
+                        <td>78</td>
+                    </tr>
+                    <tr>
+                        <td><strong>סה"כ שווי מימוש נטו</strong></td>
+                        <td><strong>144,300</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>טענה 1 נכונה:</strong> מכיוון ששווי מימוש נטו (144,300) <strong>נמוך מעלות</strong> מ.ס. (149,000), הוא הערך שיוצג בדו"חות הכספיים (לפי כלל "העלות או שווי מימוש נטו - הנמוך מביניהם").</p>
+                
+                <p><strong>טענה 2 נכונה:</strong> חישוב עלות המכר:</p>
+                <table class="calculation-table">
+                    <tr>
+                        <td>מלאי פתיחה</td>
+                        <td>80,000 (=1,000×80)</td>
+                    </tr>
+                    <tr>
+                        <td>+ קניות</td>
+                        <td>159,500 (=500×70 + 700×75 + 800×90)</td>
+                    </tr>
+                    <tr>
+                        <td>- מלאי סגירה</td>
+                        <td>(144,300)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>עלות המכר</strong></td>
+                        <td><strong>95,200</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 15px;"><strong>טענה 3 אינה נכונה:</strong> חישוב הרווח הגולמי:</p>
+                <table class="calculation-table">
+                    <tr>
+                        <td>מכירות</td>
+                        <td>127,000 (=600×120 + 550×100)</td>
+                    </tr>
+                    <tr>
+                        <td>- עלות מכר</td>
+                        <td>(95,200)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>רווח גולמי</strong></td>
+                        <td><strong>31,800</strong></td>
+                    </tr>
+                </table>
+                <p>הרווח הגולמי הוא <span class="highlight">31,800 ש"ח</span> ולא 36,500 ש"ח.</p>
+            </div>
+        </article>
+
+        <!-- שאלה 10 -->
+        <article class="question-card">
+            <div class="question-header">
+                <div class="question-number">10</div>
+                <h3 class="question-title">תיקון טעויות במלאי</h3>
+            </div>
+            
+            <div class="question-content">
+                <div class="data-section">
+                    <h4>📊 נתוני השאלה (שאלה עצמאית):</h4>
+                    <ul>
+                        <li>הרווח הגולמי שדווח בשנת 2022: <strong>100,000 ש"ח</strong></li>
+                        <li>הרווח הגולמי שדווח בשנת 2023: <strong>240,000 ש"ח</strong></li>
+                        <li>בביקורת התגלה כי מלאי הסגירה שדווח ב-31.12.2022 <strong>הוערך ביתר</strong> בסך <strong>40,000 ש"ח</strong></li>
+                        <li>מלאי הסגירה שדווח ב-31.12.2023 <strong>הוערך בחסר</strong> בסך <strong>23,000 ש"ח</strong></li>
+                    </ul>
+                </div>
+                
+                <div class="claims-list">
+                    <div class="claim">
+                        <strong>טענה 1:</strong> הרווח הגולמי המתוקן בשנת 2022 הוא 140,000 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 2:</strong> הרווח הגולמי המתוקן בשנת 2023 הוא 263,000 ש"ח.
+                    </div>
+                    <div class="claim">
+                        <strong>טענה 3:</strong> השינויים בערכי המלאי משפיעים על הנכסים אך לא על הרווח.
+                    </div>
+                </div>
+                
+                <div class="options-list">
+                    <div class="option">א. טענה 1 בלבד</div>
+                    <div class="option">ב. טענה 2 בלבד</div>
+                    <div class="option">ג. טענה 3 בלבד</div>
+                    <div class="option">ד. טענות 1 ו-2</div>
+                    <div class="option correct">ה. כל הטענות שגויות</div>
+                </div>
+            </div>
+            
+            <div class="correct-answer">✓ תשובה נכונה: ה</div>
+            
+            <div class="explanation">
+                <h4>💡 הסבר וחישוב:</h4>
+                
+                <p><strong>חישובי רווח מתוקן:</strong></p>
+                
+                <table class="calculation-table">
+                    <tr>
+                        <th></th>
+                        <th>2022</th>
+                        <th>2023</th>
+                    </tr>
+                    <tr>
+                        <td>רווח נתון (מקורי)</td>
+                        <td>100,000</td>
+                        <td>240,000</td>
+                    </tr>
+                    <tr>
+                        <td>תיקון מ.ס. 2022 (הוערך ביתר)</td>
+                        <td><strong>(40,000)</strong></td>
+                        <td><strong>+40,000</strong></td>
+                    </tr>
+                    <tr>
+                        <td>תיקון מ.ס. 2023 (הוערך בחסר)</td>
+                        <td>—</td>
+                        <td><strong>+23,000</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>רווח מתוקן</strong></td>
+                        <td><strong>60,000</strong></td>
+                        <td><strong>303,000</strong></td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 20px;"><strong>הסבר התיקונים:</strong></p>
+                <ul style="margin-right: 20px;">
+                    <li><strong>מלאי סגירה 2022 הוערך ביתר ב-40,000:</strong>
+                        <ul>
+                            <li>בשנת 2022: מ.ס. גבוה מדי → עלות מכר נמוכה מדי → רווח גבוה מדי ← יש להפחית 40,000</li>
+                            <li>בשנת 2023: מ.פ. גבוה מדי (כי מ.ס. 2022 = מ.פ. 2023) → עלות מכר גבוהה מדי → רווח נמוך מדי ← יש להוסיף 40,000</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 10px;"><strong>מלאי סגירה 2023 הוערך בחסר ב-23,000:</strong>
+                        <ul>
+                            <li>בשנת 2023: מ.ס. נמוך מדי → עלות מכר גבוהה מדי → רווח נמוך מדי ← יש להוסיף 23,000</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <p style="margin-top: 15px;"><strong>טענה 1 שגויה</strong> - הרווח המתוקן ב-2022 הוא <span class="highlight">60,000 ש"ח</span> (לא 140,000).</p>
+                <p><strong>טענה 2 שגויה</strong> - הרווח המתוקן ב-2023 הוא <span class="highlight">303,000 ש"ח</span> (לא 263,000).</p>
+                <p><strong>טענה 3 שגויה</strong> - שינויים בערכי המלאי <strong>כן משפיעים על הרווח</strong> דרך עלות המכר.</p>
+            </div>
+        </article>
+
+        <footer>
+            <p>פתרון מטלה 02 - חשבונאות למנהלים 13002 - סמסטר 2026א</p>
+        </footer>
+    </div>
+</body>
+</html>

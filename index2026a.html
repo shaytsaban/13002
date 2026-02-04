@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Accounting for Managers – 13002</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
     <style>
         /* =============== Design Tokens ================== */
         :root {
             --clr-primary: #6366f1;
-            --clr-primary-dark: #4f46e5;
+            --clr-primary-dark: #4338ca;
             --clr-secondary: #06b6d4;
             --clr-accent: #f59e0b;
             --clr-success: #10b981;
@@ -22,15 +23,18 @@
             --clr-neutral-700: #334155;
             --clr-neutral-800: #1e293b;
             --clr-neutral-900: #0f172a;
-            --radius-lg: 20px;
-            --radius-md: 14px;
+
+            --radius-lg: 24px;
+            --radius-md: 16px;
             --radius-sm: 8px;
+
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
             --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
             --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.15);
-            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
-            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.25);
+
+            --transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         /* ======== Global Base Styles ========= */
@@ -44,17 +48,17 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(160deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background: linear-gradient(150deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             background-attachment: fixed;
             color: var(--clr-neutral-800);
             line-height: 1.7;
-            padding: 50px 24px;
+            padding: 60px 24px;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
 
-        /* Animated background particles */
+        /* Enhanced animated background particles */
         body::before {
             content: "";
             position: fixed;
@@ -63,28 +67,66 @@
             right: 0;
             bottom: 0;
             background-image:
-                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 15% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 65%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 55%),
+                radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
+            animation: pulseBackground 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseBackground {
+            0% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* ======== Animations ========= */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ======== Header / Hero ========= */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             color: var(--clr-neutral-800);
             text-align: center;
-            padding: 4rem 2.5rem;
+            padding: 5rem 2.5rem;
             border-radius: var(--radius-lg);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             box-shadow: var(--shadow-xl), var(--shadow-glow);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             position: relative;
             overflow: hidden;
             z-index: 1;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInDown 1s ease-out;
         }
 
         header::before {
@@ -93,10 +135,10 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
+            height: 6px;
             background: linear-gradient(90deg, var(--clr-primary), var(--clr-secondary), var(--clr-exam), var(--clr-accent));
             background-size: 300% 100%;
-            animation: gradientFlow 4s ease infinite;
+            animation: gradientFlow 5s ease infinite;
         }
 
         @keyframes gradientFlow {
@@ -112,24 +154,42 @@
         }
 
         header h1 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 0.75rem;
+            font-weight: 800;
             color: var(--clr-neutral-900);
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            background: -webkit-linear-gradient(135deg, #1e293b, #4338ca);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         header .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--clr-neutral-700);
             font-weight: 500;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
         }
 
         header .meta {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--clr-neutral-700);
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        header .meta span {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         header .meta a {
@@ -141,7 +201,6 @@
 
         header .meta a:hover {
             color: var(--clr-primary-dark);
-            text-decoration: underline;
         }
 
         /* ======== Containers & Sections ========= */
@@ -153,17 +212,39 @@
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 3rem;
             border-radius: var(--radius-lg);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             box-shadow: var(--shadow-lg);
-            transition: transform var(--transition), box-shadow var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .section:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .section:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .section:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .section:nth-child(5) {
+            animation-delay: 1.0s;
         }
 
         .section::before {
@@ -172,34 +253,36 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 4px;
+            width: 5px;
             background: linear-gradient(180deg, var(--clr-primary), var(--clr-secondary));
         }
 
         .section:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl), var(--shadow-glow);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .section h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--clr-neutral-900);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.01em;
+            gap: 0.8rem;
+            letter-spacing: -0.02em;
         }
 
         .section h2 .icon {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .section p {
             color: var(--clr-neutral-700);
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .section p:last-child {
@@ -208,8 +291,9 @@
 
         /* ======== Purpose Section ========= */
         .purpose-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%);
             color: var(--clr-neutral-100);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .purpose-section::before {
@@ -225,72 +309,78 @@
         }
 
         /* ======== Buttons ========= */
-        .btn-primary {
+        .btn-base {
             display: inline-block;
-            padding: 1.25rem 3rem;
-            background: linear-gradient(135deg, var(--clr-accent), #f97316);
-            color: var(--clr-neutral-100);
             text-decoration: none;
             border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow-lg), 0 4px 20px rgba(245, 158, 11, 0.3);
             transition: all var(--transition);
-            margin-top: 1.5rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .btn-base:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-primary {
+            padding: 1.25rem 3rem;
+            background: linear-gradient(135deg, var(--clr-accent), #ea580c);
+            color: var(--clr-neutral-100);
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: var(--shadow-lg), 0 4px 25px rgba(245, 158, 11, 0.35);
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-xl), 0 8px 30px rgba(245, 158, 11, 0.4);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 8px 35px rgba(245, 158, 11, 0.5);
         }
 
         .btn-secondary {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--clr-success), #059669);
+            padding: 1.1rem 2.2rem;
+            background: linear-gradient(135deg, var(--clr-success), #047857);
             color: var(--clr-neutral-100);
-            text-decoration: none;
-            border-radius: var(--radius-md);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.05rem;
             box-shadow: var(--shadow-md), 0 4px 15px rgba(16, 185, 129, 0.25);
-            transition: all var(--transition);
             margin-top: 1rem;
             margin-right: 1rem;
-            text-align: center;
         }
 
         .btn-secondary:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: var(--shadow-lg), 0 6px 20px rgba(16, 185, 129, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-lg), 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
         .btn-exam {
-            display: inline-block;
             padding: 1.1rem 2.2rem;
             background: linear-gradient(135deg, var(--clr-exam), #be185d);
             color: var(--clr-neutral-100);
-            text-decoration: none;
-            border-radius: var(--radius-md);
             font-weight: 600;
             font-size: 1.05rem;
             box-shadow: var(--shadow-md), 0 4px 15px rgba(236, 72, 153, 0.3);
-            transition: all var(--transition);
             margin-top: 1rem;
-            text-align: center;
         }
 
         .btn-exam:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-lg), 0 8px 25px rgba(236, 72, 153, 0.4);
-        }
-
-        .btn-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            box-shadow: var(--shadow-lg), 0 8px 25px rgba(236, 72, 153, 0.45);
         }
 
         /* ======== Study Guide List ========= */
@@ -301,8 +391,8 @@
 
         .study-list li {
             counter-increment: study-counter;
-            margin-bottom: 1.5rem;
-            padding-left: 3.5rem;
+            margin-bottom: 2rem;
+            padding-left: 4.5rem;
             position: relative;
             line-height: 1.8;
         }
@@ -311,9 +401,9 @@
             content: counter(study-counter);
             position: absolute;
             left: 0;
-            top: 0;
-            width: 2.2rem;
-            height: 2.2rem;
+            top: -2px;
+            width: 3rem;
+            height: 3rem;
             background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary));
             color: var(--clr-neutral-100);
             border-radius: 50%;
@@ -321,12 +411,16 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+            border: 2px solid white;
         }
 
         .study-list li strong {
             color: var(--clr-primary-dark);
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 0.25rem;
         }
 
         /* ======== Assignment Section ========= */
@@ -335,29 +429,61 @@
         }
 
         .assignment-item {
-            background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(241, 245, 249, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
             border-radius: var(--radius-md);
-            padding: 1.75rem;
+            padding: 2rem;
             margin-top: 1.5rem;
-            border-left: 4px solid var(--clr-success);
-            transition: transform var(--transition), box-shadow var(--transition);
+            border-left: 5px solid var(--clr-success);
+            transition: all var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
         .assignment-item:hover {
-            transform: translateX(6px);
+            transform: translateX(10px);
             box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
         }
 
         .assignment-item h3 {
-            font-size: 1.2rem;
+            font-size: 1.35rem;
             color: var(--clr-neutral-900);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
         }
 
         .assignment-item p {
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            color: var(--clr-neutral-700);
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: var(--clr-accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
         }
 
         /* ======== Exam Section ========= */
@@ -366,48 +492,40 @@
         }
 
         .exam-highlight {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(219, 39, 119, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 100%);
             border-radius: var(--radius-md);
-            padding: 1.5rem;
+            padding: 2rem;
             margin: 1.5rem 0;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-        }
-
-        .exam-highlight p {
-            margin-bottom: 0.75rem;
-        }
-
-        .exam-highlight p:last-child {
-            margin-bottom: 0;
+            border: 1px solid rgba(236, 72, 153, 0.25);
         }
 
         .important-note {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.08) 100%);
-            border-left: 4px solid var(--clr-accent);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border-left: 5px solid var(--clr-accent);
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            padding: 1.25rem 1.5rem;
-            margin-top: 1.5rem;
-            font-size: 0.95rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 1rem;
         }
 
         .important-note strong {
-            color: #d97706;
+            color: #b45309;
         }
 
         /* ======== Footer ========= */
         footer {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             color: var(--clr-neutral-700);
             text-align: center;
-            padding: 2.5rem;
-            margin-top: 3rem;
+            padding: 3rem;
+            margin-top: 4rem;
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-lg);
             position: relative;
             z-index: 1;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         footer p {
@@ -429,38 +547,40 @@
         /* ======== Responsive ========= */
         @media (max-width: 768px) {
             body {
-                padding: 24px 16px;
+                padding: 1rem;
             }
 
             header {
                 padding: 3rem 1.5rem;
             }
 
+            header h1 {
+                font-size: 2.2rem;
+            }
+
             .section {
                 padding: 2rem 1.5rem;
             }
 
-            .btn-primary {
-                padding: 1rem 2rem;
+            .study-list li {
+                padding-left: 3.5rem;
+            }
+
+            .study-list li::before {
+                width: 2.5rem;
+                height: 2.5rem;
                 font-size: 1rem;
             }
 
+            .btn-primary,
             .btn-secondary,
-            .btn-exam {
-                padding: 0.9rem 1.5rem;
-                font-size: 0.95rem;
-            }
-
-            .btn-container {
-                flex-direction: column;
-            }
-
-            .btn-secondary {
+            .btn-exam,
+            .btn-base {
+                width: 100%;
+                display: block;
                 margin-right: 0;
-            }
-
-            .study-list li {
-                padding-left: 3rem;
+                margin-bottom: 0.5rem;
+                padding: 1rem;
             }
         }
     </style>
@@ -473,8 +593,8 @@
         <h1>Accounting for Managers</h1>
         <div class="subtitle">Course 13002 • Semester 2026A</div>
         <div class="meta">
-            Instructor: <strong>Dr. Shay Tsaban, Ph.D.</strong><br>
-            📧 <a href="mailto:shay.tsaban@gmail.com">shay.tsaban@gmail.com</a>
+            <span> Instructor: <strong>Dr. Shay Tsaban, Ph.D.</strong></span>
+            <span> 📧 <a href="mailto:shay.tsaban@gmail.com">shay.tsaban@gmail.com</a></span>
         </div>
     </header>
 
@@ -491,11 +611,12 @@
                 ✓ <strong>Implementation examples</strong> to strengthen your understanding before assignments and exams
             </p>
             <p>As the semester progresses, this page will be updated with <strong>assignment solutions</strong> and
-                <strong>final exam preparation materials</strong> to support your learning journey.</p>
+                <strong>final exam preparation materials</strong> to support your learning journey.
+            </p>
             <a href="https://mypac-my.sharepoint.com/:w:/g/personal/shay_tsaban_pac_org_il/EUK4Wy63GNlDh3UpmdNexTkB1azUjQR1bLBAqob7EaAe4A"
-                class="btn-primary" target="_blank"> 📚 Access Course Materials </a>
+                class="btn-base btn-primary" target="_blank"> 📚 Access Course Materials </a>
             <p
-                style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid rgba(255,255,255,0.2); font-size: 0.95rem;">
+                style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.95rem; opacity: 0.9;">
                 <strong>📘 Note on Official Coursebooks:</strong> The official textbooks listed on the Open University
                 website serve as valuable supplementary resources for those seeking to expand their theoretical
                 knowledge and gain deeper insights into specific topics. However, <strong>the condensed lecture
@@ -510,28 +631,30 @@
             <p>Follow this roadmap to maximize your learning and achieve success:</p>
             <ol class="study-list">
                 <li>
-                    <strong>🎓 Attend all lectures</strong> — The live sessions provide essential guidance, context, and
-                    practical insights that go beyond written materials. Active participation helps clarify concepts and
-                    solidify understanding.
+                    <strong>🎓 Attend all lectures</strong>
+                    The live sessions provide essential guidance, context, and practical insights that go beyond written
+                    materials. Active participation helps clarify concepts and solidify understanding.
                 </li>
                 <li>
-                    <strong>📝 Master the core materials</strong> — Work through the comprehensive materials linked
-                    above. You don't need to solve every exercise immediately, but ensure you thoroughly understand the
-                    key implementations, especially those reviewed during lectures.
+                    <strong>📝 Master the core materials</strong>
+                    Work through the comprehensive materials linked above. You don't need to solve every exercise
+                    immediately, but ensure you thoroughly understand the key implementations, especially those reviewed
+                    during lectures.
                 </li>
                 <li>
-                    <strong>✍️ Submit assignments consistently</strong> — Complete and submit as many assignments as
-                    possible. Regular practice reinforces learning and helps identify areas that need attention.
+                    <strong>✍️ Submit assignments consistently</strong>
+                    Complete and submit as many assignments as possible. Regular practice reinforces learning and helps
+                    identify areas that need attention.
                 </li>
                 <li>
-                    <strong>🔍 Study assignments deeply</strong> — Regardless of your grades, review each assignment
-                    solution thoroughly. These provide crucial clarifications and deepen your understanding of practical
-                    applications.
+                    <strong>🔍 Study assignments deeply</strong>
+                    Regardless of your grades, review each assignment solution thoroughly. These provide crucial
+                    clarifications and deepen your understanding of practical applications.
                 </li>
                 <li>
-                    <strong>⏰ Dedicate time for exam preparation</strong> — Reserve sufficient time before the final
-                    exam to review all definitions, concepts, and procedures. Consolidate your knowledge and ensure
-                    you're comfortable with all course topics.
+                    <strong>⏰ Dedicate time for exam preparation</strong>
+                    Reserve sufficient time before the final exam to review all definitions, concepts, and procedures.
+                    Consolidate your knowledge and ensure you're comfortable with all course topics.
                 </li>
             </ol>
         </div>
@@ -544,17 +667,28 @@
                 skills.</p>
 
             <div class="assignment-item">
+                <h3>📋 Assignment 04 <span class="new-badge">New</span></h3>
+                <p><strong>Comprehensive Solution Available!</strong><br>
+                    This file contains the complete, detailed solution for Assignment 04, including calculations and
+                    method explanations.</p>
+                <a href="https://mypac-my.sharepoint.com/:x:/g/personal/shay_tsaban_pac_org_il/IQAsqzodzOYNRIpKOH-UKld9Ae8_KrrBoSQLJCjXZrdFJu8?e=80TiSz"
+                    class="btn-base btn-secondary" target="_blank"> 📝 View Detailed Solution (Excel) </a>
+            </div>
+
+            <div class="assignment-item">
                 <h3>📋 Assignment 01 – Financial Statements Fundamentals</h3>
                 <p>Covers: Accounting identity, transaction documentation, income statement and balance sheet
                     preparation, accrual basis concepts, and theoretical foundations.</p>
-                <a href="13002 - 2026A - Assignment 01 - ANS.html" class="btn-secondary"> 📝 View Detailed Solution </a>
+                <a href="13002 - 2026A - Assignment 01 - ANS.html" class="btn-base btn-secondary"> 📝 View Detailed
+                    Solution </a>
             </div>
 
             <div class="assignment-item">
                 <h3>📋 Assignment 02 – Current Assets</h3>
                 <p>Covers: Trading investments, allowance for doubtful accounts (AFDA), bad debt expense calculations,
                     inventory valuation methods (FIFO), net realizable value, and inventory error corrections.</p>
-                <a href="13002 - 2026A - Assignment 02- ANS.html" class="btn-secondary"> 📝 View Detailed Solution </a>
+                <a href="13002 - 2026A - Assignment 02- ANS.html" class="btn-base btn-secondary"> 📝 View Detailed
+                    Solution </a>
             </div>
 
             <div class="assignment-item">
@@ -562,10 +696,10 @@
                 <p>Covers: Property, plant, and equipment; investment property; intangible assets with a focus on
                     research and development (R&D) accounting.</p>
                 <a href="https://mypac-my.sharepoint.com/:x:/g/personal/shay_tsaban_pac_org_il/IQDT-tdzuV5UQKGLLDLyFa9JAWnOnZ0x3ClibxbQCKJ7chM?e=Qr7rgV"
-                    class="btn-secondary"> 📝 View Detailed Solution </a>
+                    class="btn-base btn-secondary"> 📝 View Detailed Solution </a>
             </div>
 
-            <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--clr-neutral-700);">
+            <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--clr-neutral-700); text-align: center;">
                 <em>Additional assignment solutions will be posted as the semester progresses.</em>
             </p>
         </div>
@@ -583,13 +717,13 @@
                 <p>✓ <strong>Examination procedures</strong> — Learn important details about the exam process and
                     requirements</p>
                 <p>✓ <strong>Question types breakdown</strong> — Explore the different types of questions you'll
-                    encounter, with examples for each</p>
+                    encounter</p>
                 <p>✓ <strong>Complete sample exams</strong> — Practice with full-length example exams to build
                     confidence</p>
             </div>
 
             <a href="https://mypac-my.sharepoint.com/:w:/g/personal/shay_tsaban_pac_org_il/IQBCcJ7YyGSPSL3whfLcsGFuAeZiVGp07NkkAP7NVNYc1ig?e=1lYBO7"
-                class="btn-exam" target="_blank"> 🎓 Access Exam Preparation Guide </a>
+                class="btn-base btn-exam" target="_blank"> 🎓 Access Exam Preparation Guide </a>
 
             <div class="important-note">
                 <strong>⚠️ Important:</strong> The final exam is written based primarily on the course notes and lecture

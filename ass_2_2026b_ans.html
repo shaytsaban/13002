@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פתרון מפורט - מטלת מנחה (ממ"ן) 2</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --background-color: #e9ecef;
+            --paper-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .actions {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-download {
+            background-color: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .page {
+            background-color: var(--paper-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        .header-section {
+            border-bottom: 3px solid var(--success-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 32px;
+        }
+        
+        .header-section h2 {
+            color: var(--success-color);
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .answers-summary {
+            background-color: var(--accent-color);
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .answers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: white;
+        }
+
+        .answers-table th, .answers-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .answers-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .answers-table td {
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .solution-box {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-right: 5px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .question-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .correct-answer {
+            background-color: #e8f8f5;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: #117a65;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 1px solid #d1f2eb;
+            display: inline-block;
+        }
+
+        .calc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 15px;
+        }
+
+        .calc-table th, .calc-table td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: right;
+        }
+
+        .calc-table th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        .calc-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .calc-table .highlight-row {
+            background-color: #eef2ff;
+            font-weight: bold;
+        }
+
+        .formula {
+            display: inline-block;
+            direction: ltr;
+            background-color: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1em;
+            color: #c0392b;
+            margin: 0 5px;
+        }
+        
+        .math-block {
+            direction: ltr;
+            text-align: left;
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #c0392b;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .actions { display: none; }
+            .page { box-shadow: none; padding: 0; max-width: 100%; border: none; }
+            .solution-box { page-break-inside: avoid; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="actions">
+        <button class="btn btn-download" onclick="exportToWord()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+            הורד כקובץ Word מלא
+        </button>
+    </div>
+
+    <div class="page" id="document-content">
+        <div class="header-section">
+            <h1>מטלת מנחה (ממ"ן) 2</h1>
+            <h2>פתרון מפורט</h2>
+            <div style="margin-top: 15px; font-size: 1.1em; color: var(--primary-color);">
+                <strong>קורס:</strong> חשבונאות למנהלים 13002<br>
+                <strong>סמסטר:</strong> 2026ב<br>
+                <strong>כתב:</strong> ד״ר שי צבאן
+            </div>
+        </div>
+
+        <div class="answers-summary">
+            <h3 style="margin-top:0; color: var(--primary-color);">ריכוז תשובות נכונות</h3>
+            <table class="answers-table">
+                <thead>
+                    <tr>
+                        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                        <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ב</td><td>א</td><td>ד</td><td>ג</td><td>ג</td>
+                        <td>ב</td><td>ד</td><td>ד</td><td>ד</td><td>א</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ==================== פרק א' ==================== -->
+        <h2 class="section-title">פרק א' - לקוחות והלח"מ (שאלות 1-4)</h2>
+        <p>נייצר כלי עזר מרכזי - <strong>טבלת תנועות בלקוחות והלח"מ</strong> לשנים 2024-2025 (כפי שהודגם בחומר הלימוד):</p>
+        
+        <table class="calc-table">
+            <thead>
+                <tr>
+                    <th>תאריך / פרטים</th>
+                    <th>לקוחות "ברוטו"</th>
+                    <th>הלח"מ (הפרשה לחובות מסופקים)</th>
+                    <th>סעיף לקוחות נטו לדיווח</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.1.2024 (פתיחה - חברה הוקמה)</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>מכירות באשראי 2024</td>
+                    <td><span class="formula">+ 600,000</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>גבייה מלקוחות 2024</td>
+                    <td><span class="formula">(150,000)</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>הוצאות הלח"מ (PN) 2024</td>
+                    <td></td>
+                    <td><span class="formula">+ 22,500</span></td>
+                    <td></td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>31.12.2024 - יתרות לדיווח</td>
+                    <td><span class="formula">450,000</span></td>
+                    <td><span class="formula">22,500</span> (5% מ-450,000)</td>
+                    <td><span class="formula">427,500</span></td>
+                </tr>
+                <tr>
+                    <td>מכירות באשראי 2025</td>
+                    <td><span class="formula">+ 800,000</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>גבייה מלקוחות 2025</td>
+                    <td><span class="formula">(700,000)</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>חוב אבוד 2025 (מחיקה משני הצדדים)</td>
+                    <td><span class="formula">(10,000)</span></td>
+                    <td><span class="formula">(10,000)</span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>הוצאות הלח"מ (PN) 2025</td>
+                    <td></td>
+                    <td><span class="formula">+ 42,700</span></td>
+                    <td></td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>31.12.2025 - יתרות לדיווח</td>
+                    <td><span class="formula">540,000</span></td>
+                    <td><span class="formula">55,200</span> (*חישוב דיפרנציאלי)</td>
+                    <td><span class="formula">484,800</span></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p class="note">* חישוב הלח"מ ליום 31.12.2025 (דיפרנציאלי):<br>
+        לקוח ספציפי: <span class="formula">100,000 * 20% = 20,000</span><br>
+        שאר הלקוחות: <span class="formula">(540,000 - 100,000) * 8% = 35,200</span><br>
+        סה"כ הלח"מ: <span class="formula">20,000 + 35,200 = 55,200</span>
+        </p>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 1</div>
+            <div class="correct-answer">תשובה נכונה: ב. 22,500</div>
+            <p><strong>הנמקה:</strong> הוצאות ההלח"מ הן השינוי השנתי ביתרת ההפרשה לחובות מסופקים. בשנת 2024 יתרת הפתיחה הייתה 0 (החברה הוקמה). יתרת הסגירה המבוקשת היא 5% מתוך יתרת הלקוחות ברוטו (450,000 = 0 + 600,000 - 150,000).<br>
+            חישוב ההוצאה: <span class="formula">22,500 - 0 = 22,500</span>.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 2</div>
+            <div class="correct-answer">תשובה נכונה: א. 540,000</div>
+            <p><strong>הנמקה:</strong> יתרת לקוחות "ברוטו" ליום 31.12.2025 מחושבת על פי התנועות הבאות:</p>
+            <table class="calc-table" style="width: 80%; margin: 10px auto;">
+                <tbody>
+                    <tr><td>יתרת לקוחות ברוטו לתחילת 2025 (מ-2024)</td><td>450,000</td></tr>
+                    <tr><td>(+) מכירות באשראי במהלך 2025</td><td>800,000</td></tr>
+                    <tr><td>(-) גבייה מלקוחות במהלך 2025</td><td>(700,000)</td></tr>
+                    <tr><td>(-) חובות אבודים שנמחקו במהלך 2025</td><td>(10,000)</td></tr>
+                    <tr class="highlight-row"><td><strong>יתרת לקוחות ברוטו ליום 31.12.2025</strong></td><td><strong>540,000</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 3</div>
+            <div class="correct-answer">תשובה נכונה: ד. 42,700</div>
+            <p><strong>הנמקה:</strong> הוצאות ההלח"מ ב-2025 מחושבות כ-Plug Number (השלמה) מתוך התנועה בחשבון ההפרשה לחובות מסופקים:</p>
+            <table class="calc-table" style="width: 80%; margin: 10px auto;">
+                <tbody>
+                    <tr><td>יתרת פתיחה - הלח"מ לתחילת 2025</td><td>22,500</td></tr>
+                    <tr><td>(-) הקטנת ההפרשה בגין חוב אבוד שנמחק</td><td>(10,000)</td></tr>
+                    <tr><td><strong>(+) הוצאות הלח"מ בגין השנה (מספר השלמה)</strong></td><td><strong>+ 42,700</strong></td></tr>
+                    <tr class="highlight-row"><td><strong>יתרת סגירה - הלח"מ ליום 31.12.2025 (לפי מודל דיפרנציאלי)</strong></td><td><strong>55,200</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 3</div>
+            <div class="correct-answer">תשובה נכונה: ד. 42,700</div>
+            <p><strong>הנמקה:</strong> הוצאות ההלח"מ ב-2025 מחושבות כ-Plug Number (השלמה) בתנועת ההלח"מ:<br>
+            <span class="formula">יתרת פתיחה (22,500) - חוב אבוד (10,000) + הוצאות הלח"מ (X) = יתרת סגירה (55,200)</span><br>
+            <span class="formula">12,500 + X = 55,200  =>  X = 42,700</span>.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 4</div>
+            <div class="correct-answer">תשובה נכונה: ג. טענות 1 ו-2 נכונות.</div>
+            <p><strong>הנמקה:</strong> <br>
+            - טענה 1 <strong>נכונה</strong>: לקוחות נטו ל-2024 הם <span class="formula">450,000 - 22,500 = 427,500</span>.<br>
+            - טענה 2 <strong>נכונה</strong>: הלח"מ ל-2025 חושב לפי המודל הדיפרנציאלי ועומד על 55,200 (ראה טבלה).<br>
+            - טענה 3 <strong>שגויה</strong>: חוב אבוד מוקטן במקביל גם מהלקוחות "ברוטו" וגם מה"הלח"מ". מכיוון שהנכס "נטו" הוא ההפרש ביניהם, ההקטנה הסימולטנית מקזזת את עצמה ואינה משנה את יתרת הלקוחות נטו <strong>באותו הרגע</strong>.</p>
+        </div>
+
+        <!-- ==================== פרק ב' ==================== -->
+        <h2 class="section-title">פרק ב' - מלאי ועלות המכר (שאלות 5-8)</h2>
+        
+        <p>תחילה, נבנה תמונת מצב של מלאי היחידות במונחים פיזיים וכספיים:</p>
+        <div class="math-block">
+            Total units available: 200 (Opening) + 300 (Purchase 1) + 400 (Purchase 2) = 900 units.<br>
+            Total cost of available units: (200 * 30) + (300 * 35) + (400 * 40) = 6,000 + 10,500 + 16,000 = 32,500 NIS.<br>
+            Total units sold: 400 + 350 = 750 units.<br>
+            Total Sales Revenue: (400 * 80) + (350 * 90) = 32,000 + 31,500 = 63,500 NIS.<br>
+            Ending Inventory Units (31.12.2025): 900 - 750 = 150 units.
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 5</div>
+            <div class="correct-answer">תשובה נכונה: ג. עלות המלאי היא 6,000 ש"ח והערך החשבונאי הוא 5,550 ש"ח.</div>
+            <p><strong>הנמקה:</strong> בשיטת FIFO (נכנס ראשון יוצא ראשון), 150 היחידות שנותרו הן מהרכישה האחרונה (מ-10/9 במחיר 40 ש"ח).<br>
+            <strong>עלות מלאי הסגירה:</strong> <span class="formula">150 * 40 = 6,000 ש"ח</span>.<br>
+            <strong>שווי מימוש נטו (NRV):</strong> מחיר מכירה עתידי בניכוי עלויות מכירה <span class="formula">42 - 5 = 37 ש"ח ליחידה</span>.<br>
+            סה"כ שווי מימוש נטו: <span class="formula">150 * 37 = 5,550 ש"ח</span>.<br>
+            <strong>הערך החשבונאי למאזן</strong> נקבע לפי הנמוך מבין העלות ל-NRV. מכיוון ש-5,550 נמוך מ-6,000, הערך החשבונאי הוא 5,550 ש"ח.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 6</div>
+            <div class="correct-answer">תשובה נכונה: ב. 36,417 ש"ח.</div>
+            <p><strong>הנמקה:</strong> בשיטת הממוצע, נחשב תחילה את העלות הממוצעת ליחידה, המחושבת כעלות הכוללת חלקי סך היחידות הזמינות למכירה:</p>
+            
+            <div style="display: flex; align-items: center; justify-content: center; margin: 25px 0; direction: rtl;">
+                <div style="text-align: center; border-right: 3px solid #3498db; padding-right: 15px;">
+                    <div style="border-bottom: 2px solid #2c3e50; padding: 0 20px 8px 20px; font-weight: bold; font-size: 1.1em;">עלות כוללת של המלאי (32,500 ₪)</div>
+                    <div style="padding: 8px 20px 0 20px; font-weight: bold; font-size: 1.1em;">סך היחידות הזמינות (900 יח')</div>
+                </div>
+                <div style="margin-right: 20px; font-weight: bold; font-size: 1.3em; color: #c0392b;"> = 36.111 ₪ ליחידה</div>
+            </div>
+
+            <p>עלות מלאי הסגירה (150 יח'): <span class="formula">150 * 36.111 = 5,417 ש"ח</span>.<br>
+            נבדוק מול שווי מימוש נטו (NRV = 5,550). כאן העלות (5,417) נמוכה מה-NRV, ולכן הערך החשבונאי נשאר 5,417 ש"ח.<br>
+            <strong>חישוב עלות המכר:</strong> מלאי פתיחה (6,000) + קניות (26,500) - מלאי סגירה חשבונאי (5,417) = 27,083 ש"ח.<br>
+            <strong>רווח גולמי:</strong> מכירות (63,500) - עלות המכר (27,083) = <span class="formula">36,417 ש"ח</span>.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 7</div>
+            <div class="correct-answer">תשובה נכונה: ד. טענות 1 ו-2 נכונות.</div>
+            <p><strong>הנמקה:</strong> <br>
+            - טענה 1 <strong>נכונה</strong>: להלן פירוט רכיבי שווי המימוש נטו (NRV) ליחידה:</p>
+            
+            <table class="calc-table" style="width: 75%; margin: 15px auto;">
+                <thead>
+                    <tr><th colspan="2">תחשיב שווי מימוש נטו (NRV) ליחידה</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>מחיר מכירה עתידי צפוי</td><td>42 ₪</td></tr>
+                    <tr><td>(-) עלויות מכירה (עמלות והובלה) להשלמת העסקה</td><td>(5) ₪</td></tr>
+                    <tr class="highlight-row"><td><strong>שווי מימוש נטו ליחידה</strong></td><td><strong>37 ₪</strong></td></tr>
+                </tbody>
+            </table>
+            
+            <p>לכן, שווי המימוש נטו הכולל ל-150 היחידות שנותרו: <span class="formula">150 * 37 = 5,550 ש"ח</span>.<br>
+            - טענה 2 <strong>נכונה</strong>: ב-FIFO הערך החשבונאי של מלאי הסגירה ירד ל-5,550 (בשל ה-NRV). לכן עלות המכר היא <span class="formula">6,000 + 26,500 - 5,550 = 26,950 ש"ח</span>.<br>
+            - טענה 3 <strong>שגויה</strong>: שווי המימוש נטו (NRV) תלוי אך ורק בתנאי השוק ומחירי המכירה העתידיים, והוא <strong>איננו תלוי</strong> כלל בשיטת ניהול המלאי (FIFO או ממוצע) כפי שצוין מפורשות בחומר הלימוד.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 8</div>
+            <div class="correct-answer">תשובה נכונה: ד. הרווח הגולמי המתוקן ל-2023 הוא 370,000 ש"ח והמתוקן ל-2024 הוא 595,000 ש"ח.</div>
+            <p><strong>הנמקה:</strong> טעויות בהערכת מלאי משפיעות על הרווח בכיוונים הפוכים, ויש לזכור שמלאי סגירה של שנה אחת הוא מלאי פתיחה של השנה העוקבת.</p>
+            <table class="calc-table">
+                <thead>
+                    <tr>
+                        <th>שנה</th>
+                        <th>רווח גולמי לפני תיקון</th>
+                        <th>תיקון מלאי 2023 (הערכת יתר של 30k)</th>
+                        <th>תיקון מלאי 2024 (הערכת חסר של 15k)</th>
+                        <th>רווח גולמי מתוקן</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023</td>
+                        <td>400,000</td>
+                        <td>(30,000) - מלאי סגירה הוקטן</td>
+                        <td>-</td>
+                        <td><strong>370,000</strong></td>
+                    </tr>
+                    <tr>
+                        <td>2024</td>
+                        <td>550,000</td>
+                        <td>+30,000 - מלאי פתיחה הוקטן</td>
+                        <td>+15,000 - מלאי סגירה הוגדל</td>
+                        <td><strong>595,000</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">כאשר מלאי סגירה 2023 הוערך ביתר, עלות המכר הייתה נמוכה מדי והרווח גבוה מדי. הקטנת המלאי מקטינה את הרווח ב-2023. בשנת 2024, הקטנת מלאי הפתיחה مقטינה את עלות המכר, ולכן <strong>מגדילה</strong> את הרווח. במקביל, מלאי סגירה 2024 שהוערך בחסר ויש להגדילו, גם הוא תורם להקטנת עלות המכר ול<strong>הגדלת</strong> הרווח.</p>
+        </div>
+
+        <!-- ==================== פרק ג' ==================== -->
+        <h2 class="section-title">פרק ג' - השקעות למסחר (שאלות 9-10)</h2>
+
+        <table class="calc-table">
+            <thead>
+                <tr>
+                    <th>תאריך / שנה</th>
+                    <th>השפעה על דוח רווח והפסד</th>
+                    <th>הסבר להשפעה</th>
+                    <th>ערך ההשקעה במאזן (שווי הוגן)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.1.2025 (רכישה)</td>
+                    <td>-</td>
+                    <td>המרת מזומן בנכס פיננסי בעלות.</td>
+                    <td>50,000</td>
+                </tr>
+                <tr>
+                    <td>31.12.2025</td>
+                    <td><span class="formula" style="color:#27ae60;">+ 15,000</span> (רווח)</td>
+                    <td>עליית ערך מ-50k ל-65k</td>
+                    <td>65,000</td>
+                </tr>
+                <tr>
+                    <td>2026</td>
+                    <td>
+                        הכנסות דיבידנד: <span class="formula" style="color:#27ae60;">+ 4,000</span><br>
+                        הפסד ירידת ערך: <span class="formula">(7,000)</span><br>
+                        <strong>סה"כ נטו: <span class="formula">(3,000)</span></strong>
+                    </td>
+                    <td>ירידת הערך השנתית היא מ-65k ל-58k.</td>
+                    <td>58,000</td>
+                </tr>
+                <tr>
+                    <td>15.5.2027 (מכירה)</td>
+                    <td><span class="formula" style="color:#27ae60;">+ 4,000</span> (רווח ממכירה)</td>
+                    <td>נמכר ב-62k לעומת ערך נוכחי בספרים של 58k.</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 9</div>
+            <div class="correct-answer">תשובה נכונה: ד. הוצאה נטו (הפסד מדווח) בסך 3,000 ש"ח.</div>
+            <p><strong>הנמקה:</strong> בשנת 2026 ישנם שני אירועים המשפיעים על הרווח והפסד בגין ההשקעה: קבלת דיבידנד מהווה הכנסה (4,000 ש"ח), וירידת הערך של ההשקעה מ-65,000 ל-58,000 מהווה הוצאה/הפסד (7,000 ש"ח).<br> 
+            השילוב שלהם יוצר הפסד נטו של <span class="formula">7,000 - 4,000 = 3,000 ש"ח</span>.</p>
+        </div>
+
+        <div class="solution-box">
+            <div class="question-header">שאלה 10</div>
+            <div class="correct-answer">תשובה נכונה: א. ב-2025 יוכר רווח של 15,000 ש"ח, וב-2027 יוכר רווח של 4,000 ש"ח.</div>
+            <p><strong>הנמקה:</strong> <br>
+            בשנת 2025 ההשקעה עלתה מעלותה (50k) ל-65k, כלומר נזקף <strong>רווח של 15,000 ש"ח</strong>.<br>
+            בשנת 2027 ההשקעה נמכרה. חשוב לזכור שבהשקעות למסחר, כל שינוי שווי כבר הוכר ברווח והפסד לאורך התקופות הקודמות. לכן, ערך ההשקעה בספרים טרם המכירה היה 58,000 ש"ח (השווי המעודכן האחרון מ-2026). מכירת ההשקעה ב-62,000 ש"ח מניבה פער (רווח) של <span class="formula">62,000 - 58,000 = 4,000 ש"ח</span> בלבד בשנת המכירה.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // פונקציה להורדת התוכן כקובץ Word
+        function exportToWord() {
+            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>פתרון מטלת מנחה</title><style>body { font-family: 'Arial', sans-serif; direction: rtl; } table { border-collapse: collapse; width: 100%; margin: 15px 0;} th, td { border: 1px solid #ccc; padding: 10px; text-align: right; } th { background-color: #f1f5f9;} .solution-box { border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 20px; } .correct-answer { font-weight: bold; color: #117a65; } .formula { font-family: monospace; direction: ltr; display: inline-block;}</style></head><body>";
+            var footer = "</body></html>";
+            
+            var html = header + document.getElementById("document-content").innerHTML + footer;
+            
+            var blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+            var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+            
+            var filename = 'פתרון_מטלת_מנחה_2.doc';
+            var downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+            
+            if (navigator.msSaveOrOpenBlob) {
+                navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+            
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מטלת מנחה (ממ"ן) 2 - חשבונאות למנהלים</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #e9ecef;
+            --paper-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .actions {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-download {
+            background-color: #27ae60;
+            color: white;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2);
+        }
+
+        .btn-copy {
+            background-color: #2980b9;
+            color: white;
+            box-shadow: 0 4px 6px rgba(41, 128, 185, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .page {
+            background-color: var(--paper-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        .header-section {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        .course-info {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .instructions {
+            background-color: #fff3cd;
+            border-right: 5px solid #ffc107;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .instructions ul {
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        .answers-table {
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+
+        .answers-table th, .answers-table td {
+            border: 2px solid #dee2e6;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .answers-table th {
+            background-color: var(--primary-color);
+            color: white;
+            width: 50%;
+        }
+
+        .answers-table td {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .data-box {
+            background-color: #e8f4f8;
+            border: 1px solid #bfe0ed;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .data-box h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .question-container {
+            margin-bottom: 35px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .options-list li {
+            padding: 8px 15px;
+            margin-bottom: 5px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .options-list li:hover {
+            background-color: #f1f3f5;
+        }
+
+        .explanation-box {
+            margin-top: 15px;
+            border: 1px dashed #adb5bd;
+            padding: 15px;
+            min-height: 80px;
+            border-radius: 4px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .actions { display: none; }
+            .page { box-shadow: none; padding: 0; max-width: 100%; }
+            .explanation-box { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="actions">
+        <button class="btn btn-download" onclick="exportToWord()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+            הורד כקובץ Word
+        </button>
+        <button class="btn btn-copy" onclick="copyContent()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            העתק טקסט לעריכה
+        </button>
+    </div>
+
+    <div class="page" id="document-content">
+        <div class="header-section">
+            <h1>מטלת מנחה (ממ"ן) 2</h1>
+            <div class="course-info">
+                <span><strong>קורס:</strong> 13002 - חשבונאות למנהלים</span>
+                <span><strong>חטיבה 2:</strong> נכסים שוטפים</span>
+                <span><strong>משקל:</strong> 4 נקודות</span>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <strong>הנחיות לסטודנט:</strong>
+            <ul>
+                <li>לפניכם 10 שאלות רב-ברירה. יש להקיף את התשובה הנכונה.</li>
+                <li>הקפידו לרכז את כל בחירותיכם בטבלה שלמטה.</li>
+                <li><strong>חובה לציין הנמקה</strong> לכל אחת מהשאלות. תשובה ללא הנמקה לא תזכה בניקוד.</li>
+            </ul>
+        </div>
+
+        <table class="answers-table">
+            <thead>
+                <tr>
+                    <th>מספר שאלה</th>
+                    <th>התשובה שבחרתי</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td></td></tr>
+                <tr><td>2</td><td></td></tr>
+                <tr><td>3</td><td></td></tr>
+                <tr><td>4</td><td></td></tr>
+                <tr><td>5</td><td></td></tr>
+                <tr><td>6</td><td></td></tr>
+                <tr><td>7</td><td></td></tr>
+                <tr><td>8</td><td></td></tr>
+                <tr><td>9</td><td></td></tr>
+                <tr><td>10</td><td></td></tr>
+            </tbody>
+        </table>
+
+        <!-- פרק א -->
+        <h2 class="section-title">פרק א' - לקוחות והלח"מ (שאלות 1-4)</h2>
+        
+        <div class="data-box">
+            <h4>נתונים ל-4 השאלות הבאות:</h4>
+            <p>חברת "אלון" בע"מ הוקמה בתאריך 1.1.2024.<br>
+            במהלך שנת 2024, ביצעה החברה מכירות בהיקף כולל של 800,000 ש"ח, מתוכן 600,000 ש"ח באשראי והיתר במזומן. במהלך שנה זו החברה גבתה מלקוחות (אשר רכשו באשראי) סכום של 150,000 ש"ח.<br>
+            נכון ליום 31.12.2024, מעריכה החברה את שיעור ההפרשה לחובות מסופקים (הלח"מ) ב-5% מיתרת הלקוחות ברוטו המעודכנת ליום זה.</p>
+            <p>במהלך שנת 2025, ביצעה החברה מכירות באשראי בסכום של 800,000 ש"ח וגבתה מלקוחות סכום של 700,000 ש"ח. כמו כן, במהלך 2025 התגלו ונרשמו חובות אבודים בסכום של 10,000 ש"ח (החוב האבוד נרשם כהלכה ומוצה תהליך הגבייה).<br>
+            נכון ליום 31.12.2025, החברה מיישמת מודל דיפרנציאלי: בגין לקוח ספציפי שחובו כלפי החברה הוא 100,000 ש"ח קיים סיכון גבוה, ושיעור ההלח"מ בגינו נקבע ל-20%. בגין כל יתר הלקוחות למועד זה, שיעור ההלח"מ נקבע ל-8%.</p>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 1</div>
+            <p>הוצאות ההלח"מ בחברה לשנת 2024 הן (בש"ח):</p>
+            <ul class="options-list">
+                <li>א. 30,000</li>
+                <li>ב. 22,500</li>
+                <li>ג. 20,000</li>
+                <li>ד. 15,000</li>
+                <li>ה. כל יתר התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 2</div>
+            <p>מהי יתרת הלקוחות "ברוטו" כפי שתחושב נכון ליום 31.12.2025 (בש"ח)?</p>
+            <ul class="options-list">
+                <li>א. 540,000</li>
+                <li>ב. 550,000</li>
+                <li>ג. 484,800</li>
+                <li>ד. 450,000</li>
+                <li>ה. כל יתר התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 3</div>
+            <p>הוצאות ההלח"מ בחברה לשנת 2025 הן (בש"ח):</p>
+            <ul class="options-list">
+                <li>א. 32,700</li>
+                <li>ב. 55,200</li>
+                <li>ג. 65,200</li>
+                <li>ד. 42,700</li>
+                <li>ה. כל יתר התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 4</div>
+            <p>לפניכם מספר טענות:</p>
+            <ul>
+                <li>טענה 1: יתרת סעיף הלקוחות (נטו) שתוצג בדוח על המצב הכספי ליום 31.12.2024 היא 427,500 ש"ח.</li>
+                <li>טענה 2: יתרת ההלח"מ שתרשם ליום 31.12.2025 היא 55,200 ש"ח.</li>
+                <li>טענה 3: רישום החוב האבוד במהלך שנת 2025, בסך 10,000 ש"ח, הקטין באותו הרגע את יתרת הלקוחות <strong>נטו</strong> ב-10,000 ש"ח (לפני חישוב ההפרשה החדשה בסוף השנה).</li>
+            </ul>
+            <p>הטענה / הטענות הנכונה / הנכונות:</p>
+            <ul class="options-list">
+                <li>א. כל הטענות נכונות.</li>
+                <li>ב. טענה 2 בלבד נכונה.</li>
+                <li>ג. טענות 1 ו-2 נכונות.</li>
+                <li>ד. טענה 1 בלבד נכונה.</li>
+                <li>ה. טענות 2 ו-3 נכונות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <!-- פרק ב -->
+        <h2 class="section-title">פרק ב' - מלאי ועלות המכר (שאלות 5-8)</h2>
+        
+        <div class="data-box">
+            <h4>נתונים לשאלות 5 עד 7:</h4>
+            <p>לפניכם נתונים לגבי תנועות מלאי בחברת "נופר" בשנת 2025:</p>
+            <ul>
+                <li>1/1/2025: מלאי פתיחה - 200 יחידות בעלות של 30 ש"ח ליחידה.</li>
+                <li>15/3/2025: קניה - 300 יחידות בעלות של 35 ש"ח ליחידה.</li>
+                <li>20/6/2025: מכירה - 400 יחידות במחיר מכירה של 80 ש"ח ליחידה.</li>
+                <li>10/9/2025: קניה - 400 יחידות בעלות של 40 ש"ח ליחידה.</li>
+                <li>1/11/2025: מכירה - 350 יחידות במחיר מכירה של 90 ש"ח ליחידה.</li>
+            </ul>
+            <p>החברה מעריכה כי נכון ליום 31.12.2025, מכירת כל פריט מלאי שנותר צפויה להתבצע תמורת 42 ש"ח. עם זאת, החברה תישא בעלויות מכירה (עמלות והובלה) בסך 5 ש"ח לכל יחידה שתימכר.</p>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 5</div>
+            <p>בהנחה שהחברה מנהלת את המלאי בשיטת FIFO (נכנס ראשון, יוצא ראשון), מהי עלות מלאי הסגירה ליום 31.12.2025, ומהו הערך החשבונאי שלו (הסכום שיוצג במאזן)?</p>
+            <ul class="options-list">
+                <li>א. עלות המלאי היא 5,417 ש"ח והערך החשבונאי הוא 6,000 ש"ח.</li>
+                <li>ב. עלות המלאי היא 6,000 ש"ח והערך החשבונאי הוא 6,000 ש"ח.</li>
+                <li>ג. עלות המלאי היא 6,000 ש"ח והערך החשבונאי הוא 5,550 ש"ח.</li>
+                <li>ד. עלות המלאי היא 5,550 ש"ח והערך החשבונאי הוא 5,550 ש"ח.</li>
+                <li>ה. כל יתר התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 6</div>
+            <p>בהנחה שהחברה מנהלת את המלאי בשיטת הממוצע (התקופתי), מהו הרווח הגולמי של החברה בשנת 2025 (לעגל לשקלים שלמים)?</p>
+            <ul class="options-list">
+                <li>א. 27,083 ש"ח.</li>
+                <li>ב. 36,417 ש"ח.</li>
+                <li>ג. 36,550 ש"ח.</li>
+                <li>ד. 63,500 ש"ח.</li>
+                <li>ה. אף אחת מהתשובות אינה נכונה.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 7</div>
+            <p>לפניכם מספר טענות:</p>
+            <ul>
+                <li>טענה 1: שווי המימוש נטו (NRV) הכולל של מלאי הסגירה ליום 31.12.2025 מסתכם ב-5,550 ש"ח.</li>
+                <li>טענה 2: בהנחה שמיושמת שיטת FIFO, עלות המכר (עלות המכירות) בשנת 2025 מסתכמת ב-26,950 ש"ח.</li>
+                <li>טענה 3: בחירת שיטת ניהול המלאי (FIFO או ממוצע) משפיעה באופן ישיר על תחשיב "שווי המימוש נטו" של המלאי לתום התקופה.</li>
+            </ul>
+            <p>הטענה / הטענות הנכונה / הנכונות:</p>
+            <ul class="options-list">
+                <li>א. טענה 1 בלבד נכונה.</li>
+                <li>ב. כל הטענות נכונות.</li>
+                <li>ג. טענות 2 ו-3 נכונות.</li>
+                <li>ד. טענות 1 ו-2 נכונות.</li>
+                <li>ה. טענה 3 בלבד נכונה.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 8 [שאלה זו עומדת בפני עצמה]</div>
+            <p>הרווח הגולמי שדווח על ידי חברת "תמר" בשנת 2023 היה 400,000 ש"ח. הרווח הגולמי שדווח על ידי אותה חברה בשנת 2024 היה 550,000 ש"ח.<br>
+            במסגרת ביקורת, התגלה כי מלאי הסגירה שדווח בתאריך 31.12.2023 הוערך ביתר (מעל לערכו הנכון) בסכום של 30,000 ש"ח. בנוסף, מלאי הסגירה שדווח בתאריך 31.12.2024 הוערך בחסר (מתחת לערכו הנכון) בסכום של 15,000 ש"ח.</p>
+            <p>מהם ערכי הרווח הגולמי המתוקנים לשנים אלו?</p>
+            <ul class="options-list">
+                <li>א. הרווח הגולמי המתוקן ל-2023 הוא 370,000 ש"ח והמתוקן ל-2024 הוא 535,000 ש"ח.</li>
+                <li>ב. הרווח הגולמי המתוקן ל-2023 הוא 430,000 ש"ח והמתוקן ל-2024 הוא 565,000 ש"ח.</li>
+                <li>ג. הרווח הגולמי המתוקן ל-2023 הוא 430,000 ש"ח והמתוקן ל-2024 הוא 595,000 ש"ח.</li>
+                <li>ד. הרווח הגולמי המתוקן ל-2023 הוא 370,000 ש"ח והמתוקן ל-2024 הוא 595,000 ש"ח.</li>
+                <li>ה. כל יתר התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <!-- פרק ג -->
+        <h2 class="section-title">פרק ג' - השקעות למסחר (שאלות 9-10)</h2>
+        
+        <div class="data-box">
+            <h4>נתונים ל-2 השאלות הבאות:</h4>
+            <p>חברת "גל" רכשה מניות של חברה ציבורית בתאריך 1.1.2025. כוונת החברה היא להחזיק במניות לזמן קצר כחלק מניהול עודפי נזילות. עלות ההשקעה הייתה 50,000 ש"ח.</p>
+            <ul>
+                <li>נכון ליום 31.12.2025 שווי המניות בבורסה הסתכם ב-65,000 ש"ח.</li>
+                <li>במהלך שנת 2026 הכריזה וחילקה החברה הציבורית דיבידנד, והחלק של חברת "גל" בדיבידנד הסתכם ב-4,000 ש"ח.</li>
+                <li>נכון ליום 31.12.2026 שווי המניות בבורסה ירד והסתכם ב-58,000 ש"ח.</li>
+                <li>בתאריך 15.5.2027 נמכרו כל המניות בתמורה ל-62,000 ש"ח.</li>
+            </ul>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 9</div>
+            <p>מהי ההשפעה הכוללת נטו של ההשקעה על דוח רווח והפסד של חברת "גל" בשנת <strong>2026</strong>?</p>
+            <ul class="options-list">
+                <li>א. הכנסה נטו בסך 4,000 ש"ח (השפעת הדיבידנד בלבד).</li>
+                <li>ב. הוצאה נטו (הפסד מדווח) בסך 7,000 ש"ח (השפעת ירידת הערך בלבד).</li>
+                <li>ג. הכנסה נטו בסך 1,000 ש"ח.</li>
+                <li>ד. הוצאה נטו (הפסד מדווח) בסך 3,000 ש"ח.</li>
+                <li>ה. כל התשובות שגויות.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+        <div class="question-container">
+            <div class="question-title">שאלה 10</div>
+            <p>מהו הרווח/ההפסד שיוכר בגין ההשקעה בשנת 2025, ומהו הרווח/ההפסד שיוכר עם מכירתה בשנת 2027?</p>
+            <ul class="options-list">
+                <li>א. ב-2025 יוכר רווח של 15,000 ש"ח, וב-2027 יוכר רווח של 4,000 ש"ח.</li>
+                <li>ב. ב-2025 יוכר רווח של 15,000 ש"ח, וב-2027 לא יוכר שום רווח או הפסד כי ההשקעה נמכרה.</li>
+                <li>ג. ב-2025 יוכר רווח של 15,000 ש"ח, וב-2027 יוכר רווח של 12,000 ש"ח (ביחס לעלות הרכישה המקורית).</li>
+                <li>ד. בשנים 2025 ו-2026 לא יוכרו רווחים, אלא כל הרווח יוכר רק במועד המכירה ב-2027 (בסך 12,000 ש"ח).</li>
+                <li>ה. אף אחת מהאפשרויות אינה נכונה.</li>
+            </ul>
+            <div class="explanation-box">הנמקה: </div>
+        </div>
+
+    </div>
+
+    <script>
+        // פונקציה להורדת התוכן כקובץ Word
+        function exportToWord() {
+            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>מטלת מנחה</title><style>body { font-family: 'Arial', sans-serif; direction: rtl; } table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid black; padding: 8px; text-align: right; } .data-box { background-color: #f2f2f2; padding: 15px; } .explanation-box { border: 1px dotted black; padding: 20px; margin-top: 10px; }</style></head><body>";
+            var footer = "</body></html>";
+            
+            // לוקח את התוכן של ה-div שמכיל את המסמך
+            var html = header + document.getElementById("document-content").innerHTML + footer;
+            
+            // ממיר ל-URI שניתן להורדה
+            var blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+            var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+            
+            var filename = 'מטלת_מנחה_2.doc';
+            var downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+            
+            if (navigator.msSaveOrOpenBlob) {
+                navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+            
+            document.body.removeChild(downloadLink);
+        }
+
+        // פונקציה להעתקת הטקסט ללוח כ-Rich Text
+        function copyContent() {
+            var content = document.getElementById("document-content");
+            var range = document.createRange();
+            range.selectNode(content);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                alert('התוכן הועתק בהצלחה! ניתן להדביק אותו ישירות במסמך Word או Google Docs (Ctrl+V)');
+            } catch(err) {
+                alert('העתקה נכשלה, ניתן לבחור את הטקסט ידנית ולהעתיק.');
+            }
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מטלה מנחה 04 | פתרון מלא | חשבונאות למנהלים 13002</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})"></script>
+<style>
+  :root {
+    --navy:#0d2240; --navy-mid:#1a3a5c; --navy-light:#254d7a;
+    --gold:#c8922a; --gold-light:#e8b84b; --gold-pale:#fdf3e0;
+    --cream:#fafaf7; --white:#ffffff;
+    --text:#1c2b3a; --text-soft:#4a5a6b; --border:#d6e0ea;
+    --correct-bg:#e8f5e9; --correct-border:#388e3c;
+    --wrong-bg:#fce8e8;
+    --note-bg:#e8f0fe; --note-border:#3f6fd4;
+    --shadow:0 2px 16px rgba(13,34,64,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Heebo','Arial Hebrew',Arial,sans-serif;background:var(--cream);color:var(--text);font-size:15px;line-height:1.7;}
+
+  /* HEADER */
+  .page-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,var(--navy-light) 100%);color:var(--white);padding:40px 32px 32px;position:relative;overflow:hidden;}
+  .page-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 18px,rgba(200,146,42,0.07) 18px,rgba(200,146,42,0.07) 19px);pointer-events:none;}
+  .header-inner{max-width:900px;margin:0 auto;position:relative;}
+  .course-tag{display:inline-block;background:var(--gold);color:var(--white);font-size:11px;font-weight:700;letter-spacing:0.08em;padding:3px 12px;border-radius:20px;margin-bottom:14px;text-transform:uppercase;}
+  .page-header h1{font-size:28px;font-weight:800;line-height:1.3;margin-bottom:8px;}
+  .page-header .subtitle{color:rgba(255,255,255,0.72);font-size:14px;}
+  .header-meta{display:flex;gap:24px;margin-top:22px;flex-wrap:wrap;}
+  .meta-item{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:8px;padding:6px 14px;font-size:13px;}
+  .meta-item strong{color:var(--gold-light);}
+
+  .container{max-width:900px;margin:0 auto;padding:32px 20px;}
+
+  /* SUMMARY */
+  .summary-card{background:var(--white);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:36px;border:1px solid var(--border);}
+  .summary-card .card-header{background:var(--navy);color:var(--white);padding:16px 24px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px;}
+  .summary-card .card-header::before{content:'✦';color:var(--gold-light);font-size:13px;}
+
+  /* QUESTION CARDS */
+  .q-card{background:var(--white);border-radius:14px;box-shadow:var(--shadow);margin-bottom:28px;overflow:hidden;border:1px solid var(--border);}
+  .q-card .q-head{background:var(--navy);padding:16px 24px;display:flex;align-items:center;gap:14px;}
+  .q-num-badge{background:var(--gold);color:var(--white);font-size:15px;font-weight:800;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .q-head-text h3{color:var(--white);font-size:15px;font-weight:700;line-height:1.4;}
+  .q-head-text .q-topic{color:var(--gold-light);font-size:12px;font-weight:500;margin-top:2px;}
+  .q-body{padding:24px;}
+
+  .answer-label{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:var(--gold-light);font-size:16px;font-weight:800;padding:6px 20px 6px 14px;border-radius:30px;margin-bottom:20px;}
+  .answer-label .ans-letter{background:var(--gold);color:var(--white);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;}
+
+  .options-list{list-style:none;margin-bottom:20px;}
+  .options-list li{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border-radius:8px;margin-bottom:5px;border:1.5px solid transparent;font-size:14px;}
+  .options-list li.correct{background:var(--correct-bg);border-color:var(--correct-border);font-weight:600;}
+  .options-list li.wrong{background:var(--wrong-bg);color:var(--text-soft);text-decoration:line-through;opacity:0.6;}
+  .opt-letter{font-weight:700;font-size:13px;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .correct .opt-letter{background:var(--correct-border);color:#fff;}
+  .wrong .opt-letter{background:#ccc;color:#fff;}
+
+  .calc-box{background:var(--navy);border-radius:12px;padding:20px 24px;margin:16px 0;color:#e8f0ff;direction:ltr;text-align:left;}
+  .calc-box .calc-title{color:var(--gold-light);font-size:12px;font-weight:700;letter-spacing:0.08em;margin-bottom:12px;text-align:right;direction:rtl;}
+
+  .data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  .data-table th{background:var(--navy);color:var(--gold-light);padding:10px 14px;font-weight:700;font-size:12px;text-align:center;}
+  .data-table td{padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;}
+  .data-table tr:nth-child(even) td{background:var(--gold-pale);}
+  .data-table td.row-label{text-align:right;font-weight:600;background:#f0f4f8;}
+  .data-table td.total{font-weight:700;border-top:2px solid var(--navy);background:var(--gold-pale);color:var(--navy);}
+  .data-table td.sub-total{font-weight:600;color:var(--navy-mid);}
+  .data-table td.neg{color:#c62828;font-weight:600;}
+  .data-table td.pos{color:#2e7d32;font-weight:600;}
+
+  .note-box{background:var(--note-bg);border-right:4px solid var(--note-border);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13.5px;color:#1a2f6e;}
+  .note-box .note-label{font-weight:700;color:var(--note-border);margin-bottom:4px;font-size:12px;letter-spacing:0.05em;}
+  .warn-box{background:#fff8e1;border-right:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13.5px;color:#5d3f00;}
+
+  .section-divider{display:flex;align-items:center;gap:14px;margin:32px 0 20px;}
+  .section-divider .divider-label{background:var(--navy-mid);color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:0.1em;padding:4px 14px;border-radius:20px;white-space:nowrap;}
+  .section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  p.explain{font-size:14px;color:var(--text-soft);margin-bottom:10px;line-height:1.7;}
+  .highlight{color:var(--navy);font-weight:700;}
+
+  @media print{
+    body{background:#fff;}
+    .q-card,.summary-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+    .page-header{background:var(--navy)!important;-webkit-print-color-adjust:exact;}
+  }
+  @media(max-width:600px){
+    .page-header h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="header-inner">
+    <span class="course-tag">חשבונאות למנהלים · קורס 13002</span>
+    <h1>מטלה מנחה (ממ"ן) 04 | פתרון מלא</h1>
+    <p class="subtitle">חטיבה 4: התחייבויות והון עצמי · הון מניות, פרמיה, כתבי אופציה, מניות בכורה ודיבידנדים</p>
+    <div class="header-meta">
+      <div class="meta-item"><strong>מרכז הוראה:</strong> ד"ר שי צבאן</div>
+      <div class="meta-item"><strong>מועד הגשה:</strong> 15/06/2026</div>
+      <div class="meta-item"><strong>שאלות:</strong> 10 · <strong>ניקוד:</strong> 3 נקודות</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- SUMMARY TABLE -->
+<div class="summary-card">
+  <div class="card-header">טבלת ריכוז תשובות: מלאו בראש המטלה המוגשת</div>
+  <div style="padding:20px 24px;">
+    <table style="width:100%;border-collapse:collapse;font-size:15px;">
+      <thead>
+        <tr>
+          <th style="background:var(--navy);color:var(--gold-light);padding:10px 18px;text-align:center;width:50%;font-size:13px;font-weight:700;">שאלה</th>
+          <th style="background:var(--navy);color:var(--gold-light);padding:10px 18px;text-align:center;width:50%;font-size:13px;font-weight:700;">תשובה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">1</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ב</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">2</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ג</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">3</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">א</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">4</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ד</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">5</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ה</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">6</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">א</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">7</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ג</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">8</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ב</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">9</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ד</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;">10</td><td style="padding:9px 18px;text-align:center;font-weight:700;">ד</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: SHARE ISSUANCE ===== -->
+<div class="section-divider"><span class="divider-label">הנפקת מניות: הון ופרמיה</span></div>
+
+<!-- Q1 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">1</div>
+    <div class="q-head-text">
+      <h3>הנפקת מניות במזומן: חישוב הון מניות ופרמיה</h3>
+      <div class="q-topic">תמורת הנפקה נטו · עלויות הנפקה ישירות · פיצול לרכיבים</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ב</span>הון מניות: 80,000 ש"ח | פרמיה: 42,000 ש"ח</div>
+
+    <p class="explain">עלויות הנפקה ישירות אינן הוצאה בדוח רווח והפסד; הן מקטינות את הרישום ההוני ישירות מסעיף הפרמיה. לכן <strong>תמורת ההנפקה נטו</strong> היא הבסיס לחישוב.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">מקרא: N = מספר מניות שהונפקו | V = ערך נקוב למניה | P = תמורה ברוטו | K = עלויות הנפקה ישירות</div>
+      $$\text{הון מניות} = N \times V = 80{,}000 \times 1 = 80{,}000 \text{ ש"ח}$$
+      $$\text{תמורה נטו} = P - K = 130{,}000 - 8{,}000 = 122{,}000 \text{ ש"ח}$$
+      $$\text{פרמיה} = \text{תמורה נטו} - \text{הון מניות} = 122{,}000 - 80{,}000 = \mathbf{42{,}000} \text{ ש"ח}$$
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">📌 עיקרון</div>
+      כל עלייה בהון העצמי מהנפקת מניות מתחלקת תמיד לשני רכיבים:
+      חלק 1 = הון מניות (= N × ערך נקוב) | חלק 2 = פרמיה (= תמורה נטו פחות הון מניות).
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>הון מניות 80,000 ש"ח; פרמיה 50,000 ש"ח (שגוי: לא נוכו עלויות ההנפקה)</li>
+      <li class="correct"><span class="opt-letter">ב</span>הון מניות 80,000 ש"ח; פרמיה 42,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span>הון מניות 122,000 ש"ח; פרמיה 0 (שגוי: הון מניות = ערך נקוב × מספר מניות בלבד)</li>
+      <li class="wrong"><span class="opt-letter">ד</span>הון מניות 80,000 ש"ח; פרמיה 130,000 ש"ח (שגוי: הפרמיה = תמורה נטו פחות הון מניות = 42,000, לא התמורה הגולמית)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">2</div>
+    <div class="q-head-text">
+      <h3>הנפקת מניות בתמורה לנכס (לא במזומן)</h3>
+      <div class="q-topic">תמורה בשווי הוגן של נכס · עלייה בהון עצמי כולל</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ג</span>הון עצמי: 180,000 ש"ח | פרמיה: 60,000 ש"ח</div>
+
+    <p class="explain">כאשר מניות מונפקות בתמורה לנכס (ולא במזומן), <strong>סך העלייה בהון העצמי שווה לשווי ההוגן של הנכס שהתקבל</strong>. אין עלויות הנפקה ישירות בשאלה זו.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">מקרא: N = מספר מניות | V = ערך נקוב | FV = שווי הוגן של הנכס שהתקבל</div>
+      $$\text{עלייה כוללת בהון עצמי} = FV = 180{,}000 \text{ ש"ח}$$
+      $$\text{הון מניות} = N \times V = 40{,}000 \times 3 = 120{,}000 \text{ ש"ח}$$
+      $$\text{פרמיה} = FV - \text{הון מניות} = 180{,}000 - 120{,}000 = \mathbf{60{,}000} \text{ ש"ח}$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>הון עצמי 120,000 ש"ח; פרמיה 60,000 ש"ח (שגוי: הון עצמי = 180,000 לא 120,000)</li>
+      <li class="wrong"><span class="opt-letter">ב</span>הון עצמי 180,000 ש"ח; פרמיה 120,000 ש"ח (שגוי: פרמיה = 60,000 לא 120,000)</li>
+      <li class="correct"><span class="opt-letter">ג</span>הון עצמי 180,000 ש"ח; פרמיה 60,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span>הון עצמי 120,000 ש"ח; פרמיה 0 (שגוי: שווי הנכס שהתקבל, 180,000 ש"ח, הוא התמורה; ע"נ המניות בלבד אינו קובע את היקף העסקה)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: WARRANTS ===== -->
+<div class="section-divider"><span class="divider-label">כתבי אופציה: הנפקה, מימוש ופקיעה</span></div>
+
+<!-- Q3 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">3</div>
+    <div class="q-head-text">
+      <h3>הנפקת כתבי אופציה: השפעה מיידית על ההון העצמי</h3>
+      <div class="q-topic">סעיף כתבי אופציה · תמורת הנפקה בלבד, לפני כל מימוש</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">א</span>גידול של 150,000 ש"ח בסעיף כתבי האופציה; גידול זהה בסך ההון העצמי</div>
+
+    <p class="explain">במועד הנפקת כתבי אופציה, ההון העצמי גדל <strong>מיד</strong> בסך תמורת ההנפקה שהתקבלה (N × מחיר לכתב). הסכום נרשם בסעיף ייעודי "כתבי אופציה". השאלה מבקשת השפעה מיידית בלבד, ללא קשר למימוש עתידי.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">מקרא: N_w = מספר כתבי אופציה שהונפקו | P_w = מחיר לכתב אופציה</div>
+      $$\text{גידול בסעיף כתבי אופציה} = N_w \times P_w = 30{,}000 \times 5 = \mathbf{150{,}000} \text{ ש"ח}$$
+      $$\text{גידול בסך ההון העצמי} = 150{,}000 \text{ ש"ח (זהה)}$$
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">📌 עיקרון</div>
+      תוספת המימוש (12 ש"ח לכתב) אינה מוכרת עדיין. היא תירשם רק אם וכאשר יבוצע מימוש בפועל.
+    </div>
+    <div class="calc-box">
+      <div class="calc-title">ערך מימוש פוטנציאלי כולל (לא תמורת ההנפקה)</div>
+      $$30{,}000 \times 12 = 360{,}000 \text{ ש"ח} \quad \neq \quad \text{תמורת הנפקה}$$
+    </div>
+
+    <ul class="options-list">
+      <li class="correct"><span class="opt-letter">א</span>גידול של 150,000 ש"ח בסעיף כתבי אופציה; גידול זהה בסך ההון העצמי</li>
+      <li class="wrong"><span class="opt-letter">ב</span>גידול של 360,000 ש"ח (שגוי: 360,000 = N × תוספת מימוש, לא תמורת ההנפקה)</li>
+      <li class="wrong"><span class="opt-letter">ג</span>גידול של 150,000 ש"ח בעודפים, ללא שינוי בכתבי אופציה (שגוי: נרשם בסעיף כתבי אופציה)</li>
+      <li class="wrong"><span class="opt-letter">ד</span>אין השפעה מיידית על ההון העצמי (שגוי: ההון גדל מיידית בתמורה שהתקבלה)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">4</div>
+    <div class="q-head-text">
+      <h3>מימוש כתבי אופציה: גידול בפרמיה על מניות</h3>
+      <div class="q-topic">המשך נתוני שאלה 3 · 30% מומשו · חילוץ גידול בפרמיה</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ד</span>גידול בפרמיה: 135,000 ש"ח</div>
+
+    <p class="explain">בעת מימוש כתבי אופציה, התהליך מתחלק ל-4 שלבים. <strong>יתרת סעיף כתבי אופציה</strong> שנוצרה בשאלה 3: 150,000 ש"ח.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">מקרא: N_ex = כתבי אופציה שמומשו | E = תוספת מימוש לכתב | V_s = ערך נקוב למניה | n_s = מניות לכתב | r = שיעור מימוש</div>
+      $$N_{ex} = r \times N_w = 30\% \times 30{,}000 = 9{,}000 \text{ כתבי אופציה}$$
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>שלב</th><th>תיאור</th><th>חישוב</th><th>סכום (ש"ח)</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:700;">1</td><td style="text-align:right;">עלייה כוללת בהון עצמי (תמורת המימוש הכוללת)</td><td>$9{,}000 \times 12$</td><td class="pos">108,000</td></tr>
+        <tr><td style="font-weight:700;">2</td><td style="text-align:right;">עלייה בהון מניות</td><td>$9{,}000 \times 2 \times 1$</td><td>18,000</td></tr>
+        <tr><td style="font-weight:700;">3</td><td style="text-align:right;">ירידה בסעיף כתבי אופציה (יחסי)</td><td>$30\% \times 150{,}000$</td><td class="neg">(45,000)</td></tr>
+        <tr><td style="font-weight:700;">4</td><td style="text-align:right;">עלייה בפרמיה: עודף תמורת מימוש מעל ע"נ, בתוספת כתבי אופציה שמומשו</td><td>$(108{,}000 - 18{,}000) + 45{,}000$</td><td class="pos sub-total">135,000</td></tr>
+      </tbody>
+    </table>
+
+    <div class="calc-box">
+      <div class="calc-title">אופן חילוץ הפרמיה (שיטת האיזון האלגברי, לפי מפגש ההנחייה)</div>
+      $$\underbrace{18{,}000}_{\text{שלב 2}} - \underbrace{45{,}000}_{\text{שלב 3}} + PN = \underbrace{108{,}000}_{\text{שלב 1}}$$
+      $$PN = 108{,}000 - 18{,}000 + 45{,}000 = \mathbf{135{,}000} \text{ ש"ח}$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">בדיקת שלמות: שינוי הון מניות + שינוי פרמיה + שינוי כתבי אופציה = סך עלייה בהון עצמי</div>
+      $$18{,}000 + 135{,}000 + (-45{,}000) = 108{,}000 \checkmark$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>108,000 ש"ח (שגוי: זו תוספת המימוש הכוללת, לא הגידול בפרמיה)</li>
+      <li class="wrong"><span class="opt-letter">ב</span>45,000 ש"ח (שגוי: זה ירידה בכתבי אופציה)</li>
+      <li class="wrong"><span class="opt-letter">ג</span>18,000 ש"ח (שגוי: זה גידול בהון מניות)</li>
+      <li class="correct"><span class="opt-letter">ד</span>135,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">5</div>
+    <div class="q-head-text">
+      <h3>פקיעת כתבי אופציה שלא מומשו</h3>
+      <div class="q-topic">המשך שאלות 3 ו-4 · 70% מהכתבים פוקעים · השפעה על רכיבי ההון</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ה</span>כל התשובות האחרות שגויות</div>
+
+    <p class="explain">לאחר שמומשו 30% בשאלה 4, נותרה ביתרת סעיף כתבי האופציה 70% מהסכום המקורי. בעת פקיעה, יש <strong>לאפס את סעיף כתבי האופציה ולהגדיל את הפרמיה</strong> בסכום זהה. סך ההון העצמי אינו משתנה.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">יתרת כתבי אופציה ערב הפקיעה</div>
+      $$\text{יתרה} = (1 - 30\%) \times 150{,}000 = 70\% \times 150{,}000 = 105{,}000 \text{ ש"ח}$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">אירוע הפקיעה (לפי מפגש ההנחייה)</div>
+      $$\text{כתבי אופציה} \downarrow 105{,}000 \quad \Longrightarrow \quad \text{פרמיה} \uparrow 105{,}000$$
+      $$\text{סך הון עצמי: ללא שינוי}$$
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>אפשרות</th><th>טענה</th><th>נכון?</th><th>הסבר</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>א</strong></td>
+          <td style="text-align:right;font-size:13px;">כתבי אופציה יקטנו ב-105,000 ש"ח; עודפים יגדלו ב-105,000 ש"ח</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">הפקיעה מועברת לפרמיה, לא לעודפים</td>
+        </tr>
+        <tr>
+          <td><strong>ב</strong></td>
+          <td style="text-align:right;font-size:13px;">כתבי אופציה יקטנו ב-150,000 ש"ח; פרמיה תגדל ב-150,000 ש"ח</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">הסכום שגוי: היתרה הנותרת היא 105,000, לא 150,000</td>
+        </tr>
+        <tr>
+          <td><strong>ג</strong></td>
+          <td style="text-align:right;font-size:13px;">סך ההון העצמי יקטן ב-105,000 בגין הכרת הפסד פיננסי</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">פקיעת כתבי אופציה אינה מוכרת כהפסד; הכסף כבר התקבל בהנפקה</td>
+        </tr>
+        <tr>
+          <td><strong>ד</strong></td>
+          <td style="text-align:right;font-size:13px;">לא יעוצב כל רישום חשבונאי מאחר ומדובר בפקיעה ולא באירוע תזרימי</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">יש לבצע רישום: סעיף כתבי אופציה מאופס ומועבר לפרמיה</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>כתבי אופציה יקטנו ב-105,000 ש"ח; עודפים יגדלו ב-105,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ב</span>כתבי אופציה יקטנו ב-150,000 ש"ח; פרמיה תגדל ב-150,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span>סך ההון העצמי יקטן ב-105,000 ש"ח בגין הכרת הפסד פיננסי</li>
+      <li class="wrong"><span class="opt-letter">ד</span>לא יעוצב כל רישום חשבונאי (מדובר בפקיעה, לא אירוע תזרימי)</li>
+      <li class="correct"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות. הנכון: כתבי אופציה יקטנו ב-105,000 ש"ח ופרמיה תגדל ב-105,000 ש"ח; סך ההון העצמי ללא שינוי.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: THEORY ===== -->
+<div class="section-divider"><span class="divider-label">תיאוריה: רכיבי הון עצמי והתחייבויות</span></div>
+
+<!-- Q6 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">6</div>
+    <div class="q-head-text">
+      <h3>טענות תיאורטיות: הון עצמי, התחייבויות ונכסים</h3>
+      <div class="q-topic">עלויות הנפקה ישירות · סילוק התחייבות · השקעה בנכס</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">א</span>טענה I בלבד נכונה</div>
+
+    <table class="data-table">
+      <thead><tr><th>טענה</th><th>תוכן</th><th>נכון?</th><th>הסבר</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">I</td>
+          <td style="text-align:right;font-size:13px;">עלויות הנפקה ישירות אינן הוצאה בדוח רווח והפסד; הן מקטינות ישירות את סעיף הפרמיה</td>
+          <td class="pos">✓ נכון</td>
+          <td style="text-align:right;font-size:13px;">לפי מפגש ההנחייה: "עלויות הנפקה אינן הוצאה, מקטינות את הרישום ההוני"</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">II</td>
+          <td style="text-align:right;font-size:13px;">סילוק התחייבות (פירעון הלוואה בנקאית במזומן) מוביל לגידול ישיר בסך ההון העצמי</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">בפירעון הלוואה: מזומן יורד, התחייבות יורדת. שני צידי המשוואה יורדים שווה בשווה. ההון העצמי ללא שינוי.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">III</td>
+          <td style="text-align:right;font-size:13px;">השקעת החברה ברכישת ר"ק (כגון מכונות) במזומן מגדילה את סך ההון העצמי</td>
+          <td class="neg">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">רכישת ר"ק במזומן: מזומן יורד (נכס), ר"ק עולה (נכס). שני הנכסים משתנים זה כנגד זה. ההון העצמי ללא שינוי.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="options-list">
+      <li class="correct"><span class="opt-letter">א</span>טענה I בלבד נכונה</li>
+      <li class="wrong"><span class="opt-letter">ב</span>טענה II בלבד נכונה</li>
+      <li class="wrong"><span class="opt-letter">ג</span>טענות I ו-III נכונות (שגוי: טענה III שגויה)</li>
+      <li class="wrong"><span class="opt-letter">ד</span>כל הטענות שגויות (שגוי: טענה I נכונה; עלויות הנפקה ישירות אכן מקטינות את הפרמיה ולא נרשמות כהוצאה)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: EQUITY TRACKING ===== -->
+<div class="section-divider"><span class="divider-label">מעקב שינויים בהון העצמי</span></div>
+
+<!-- Q7 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">7</div>
+    <div class="q-head-text">
+      <h3>חישוב סך ההון העצמי ליום 31.12.2025</h3>
+      <div class="q-topic">הנפקת מניות + רווח נקי + הכרזת דיבידנד · בסיס צבירה</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ג</span>1,370,000 ש"ח</div>
+
+    <p class="explain">דיבידנד שהוכרז (גם אם טרם שולם) מוכר מיד בבסיס הצבירה כירידה בעודפים. אירוע (3) מקטין הון עצמי למרות שהמזומן עדיין לא יצא.</p>
+
+    <table class="data-table">
+      <thead><tr><th>אירוע</th><th>תיאור</th><th>השפעה על הון עצמי (ש"ח)</th></tr></thead>
+      <tbody>
+        <tr><td class="row-label">יתרת פתיחה 31.12.2024</td><td></td><td>500,000 + 300,000 + 150,000 = <strong>950,000</strong></td></tr>
+        <tr>
+          <td class="row-label">אירוע (1)</td>
+          <td style="text-align:right;font-size:13px;">הנפקת 100,000 מניות ב-2 ש"ח ע"נ תמורת 350,000 ש"ח</td>
+          <td class="pos">+350,000</td>
+        </tr>
+        <tr>
+          <td class="row-label">אירוע (2)</td>
+          <td style="text-align:right;font-size:13px;">רווח נקי 2025</td>
+          <td class="pos">+120,000</td>
+        </tr>
+        <tr>
+          <td class="row-label">אירוע (3)</td>
+          <td style="text-align:right;font-size:13px;">הכרזת דיבידנד (בסיס צבירה)</td>
+          <td class="neg">(50,000)</td>
+        </tr>
+        <tr>
+          <td class="row-label total">יתרת סגירה 31.12.2025</td>
+          <td></td>
+          <td class="total" style="direction:ltr;text-align:center;">950,000 + 350,000 + 120,000 − 50,000 = <strong>1,370,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="calc-box">
+      <div class="calc-title">בדיקת אירוע (1) | הון מניות ↑ 200,000 | פרמיה ↑ 150,000 | סה"כ ↑ 350,000</div>
+      $$\text{הון מניות} = 100{,}000 \times 2 = 200{,}000 \quad ; \quad \text{פרמיה} = 350{,}000 - 200{,}000 = 150{,}000$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>1,420,000 ש"ח (שגוי: לא הופחת הדיבידנד שהוכרז)</li>
+      <li class="wrong"><span class="opt-letter">ב</span>1,300,000 ש"ח (שגוי: 950,000 + 350,000 = 1,300,000; הרווח הנקי והדיבידנד הוכרז לא נכללו)</li>
+      <li class="correct"><span class="opt-letter">ג</span>1,370,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span>1,020,000 ש"ח (שגוי: 950,000 + 120,000 − 50,000 = 1,020,000; תמורת הנפקת המניות, 350,000 ש"ח, לא נכללה)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SECTION 5: BONUS SHARES & SPLIT ===== -->
+<div class="section-divider"><span class="divider-label">מניות הטבה ופיצול מניות</span></div>
+
+<!-- Q8 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">8</div>
+    <div class="q-head-text">
+      <h3>מניות הטבה: יתרת הפרמיה לאחר האירוע</h3>
+      <div class="q-topic">הנפקת מניות הטבה ממומנת מפרמיה · סך ההון העצמי ללא שינוי</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ב</span>יתרת פרמיה לאחר האירוע: 90,000 ש"ח</div>
+
+    <p class="explain">מניות הטבה מונפקות לבעלים קיימים ללא תמורה נוספת מצידם. הן ממומנות ממקורות קיימים בהון העצמי (כאן: מפרמיה). <strong>סך ההון העצמי נותר ללא שינוי</strong>; רק הרכב הסעיפים משתנה.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">מקרא: H = הון מניות קיים | r_b = שיעור הטבה</div>
+      $$\text{מניות קיימות} = \frac{H}{V} = \frac{400{,}000}{1} = 400{,}000 \text{ מניות}$$
+      $$\text{מניות הטבה חדשות} = r_b \times \text{מניות קיימות} = 15\% \times 400{,}000 = 60{,}000 \text{ מניות}$$
+      $$\text{ערך נקוב של מניות הטבה} = 60{,}000 \times 1 = 60{,}000 \text{ ש"ח}$$
+      $$\text{פרמיה לאחר האירוע} = 150{,}000 - 60{,}000 = \mathbf{90{,}000} \text{ ש"ח}$$
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">📌 כלל (לפי מפגש ההנחייה)</div>
+      הון מניות עולה ב-60,000 ש"ח; פרמיה יורדת ב-60,000 ש"ח; סך הון עצמי ללא שינוי (750,000 ש"ח לפני ואחרי).
+      <br><strong>הערה חשובה:</strong> אם אין מספיק פרמיה לממן את מניות ההטבה, יש להקטין את העודפים בחלק החסר.
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>150,000 ש"ח (שגוי: הפרמיה שימשה מקור מימון להטבה ולכן קטנה; אין כל שינוי בסך ההון העצמי)</li>
+      <li class="correct"><span class="opt-letter">ב</span>90,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span>210,000 ש"ח (שגוי: הפרמיה ירדה ולא עלתה)</li>
+      <li class="wrong"><span class="opt-letter">ד</span>35,000 ש"ח (שגוי: אינו תוצאה של חישוב תקין; הפרמיה הנכונה לאחר האירוע היא 90,000 ש"ח)</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">9</div>
+    <div class="q-head-text">
+      <h3>פיצול מניות: השפעה על מספר המניות ועל הון המניות</h3>
+      <div class="q-topic">פיצול מניות 1:4 · ארגון מחדש ללא שינוי בסך ההון</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ד</span>מספר המניות יגדל ל-400,000; סך הון המניות ישאר ללא שינוי</div>
+
+    <p class="explain">פיצול מניות (Split Stock) משנה את הערך הנקוב ואת מספר המניות, אך <strong>סך הון המניות בש"ח נותר ללא שינוי</strong>. הסעיף עובר ארגון פנימי בין עמודות הערך הנקוב.</p>
+
+    <table class="data-table">
+      <thead><tr><th>מאפיין</th><th>לפני הפיצול</th><th>אחרי הפיצול</th></tr></thead>
+      <tbody>
+        <tr><td class="row-label">מספר מניות</td><td>100,000</td><td class="pos">400,000</td></tr>
+        <tr><td class="row-label">ערך נקוב למניה</td><td>4 ש"ח</td><td class="pos">1 ש"ח</td></tr>
+        <tr><td class="row-label">סך הון מניות</td><td>400,000 ש"ח</td><td class="sub-total">400,000 ש"ח (ללא שינוי)</td></tr>
+        <tr><td class="row-label">סך ההון העצמי</td><td colspan="2" style="text-align:center;">ללא שינוי</td></tr>
+      </tbody>
+    </table>
+
+    <div class="calc-box">
+      <div class="calc-title">בדיקה: הון מניות לפני = הון מניות אחרי</div>
+      $$100{,}000 \times 4 = 400{,}000 \quad = \quad 400{,}000 \times 1 = 400{,}000 \checkmark$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>מספר מניות נשאר 100,000; הון מניות יקטן ל-100,000 ש"ח (שגוי לחלוטין)</li>
+      <li class="wrong"><span class="opt-letter">ב</span>מספר מניות יגדל ל-400,000; הון מניות יגדל ל-1,600,000 ש"ח (שגוי: אין יצירת ערך בפיצול)</li>
+      <li class="wrong"><span class="opt-letter">ג</span>מספר מניות יגדל ל-400,000; הון מניות יקטן ל-100,000 ש"ח (שגוי)</li>
+      <li class="correct"><span class="opt-letter">ד</span>מספר מניות יגדל ל-400,000; סך הון המניות ישאר ללא שינוי</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SECTION 6: PREFERRED DIVIDENDS ===== -->
+<div class="section-divider"><span class="divider-label">הקצאת דיבידנד: מניות בכורה צוברות</span></div>
+
+<!-- Q10 -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">10</div>
+    <div class="q-head-text">
+      <h3>הקצאת דיבידנד: מניות בכורה צוברות לעומת מניות רגילות</h3>
+      <div class="q-topic">פיגורים לשנים קודמות + דיבידנד שוטף · כלל הקדימות</div>
+    </div>
+  </div>
+  <div class="q-body">
+    <div class="answer-label"><span class="ans-letter">ד</span>בכורה: 15,000 ש"ח | רגילות: 65,000 ש"ח</div>
+
+    <p class="explain">מניות בכורה <strong>צוברות</strong> (Cumulative Preferred) זכאיות לדיבידנד שנצבר בשנים שבהן לא חולק דיבידנד מספק. יש לשלם תחילה את הפיגורים, ורק לאחר מכן לחלק לרגילות.</p>
+
+    <table class="data-table">
+      <thead><tr><th>שלב</th><th>תיאור</th><th>חישוב</th><th>סכום (ש"ח)</th><th>יתרה לחלוקה (ש"ח)</th></tr></thead>
+      <tbody>
+        <tr><td></td><td class="row-label">סכום כולל לחלוקה</td><td></td><td></td><td>80,000</td></tr>
+        <tr>
+          <td style="font-weight:700;">1</td>
+          <td style="text-align:right;font-size:13px;">פיגורים לבכורה צוברות: 2023 ו-2024 (שנתיים)</td>
+          <td>$100{,}000 \times 5\% \times 2$</td>
+          <td class="neg">(10,000)</td>
+          <td>70,000</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">2</td>
+          <td style="text-align:right;font-size:13px;">דיבידנד שוטף 2025 לבכורה</td>
+          <td>$100{,}000 \times 5\%$</td>
+          <td class="neg">(5,000)</td>
+          <td>65,000</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">3</td>
+          <td style="text-align:right;font-size:13px;">היתרה לרגילות</td>
+          <td></td>
+          <td class="neg">(65,000)</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="row-label total" colspan="3">סה"כ לבכורה</td>
+          <td class="total">10,000 + 5,000 = <strong>15,000</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="row-label total" colspan="3">סה"כ לרגילות</td>
+          <td class="total"><strong>65,000</strong></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <div class="note-label">📌 הבחנה: צוברות לעומת לא-צוברות</div>
+      מניות בכורה <strong>לא-צוברות</strong>: דיבידנד שלא חולק בשנה מסוימת פג ואינו נצבר לשנה הבאה.
+      מניות בכורה <strong>צוברות</strong>: הפיגור מצטבר ומשולם ראשון בשנה שבה מוחלט לחלק דיבידנד.
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span>בכורה 5,000 ש"ח; רגילות 75,000 ש"ח (שגוי: רק הדיבידנד השוטף ל-2025, ללא פיגורים)</li>
+      <li class="wrong"><span class="opt-letter">ב</span>בכורה 10,000 ש"ח; רגילות 70,000 ש"ח (שגוי: רק פיגורים, ללא דיבידנד שוטף 2025)</li>
+      <li class="wrong"><span class="opt-letter">ג</span>בכורה 40,000 ש"ח; רגילות 40,000 ש"ח (שגוי: חלוקה שווה ללא כלל הקדימות; מניות בכורה זכאיות לקבל את חלקן לפני הרגילות)</li>
+      <li class="correct"><span class="opt-letter">ד</span>בכורה 15,000 ש"ח; רגילות 65,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span>כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:30px 20px;color:var(--text-soft);font-size:13px;border-top:1px solid var(--border);margin-top:20px;line-height:1.9;">
+  הפתרון נכתב ע"י ד"ר שי צבאן ונערך לנוחותכם מבחינה הצגתית נאותה בכלים של בינה מלאכותית ונסקר לאחר מכן שוב על ידי המרצה.
+  <br>במידה ועולה חשש כלשהו לאי התאמה כלשהי, ציינו בפניי לבדיקה מיידית.
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

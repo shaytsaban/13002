@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מטלה 03 – פתרון מלא | חשבונאות למנהלים 13002</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})"></script>
+
+<style>
+  :root {
+    --navy: #0d2240;
+    --navy-mid: #1a3a5c;
+    --navy-light: #254d7a;
+    --gold: #c8922a;
+    --gold-light: #e8b84b;
+    --gold-pale: #fdf3e0;
+    --cream: #fafaf7;
+    --white: #ffffff;
+    --text: #1c2b3a;
+    --text-soft: #4a5a6b;
+    --border: #d6e0ea;
+    --correct-bg: #e8f5e9;
+    --correct-border: #388e3c;
+    --wrong-bg: #fce8e8;
+    --wrong-border: #c62828;
+    --note-bg: #e8f0fe;
+    --note-border: #3f6fd4;
+    --shadow: 0 2px 16px rgba(13,34,64,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ─── HEADER ─── */
+  .page-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 18px,
+      rgba(200,146,42,0.07) 18px, rgba(200,146,42,0.07) 19px);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .course-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .page-header .subtitle {
+    color: rgba(255,255,255,0.72);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  .meta-item strong { color: var(--gold-light); }
+
+  /* ─── SUMMARY TABLE ─── */
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+
+  .summary-card {
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 36px;
+    border: 1px solid var(--border);
+  }
+  .summary-card .card-header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .summary-card .card-header::before {
+    content: '✦';
+    color: var(--gold-light);
+    font-size: 13px;
+  }
+  .answers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+  .answers-grid .cell {
+    background: var(--white);
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .answers-grid .cell.head {
+    background: var(--gold-pale);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+  }
+  .answers-grid .cell .q-num {
+    font-size: 11px;
+    color: var(--text-soft);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .answers-grid .cell .ans-badge {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--gold-light);
+    font-size: 16px;
+    font-weight: 800;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+  }
+
+  /* ─── QUESTION CARDS ─── */
+  .q-card {
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .q-card .q-head {
+    background: var(--navy);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .q-num-badge {
+    background: var(--gold);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 800;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .q-head-text h3 {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .q-head-text .q-topic {
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .q-body { padding: 24px; }
+
+  /* Answer label */
+  .answer-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--gold-light);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 6px 20px 6px 14px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+  }
+  .answer-label .ans-letter {
+    background: var(--gold);
+    color: var(--white);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+  }
+
+  /* Options list */
+  .options-list {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  .options-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    border: 1.5px solid transparent;
+    font-size: 14px;
+  }
+  .options-list li.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+    font-weight: 600;
+  }
+  .options-list li.wrong {
+    background: var(--wrong-bg);
+    border-color: transparent;
+    color: var(--text-soft);
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  .opt-letter {
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .correct .opt-letter { background: var(--correct-border); color: #fff; }
+  .wrong .opt-letter { background: #ccc; color: #fff; }
+
+  /* Calculation box */
+  .calc-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    color: #e8f0ff;
+    direction: ltr;
+    text-align: left;
+  }
+  .calc-box .katex { font-size: 1.1em; }
+  .calc-box .calc-title {
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: right;
+    direction: rtl;
+  }
+
+  /* Data table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .data-table th {
+    background: var(--navy);
+    color: var(--gold-light);
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+  }
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .data-table tr:nth-child(even) td { background: var(--gold-pale); }
+  .data-table td.row-label {
+    text-align: right;
+    font-weight: 600;
+    background: #f0f4f8;
+  }
+  .data-table td.total {
+    font-weight: 700;
+    border-top: 2px solid var(--navy);
+    background: var(--gold-pale);
+    color: var(--navy);
+  }
+  .data-table td.sub-total {
+    font-weight: 600;
+    color: var(--navy-mid);
+  }
+  .data-table td.expense { color: #c62828; font-weight: 600; }
+  .data-table td.asset { color: #2e7d32; font-weight: 600; }
+
+  /* Note box */
+  .note-box {
+    background: var(--note-bg);
+    border-right: 4px solid var(--note-border);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: #1a2f6e;
+  }
+  .note-box .note-label {
+    font-weight: 700;
+    color: var(--note-border);
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .warn-box {
+    background: #fff8e1;
+    border-right: 4px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: #5d3f00;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 32px 0 20px;
+  }
+  .section-divider .divider-label {
+    background: var(--navy-mid);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  p.explain {
+    font-size: 14px;
+    color: var(--text-soft);
+    margin-bottom: 10px;
+    line-height: 1.7;
+  }
+  .highlight { color: var(--navy); font-weight: 700; }
+
+  /* print */
+  @media print {
+    body { background: #fff; }
+    .q-card, .summary-card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .page-header { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+  }
+
+  @media (max-width: 600px) {
+    .answers-grid { grid-template-columns: repeat(2, 1fr); }
+    .page-header h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<header class="page-header">
+  <div class="header-inner">
+    <span class="course-tag">חשבונאות למנהלים · קורס 13002</span>
+    <h1>מטלה מנחה (ממ"ן) 03 | פתרון מלא</h1>
+    <p class="subtitle">חטיבה 3: נכסים לא שוטפים · רכוש קבוע, נדל"ן להשקעה, נכסים לא מוחשיים</p>
+    <div class="header-meta">
+      <div class="meta-item"><strong>מרכז הוראה:</strong> ד"ר שי צבאן</div>
+      <div class="meta-item"><strong>מועד הגשה:</strong> 17/5/2026</div>
+      <div class="meta-item"><strong>שאלות:</strong> 10 · <strong>ניקוד:</strong> 3 נקודות</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════ SUMMARY TABLE ═══════════════════════════════ -->
+<div class="summary-card">
+  <div class="card-header">טבלת ריכוז תשובות: מלאו בראש המטלה המוגשת</div>
+  <div style="padding:20px 24px;">
+    <table style="width:100%;border-collapse:collapse;font-size:15px;">
+      <thead>
+        <tr>
+          <th style="background:var(--navy);color:var(--gold-light);padding:10px 18px;text-align:center;width:50%;font-size:13px;font-weight:700;">שאלה</th>
+          <th style="background:var(--navy);color:var(--gold-light);padding:10px 18px;text-align:center;width:50%;font-size:13px;font-weight:700;">תשובה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">1</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">א</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">2</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ב</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">3</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ג</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">4</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ד</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">5</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ה</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">6</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">ב</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">7</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ג</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);">8</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;">א</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;">9</td><td style="padding:9px 18px;text-align:center;border-bottom:1px solid var(--border);background:#f8fafc;font-weight:700;">ה</td></tr>
+        <tr><td style="padding:9px 18px;text-align:center;">10</td><td style="padding:9px 18px;text-align:center;font-weight:700;">ה</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SECTION 1 · FIXED ASSETS
+     ════════════════════════════════════════════════════ -->
+<div class="section-divider"><span class="divider-label">רכוש קבוע</span></div>
+
+<!-- ─── QUESTION 1 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">1</div>
+    <div class="q-head-text">
+      <h3>חישוב עלות רכוש קבוע ראשונית</h3>
+      <div class="q-topic">עלות רכוש קבוע · הכללה / אי-הכללה של רכיבי עלות</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">א</span>
+      תשובה נכונה: 202,500 ש"ח
+    </div>
+
+    <p class="explain">עלות רכוש קבוע כוללת את כל העלויות ההכרחיות להבאת הנכס למיקום ולמצב שבו הוא מיועד לפעול לפי כוונת ההנהלה. חוזה תחזוקה שנתי ניתן לחידוש הוא <strong>הוצאה שוטפת</strong> ולא חלק מעלות הנכס.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>רכיב עלות</th><th>סכום (ש"ח)</th><th>סיווג</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="row-label">עלות ישירה (רכישת המכונה)</td><td>180,000</td><td class="asset">נכס ✓</td></tr>
+        <tr><td class="row-label">הובלת המכונה למפעל</td><td>11,000</td><td class="asset">נכס ✓</td></tr>
+        <tr><td class="row-label">התקנת המכונה בחברה</td><td>7,000</td><td class="asset">נכס ✓</td></tr>
+        <tr><td class="row-label">חוזה תחזוקה שנתי ניתן לחידוש</td><td>8,000</td><td class="expense">הוצאה ✗</td></tr>
+        <tr><td class="row-label">בדיקת בטיחות לפי חוק לפני הפעלה</td><td>4,500</td><td class="asset">נכס ✓</td></tr>
+        <tr><td class="row-label total">עלות הנכס לצרכים חשבונאיים</td><td class="total">202,500</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="calc-box">
+      <div class="calc-title">חישוב</div>
+      $$\text{עלות} = 180{,}000 + 11{,}000 + 7{,}000 + 4{,}500 = \mathbf{202{,}500}$$
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">📌 כלל אצבע</div>
+      חוזה תחזוקה שנתי ניתן לחידוש (Renewable Maintenance Contract) הוא שירות שוטף הנרכש מחדש מדי שנה; אינו מגדיל את יכולת הנכס ולא מהווה חלק מהכשרתו הראשונית, ולכן <strong>מוצא להוצאה</strong>.
+    </div>
+
+    <ul class="options-list">
+      <li class="correct"><span class="opt-letter">א</span> 202,500 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ב</span> 210,500 ש"ח (כולל בטעות חוזה התחזוקה)</li>
+      <li class="wrong"><span class="opt-letter">ג</span> 191,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span> 198,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── QUESTION 2 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">2</div>
+    <div class="q-head-text">
+      <h3>חישוב הוצאות פחת לשנה חלקית</h3>
+      <div class="q-topic">פחת בשיטת הקו הישר · זמינות לשימוש</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ב</span>
+      תשובה נכונה: 18,750 ש"ח
+    </div>
+
+    <p class="explain">הפחת מתחיל ממועד הזמינות לשימוש (1.4.2023). בשנת 2023 חלפו מ-1.4 עד 31.12: <strong>9 חודשים</strong>.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 1 · פחת שנתי מלא | מקרא: I = עלות הנכס | IG = ערך גרט/שייר | n = חיים שימושיים (שנים)</div>
+      $$D_{שנתי} = \frac{I - I_G}{n} = \frac{220{,}000 - 20{,}000}{8} = 25{,}000 \text{ ש"ח}$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 2 · פחת לשנת 2023 (9 חודשים: 1.4.2023 עד 31.12.2023)</div>
+      $$D_{2023} = 25{,}000 \times \frac{9}{12} = \mathbf{18{,}750} \text{ ש"ח}$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> 25,000 ש"ח (שנה מלאה, שגוי)</li>
+      <li class="correct"><span class="opt-letter">ב</span> 18,750 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span> 16,667 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span> 20,833 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── QUESTION 3 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">3</div>
+    <div class="q-head-text">
+      <h3>חישוב עלות מופחתת בתאריך ביניים</h3>
+      <div class="q-topic">פחת נצבר · עלות מופחתת (ערך מאזני להצגה בדיווח הכספי) ל-31.12.2024</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ג</span>
+      תשובה נכונה: 210,000 ש"ח
+    </div>
+
+    <p class="explain">הציוד זמין מ-1.7.2022. מחשבים פחת נצבר ממועד הזמינות לשימוש ועד מועד החישוב: <strong>מ-1.7.2022 עד 31.12.2024 = שנתיים וחצי</strong> (6 חודשים ב-2022 + שנה מלאה 2023 + שנה מלאה 2024).</p>
+
+    <div class="calc-box">
+      <div class="calc-title">תקופת הפחת שחלפה</div>
+      <p style="color:#e8f0ff;font-size:14px;text-align:right;direction:rtl;">מ-1.7.2022 עד 31.12.2024 = 2.5 שנים</p>
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">חישוב פחת נצבר</div>
+      $$D_{שנתי} = \frac{I - I_G}{n} = \frac{360{,}000 - 0}{6} = 60{,}000$$
+      $$\text{פחת נצבר} = 60{,}000 \times 2.5 = 150{,}000$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">עלות מופחתת ל-31.12.2024 (עלות בניכוי פחת נצבר)</div>
+      $$\text{עלות מופחתת} = 360{,}000 - 150{,}000 = \mathbf{210{,}000} \text{ ש"ח}$$
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>שנה</th><th>פחת תקופה</th><th>פחת נצבר מצטבר</th><th>עלות מופחתת</th></tr></thead>
+      <tbody>
+        <tr><td>2022 (6 חודשים)</td><td>30,000</td><td>30,000</td><td>330,000</td></tr>
+        <tr><td>2023 (שנה מלאה)</td><td>60,000</td><td>90,000</td><td>270,000</td></tr>
+        <tr><td>2024 (שנה מלאה)</td><td>60,000</td><td class="sub-total">150,000</td><td class="sub-total">210,000</td></tr>
+      </tbody>
+    </table>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> 240,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ב</span> 180,000 ש"ח</li>
+      <li class="correct"><span class="opt-letter">ג</span> 210,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span> 270,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── QUESTION 4 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">4</div>
+    <div class="q-head-text">
+      <h3>חישוב רווח / הפסד הון במכירת רכוש קבוע</h3>
+      <div class="q-topic">מכירת נכס · עלות מופחתת בעת מכירה · שלב 1 + שלב 2</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ד</span>
+      תשובה נכונה: הפסד הון של 8,750 ש"ח
+    </div>
+
+    <p class="explain">זמינות לשימוש: 1.1.2018. מכירה: 1.4.2024. תקופת פחת שנצברה: <strong>6 שנים ו-3 חודשים</strong>.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 1 · פחת שנתי ועלות מופחתת ערב המכירה</div>
+      $$D_{שנתי} = \frac{280{,}000 - 30{,}000}{10} = 25{,}000$$
+      $$\text{פחת נצבר}_{1.4.2024} = 25{,}000 \times \left(6 + \frac{3}{12}\right) = 25{,}000 \times 6.25 = 156{,}250$$
+      $$\text{עלות מופחתת ערב מכירה} = 280{,}000 - 156{,}250 = 123{,}750$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 2 · רווח / הפסד הון</div>
+      $$\text{תמורת מכירה} - \text{עלות מופחתת ערב מכירה} = 115{,}000 - 123{,}750 = \mathbf{-8{,}750}$$
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">📌 הגדרה</div>
+      הפרש שלילי (תמורה &lt; עלות מופחתת) = <strong>הפסד הון</strong> | הפרש חיובי = <strong>רווח הון</strong>
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> רווח הון 8,750 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ב</span> הפסד הון 15,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span> רווח הון 12,500 ש"ח</li>
+      <li class="correct"><span class="opt-letter">ד</span> הפסד הון 8,750 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── QUESTION 5 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">5</div>
+    <div class="q-head-text">
+      <h3>עקרונות תיאורטיים: בסיס מדידה ופחת</h3>
+      <div class="q-topic">טענות נכון/שגוי · מודל עלות</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ה</span>
+      הטענה הנכונה: ה
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>אפשרות</th><th>הטענה (בתמציות)</th><th>נכון?</th><th>הסבר</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>א</strong></td>
+          <td>הוצאות הפחת משקפות ירידת שוק</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">פחת = צריכת עלות לאורך החיים השימושיים, לא ירידת שוק</td>
+        </tr>
+        <tr>
+          <td><strong>ב</strong></td>
+          <td>ההפחתה מתחילה ממועד הרכישה ללא קשר לזמינות</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">הפחת מתחיל ממועד הזמינות לשימוש בלבד</td>
+        </tr>
+        <tr>
+          <td><strong>ג</strong></td>
+          <td>ערך הגרט/שייר נכלל בבסיס הפחת (לא מנוכה)</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">בסיס הפחת = עלות <em>בניכוי</em> גרט/שייר</td>
+        </tr>
+        <tr>
+          <td><strong>ד</strong></td>
+          <td>כאשר נמכר נכס, הפחת שנצבר נשאר כהתחייבות</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">הפחת הנצבר מתאפס עם המכירה; אינו התחייבות</td>
+        </tr>
+        <tr>
+          <td><strong>ה</strong></td>
+          <td>לפי מודל העלות, ר"ק נמדד לפי עלותו בניכוי פחת נצבר</td>
+          <td class="asset">✓ נכון</td>
+          <td style="text-align:right;font-size:13px;">מודל העלות הוא בסיס המדידה הנפוץ ביותר</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SECTION 2 · INVESTMENT PROPERTY
+     ════════════════════════════════════════════════════ -->
+<div class="section-divider"><span class="divider-label">נדל"ן להשקעה</span></div>
+
+<!-- ─── QUESTION 6 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">6</div>
+    <div class="q-head-text">
+      <h3>נדל"ן להשקעה: שנה ראשונה, מודל שווי הוגן</h3>
+      <div class="q-topic">שינוי ערך ⟶ הכנסה/הוצאה בדוח רווח והפסד · ללא הוצאות פחת</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ב</span>
+      הכנסה מעליית ערך נדל"ן בסך 180,000 ש"ח
+    </div>
+
+    <p class="explain">במודל השווי ההוגן: <strong>אין הוצאות פחת</strong>. כל שינוי בשווי מוכר ישירות בדוח רווח והפסד כהסנכה (עלייה) או כהוצאה (ירידה).</p>
+
+    <div class="calc-box">
+      <div class="calc-title">חישוב השפעה על דוח רווח והפסד 2023</div>
+      $$\text{שינוי שווי} = 2{,}180{,}000 - 2{,}000{,}000 = \mathbf{+180{,}000} \text{ ש"ח הכנסה}$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> הוצאות פחת 90,000 ש"ח (שגוי: אין פחת במודל שווי הוגן)</li>
+      <li class="correct"><span class="opt-letter">ב</span> הכנסה מעליית ערך נדל"ן 180,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ג</span> הכנסה 2,180,000 ש"ח (שגוי: הכנסה היא רק השינוי)</li>
+      <li class="wrong"><span class="opt-letter">ד</span> אין השפעה כלשהי</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── QUESTION 9 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">9</div>
+    <div class="q-head-text">
+      <h3>נדל"ן להשקעה: הכנסות שכירות ועליית ערך</h3>
+      <div class="q-topic">סכום ההשפעה הכוללת על דוח רווח והפסד 2024</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ה</span>
+      כל התשובות האחרות שגויות. ההשפעה הנכונה: <span class="highlight">+430,000 ש"ח</span>
+    </div>
+
+    <p class="explain">שתי השפעות מצטברות: שינוי שווי + הכנסות שכירות. שכ"ד מחודש אפריל עד דצמבר = <strong>9 חודשים</strong>.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">שינוי שווי הוגן</div>
+      $$\Delta \text{שווי} = 3{,}250{,}000 - 3{,}000{,}000 = 250{,}000 \text{ ש"ח הכנסה}$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">הכנסות שכירות (1.4.2024 – 31.12.2024)</div>
+      $$\text{שכ"ד} = 20{,}000 \times 9 = 180{,}000 \text{ ש"ח}$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">סך ההשפעה החיובית על דוח רווח והפסד 2024</div>
+      $$250{,}000 + 180{,}000 = \mathbf{430{,}000} \text{ ש"ח}$$
+    </div>
+
+    <div class="warn-box">
+      <div style="font-weight:700;margin-bottom:8px;color:#7c5000;">מדוע ה' נכונה? ההשפעה הכוללת היא 430,000 ש"ח; מספר זה אינו מופיע באף אחת מאפשרויות א עד ד:</div>
+      <ul style="list-style:none;padding:0;margin:0;">
+        <li style="padding:4px 0;border-bottom:1px solid #f0d890;"><strong>אפשרות א (180,000 ש"ח)</strong>: כוללת הכנסות שכירות בלבד, ומחמיצה את שינוי השווי</li>
+        <li style="padding:4px 0;border-bottom:1px solid #f0d890;"><strong>אפשרות ב (250,000 ש"ח)</strong>: כוללת שינוי שווי בלבד, ומחמיצה את הכנסות השכירות</li>
+        <li style="padding:4px 0;border-bottom:1px solid #f0d890;"><strong>אפשרות ג (70,000 ש"ח שלילי)</strong>: שגויה לחלוטין</li>
+        <li style="padding:4px 0;"><strong>אפשרות ד (70,000 ש"ח חיובי)</strong>: שגויה לחלוטין</li>
+      </ul>
+      <div style="margin-top:8px;font-weight:700;color:#7c5000;">לכן ה' נכונה: כל התשובות האחרות שגויות.</div>
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> השפעה חיובית 180,000 ש"ח (שכ"ד בלבד)</li>
+      <li class="wrong"><span class="opt-letter">ב</span> השפעה חיובית 250,000 ש"ח (שינוי שווי בלבד)</li>
+      <li class="wrong"><span class="opt-letter">ג</span> השפעה שלילית 70,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span> השפעה חיובית 70,000 ש"ח</li>
+      <li class="correct"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות (נכון: 430,000 ש"ח חיובי)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SECTION 3 · INTANGIBLE ASSETS
+     ════════════════════════════════════════════════════ -->
+<div class="section-divider"><span class="divider-label">נכסים לא מוחשיים · מו"פ</span></div>
+
+<!-- ─── QUESTION 7 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">7</div>
+    <div class="q-head-text">
+      <h3>נכסים לא מוחשיים: קביעת הסכום המהוון, מחקר ופיתוח</h3>
+      <div class="q-topic">שלב מחקר vs. שלב פיתוח · הכרה בנכס מו"פ עצמי-ייצור</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ג</span>
+      הנכס יוכר בסכום של 350,000 ש"ח
+    </div>
+
+    <p class="explain">כללי ההכרה: (א) חייבים להיות בשלב <strong>פיתוח</strong> (לא מחקר), ו-(ב) צריך להתקיים <strong>צפי השלמה גבוה</strong> (תכנית וסבירות כלכלית). הנכס יוכר לפי הנמוך מבין עלות השנה לבין צפי ההטבות הכלכליות.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>שנה</th><th>שלב</th><th>עלות כוללת</th><th>האם מוכר כנכס?</th><th>הסבר</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2023</td>
+          <td>מחקר</td>
+          <td>500,000</td>
+          <td class="expense">הוצאה: 500,000</td>
+          <td style="text-align:right;font-size:12px;">שלב מחקר = הוצאה תמיד</td>
+        </tr>
+        <tr>
+          <td>2024</td>
+          <td>פיתוח (צפי השלמה <em>נמוך</em>)</td>
+          <td>600,000</td>
+          <td class="expense">הוצאה: 600,000</td>
+          <td style="text-align:right;font-size:12px;">פיתוח אך צפי השלמה נמוך ⟹ הוצאה</td>
+        </tr>
+        <tr>
+          <td>2025</td>
+          <td>פיתוח (צפי השלמה <em>גבוה</em>)</td>
+          <td>400,000</td>
+          <td class="asset">נכס: 350,000<br><small class="expense">הוצאה: 50,000</small></td>
+          <td style="text-align:right;font-size:12px;">צפי גבוה ✓ אך עלות (400K) > הטבות (350K)<br>⟹ נכס = min(400K, 350K)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="calc-box">
+      <div class="calc-title">חישוב: שנת 2025</div>
+      $$\text{נכס} = \min(\text{עלות}, \text{הטבות כלכליות}) = \min(400{,}000,\ 350{,}000) = \mathbf{350{,}000}$$
+      $$\text{הוצאה} = 400{,}000 - 350{,}000 = 50{,}000$$
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> 400,000 ש"ח (עלות השנה, לא מתחשב בתקרת ההטבות)</li>
+      <li class="wrong"><span class="opt-letter">ב</span> 0 (כל העלויות כהוצאה, שגוי בשנת 2025)</li>
+      <li class="correct"><span class="opt-letter">ג</span> 350,000 ש"ח (min עלות, הטבות)</li>
+      <li class="wrong"><span class="opt-letter">ד</span> 750,000 ש"ח (סך 2024+2025, שגוי)</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SECTION 4 · REVERSE CALCULATIONS
+     ════════════════════════════════════════════════════ -->
+<div class="section-divider"><span class="divider-label">חישובים הפוכים</span></div>
+
+<!-- ─── QUESTION 8 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">8</div>
+    <div class="q-head-text">
+      <h3>חילוץ תמורת מכירה כאשר הפסד ההון נתון</h3>
+      <div class="q-topic">חישוב הפוך · עלות מופחתת ⟶ תמורה</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">א</span>
+      תמורת מכירה: 313,000 ש"ח
+    </div>
+
+    <p class="explain">זמינות לשימוש: 1.10.2020. מכירה: 1.10.2024. תקופת פחת שנצברה: <strong>4 שנים בדיוק</strong>.</p>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 1 · עלות מופחתת ערב המכירה</div>
+      $$D_{שנתי} = \frac{500{,}000 - 50{,}000}{10} = 45{,}000$$
+      $$\text{פחת נצבר}_{1.10.2024} = 45{,}000 \times 4 = 180{,}000$$
+      $$\text{עלות מופחתת ערב מכירה} = 500{,}000 - 180{,}000 = 320{,}000$$
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-title">שלב 2 · חילוץ תמורה מהגדרת הפסד הון</div>
+      $$\text{הפסד הון} = \text{תמורה} - \text{עלות מופחתת} \implies -7{,}000 = X - 320{,}000$$
+      $$X = 320{,}000 - 7{,}000 = \mathbf{313{,}000} \text{ ש"ח}$$
+    </div>
+
+    <ul class="options-list">
+      <li class="correct"><span class="opt-letter">א</span> 313,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ב</span> 320,000 ש"ח (העלות המופחתת עצמה, ללא הפסד)</li>
+      <li class="wrong"><span class="opt-letter">ג</span> 293,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ד</span> 327,000 ש"ח</li>
+      <li class="wrong"><span class="opt-letter">ה</span> כל התשובות האחרות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SECTION 5 · THEORY
+     ════════════════════════════════════════════════════ -->
+<div class="section-divider"><span class="divider-label">תיאוריה</span></div>
+
+<!-- ─── QUESTION 10 ─── -->
+<div class="q-card">
+  <div class="q-head">
+    <div class="q-num-badge">10</div>
+    <div class="q-head-text">
+      <h3>טענות תיאורטיות משולבות</h3>
+      <div class="q-topic">עלות ר"ק · נדל"ן להשקעה · בסיסי מדידה חלופיים</div>
+    </div>
+  </div>
+  <div class="q-body">
+
+    <div class="answer-label">
+      <span class="ans-letter">ה</span>
+      כל הטענות שגויות
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>טענה</th><th>ניסוח בתמצית</th><th>שגוי?</th><th>הסבר</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">טענה 1</td>
+          <td style="text-align:right;font-size:13px;">עלות ר"ק כוללת עלויות הבאה למיקום, <br>אך <em>עלויות הובלה הן הוצאה</em></td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">טעות: עלויות הובלה הן <strong>חלק מעלות הנכס</strong>, לא הוצאה</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">טענה 2</td>
+          <td style="text-align:right;font-size:13px;">נדל"ן להשקעה <em>חייב</em> להימדד לפי שווי הוגן</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">מדידה לפי שווי הוגן היא <strong>רשות</strong>, לא חובה; מודל העלות גם כשיר</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">טענה 3</td>
+          <td style="text-align:right;font-size:13px;">ר"ק <em>חייב</em> להימדד לפי עלות; <em>אין</em> בסיס חלופי</td>
+          <td class="expense">✗ שגוי</td>
+          <td style="text-align:right;font-size:13px;">קיים <strong>מודל הערכה מחדש</strong> כבסיס מדידה חלופי לר"ק</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <div class="note-label">📌 סיכום</div>
+      <strong>טענה 1</strong>: שגויה הובלה כן חלק מעלות.
+      <br><strong>טענה 2</strong>: שגויה שווי הוגן לנדל"ן להשקעה הוא רשות, לא חובה.
+      <br><strong>טענה 3</strong>: שגויה מודל הערכה מחדש הוא בסיס חלופי לגיטימי לר"ק.
+      <br><strong>לכן כל הטענות שגויות: ה'.</strong>
+    </div>
+
+    <ul class="options-list">
+      <li class="wrong"><span class="opt-letter">א</span> טענה 1 בלבד</li>
+      <li class="wrong"><span class="opt-letter">ב</span> טענה 2 בלבד</li>
+      <li class="wrong"><span class="opt-letter">ג</span> טענה 3 בלבד</li>
+      <li class="wrong"><span class="opt-letter">ד</span> טענות 1 ו-3</li>
+      <li class="correct"><span class="opt-letter">ה</span> כל הטענות שגויות</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════ -->
+<div style="text-align:center;padding:30px 20px;color:var(--text-soft);font-size:13px;border-top:1px solid var(--border);margin-top:20px;line-height:1.9;">
+  הפתרון נכתב ע"י ד"ר שי צבאן ונערך לנוחותכם מבחינה הצגתית נאותה בכלים של בינה מלאכותית ונסקר לאחר מכן שוב על ידי המרצה.
+  <br>במידה ועולה חשש כלשהו לאי התאמה כלשהי, ציינו בפניי לבדיקה מיידית.
+</div>
+
+</div><!-- /container -->
+
+</body>
+</html>

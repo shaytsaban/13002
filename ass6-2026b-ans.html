@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מטלת הנחיה (ממ"ן) 6: פתרון | חשבונאות למנהלים 13002</title>
+<style>
+  :root{
+    --primary:#16324f; --primary-light:#1f4a73; --accent:#0e7490;
+    --green:#15803d; --green-bg:#f0fdf4; --green-border:#bbf7d0;
+    --red:#b91c1c; --red-bg:#fef2f2; --red-border:#fecaca;
+    --blue:#1d4ed8; --blue-bg:#eff6ff; --blue-border:#bfdbfe;
+    --amber-bg:#fffbeb; --amber-border:#fde68a;
+    --gray:#475569; --border:#e2e8f0; --calc-bg:#f8fafc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Segoe UI",Arial,"Noto Sans Hebrew",sans-serif;
+    color:#1e293b;background:#eef2f6;margin:0;padding:28px 16px;line-height:1.75;
+  }
+  .container{max-width:920px;margin:0 auto;}
+
+  /* ---------- header ---------- */
+  header{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+    color:#fff;border-radius:14px;padding:30px 34px;margin-bottom:30px;
+    box-shadow:0 4px 14px rgba(22,50,79,.25);
+  }
+  header h1{margin:0 0 8px;font-size:1.7em;letter-spacing:.2px;}
+  header p{margin:3px 0;opacity:.88;font-size:.98em;}
+
+  /* ---------- section titles ---------- */
+  h2.section{
+    color:var(--primary);font-size:1.35em;margin:44px 0 16px;
+    padding-bottom:8px;border-bottom:3px solid var(--accent);
+  }
+
+  /* ---------- answers summary table ---------- */
+  table.answers{
+    width:100%;border-collapse:separate;border-spacing:0;background:#fff;
+    border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+  table.answers th{background:var(--accent);color:#fff;padding:12px;font-size:1.05em;}
+  table.answers td{border-bottom:1px solid var(--border);padding:10px 12px;text-align:center;}
+  table.answers tr:last-child td{border-bottom:none;}
+  table.answers tr:nth-child(even) td{background:#f8fafc;}
+  table.answers td.ans{font-weight:800;color:var(--green);font-size:1.3em;}
+  table.answers td.topic{text-align:right;color:var(--gray);font-size:.95em;}
+
+  /* ---------- question card ---------- */
+  .q{
+    background:#fff;border:1px solid var(--border);border-radius:14px;
+    margin:30px 0;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;
+  }
+  .q-head{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+    color:#fff;padding:14px 24px;display:flex;justify-content:space-between;
+    align-items:center;flex-wrap:wrap;gap:10px;
+  }
+  .q-head h3{margin:0;font-size:1.2em;}
+  .badge{
+    background:#fff;color:var(--green);font-weight:800;border-radius:22px;
+    padding:5px 18px;font-size:1em;box-shadow:0 1px 3px rgba(0,0,0,.2);
+  }
+  .q-body{padding:22px 26px;}
+
+  /* ---------- inner blocks ---------- */
+  .block-title{
+    font-weight:700;color:var(--primary);font-size:1.02em;
+    margin:22px 0 8px;display:flex;align-items:center;gap:8px;
+  }
+  .block-title::before{
+    content:"";display:inline-block;width:10px;height:10px;border-radius:3px;
+    background:var(--accent);
+  }
+  .qdata{
+    background:var(--amber-bg);border:1px solid var(--amber-border);
+    border-radius:10px;padding:14px 18px;margin-bottom:6px;
+  }
+  .qdata p{margin:4px 0;}
+
+  /* ---------- options ---------- */
+  ul.options{list-style:none;margin:6px 0 0;padding:0;}
+  ul.options li{
+    display:flex;align-items:baseline;gap:12px;padding:7px 12px;margin:5px 0;
+    background:#fff;border:1px solid var(--border);border-radius:8px;
+  }
+  ul.options li .letter{
+    flex-shrink:0;width:28px;height:28px;border-radius:50%;
+    background:var(--primary);color:#fff;font-weight:700;
+    display:flex;align-items:center;justify-content:center;font-size:.95em;
+    align-self:center;
+  }
+  ul.options li.is-correct{background:var(--green-bg);border-color:var(--green-border);}
+  ul.options li.is-correct .letter{background:var(--green);}
+
+  /* ---------- vertical accounting table ---------- */
+  table.acct{
+    border-collapse:collapse;margin:10px auto;min-width:65%;background:#fff;
+    border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  }
+  table.acct th{
+    background:#f1f5f9;color:var(--primary);padding:8px 16px;
+    border-bottom:2px solid var(--border);text-align:right;font-size:.98em;
+  }
+  table.acct th.num{text-align:left;}
+  table.acct td{padding:7px 16px;border-bottom:1px solid #f1f5f9;}
+  table.acct td.num{
+    text-align:left;font-family:Consolas,Menlo,monospace;font-size:1.02em;
+    white-space:nowrap;direction:ltr;
+  }
+  table.acct tr.total td{
+    border-top:2px solid var(--primary);border-bottom:none;
+    font-weight:700;color:var(--primary);background:#f8fafc;
+  }
+  table.acct tr:last-child td{border-bottom:none;}
+
+  /* ---------- math display ---------- */
+  .math{
+    display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+    gap:14px;direction:rtl;background:var(--calc-bg);
+    border:1px solid var(--border);border-radius:10px;
+    padding:18px 20px;margin:14px 0;font-size:1.08em;color:#0f172a;
+  }
+  .math .lbl{font-weight:700;color:var(--primary);}
+  .math .op{font-size:1.15em;color:var(--gray);}
+  .math .res{
+    font-weight:800;color:var(--green);font-size:1.15em;
+    background:var(--green-bg);border:1px solid var(--green-border);
+    border-radius:8px;padding:3px 14px;direction:ltr;
+  }
+  .frac{
+    display:inline-flex;flex-direction:column;align-items:center;
+    vertical-align:middle;line-height:1.35;
+  }
+  .frac .top{
+    padding:0 12px 2px;border-bottom:2px solid #0f172a;white-space:nowrap;
+  }
+  .frac .bot{padding:2px 12px 0;white-space:nowrap;}
+  .frac .top.n,.frac .bot.n{
+    font-family:Consolas,Menlo,monospace;direction:ltr;
+  }
+  .mini-math{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    direction:rtl;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;
+    padding:8px 14px;margin:8px auto 2px;font-size:.98em;width:fit-content;
+  }
+  .mini-math .res{
+    font-weight:700;color:var(--red);direction:ltr;
+  }
+
+  /* ---------- result / elimination / lecture boxes ---------- */
+  .correct{
+    background:var(--green-bg);border:1px solid var(--green-border);
+    border-right:5px solid var(--green);border-radius:10px;
+    padding:14px 18px;margin:18px 0;
+  }
+  .correct b{color:var(--green);}
+  .elim{
+    background:var(--red-bg);border:1px solid var(--red-border);
+    border-right:5px solid var(--red);border-radius:10px;
+    padding:14px 18px;margin:18px 0;
+  }
+  .elim > b.title{color:var(--red);display:block;margin-bottom:10px;font-size:1.02em;}
+  .elim .item{
+    display:flex;gap:12px;align-items:flex-start;margin:10px 0;
+    background:#fff;border:1px solid var(--red-border);border-radius:8px;
+    padding:10px 12px;
+  }
+  .elim .item .letter{
+    flex-shrink:0;width:26px;height:26px;border-radius:50%;
+    background:var(--red);color:#fff;font-weight:700;
+    display:flex;align-items:center;justify-content:center;font-size:.9em;
+    margin-top:3px;
+  }
+  .elim .item .body{flex:1;}
+  .elim .item .body p{margin:0 0 4px;}
+  .lect{
+    background:var(--blue-bg);border:1px solid var(--blue-border);
+    border-right:5px solid var(--blue);border-radius:10px;
+    padding:12px 18px;margin:18px 0 4px;font-size:.96em;color:#1e3a8a;
+  }
+  .lect b{color:var(--blue);}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .q{break-inside:avoid;box-shadow:none}
+  }
+  @media (max-width:640px){
+    .q-body{padding:16px;}
+    table.acct{min-width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>מטלת הנחיה (ממ"ן) 6: פתרון</h1>
+  <p>קורס 13002: חשבונאות למנהלים</p>
+  <p>חטיבה 6: ניתוח דוחות כספיים, יחסים פיננסיים</p>
+</header>
+
+<h2 class="section">טבלת ריכוז תשובות</h2>
+<table class="answers">
+  <tr><th>שאלה</th><th>תשובה נבחרת</th><th>נושא</th></tr>
+  <tr><td>1</td><td class="ans">א</td><td class="topic">שיעור רווח גולמי: 25.0%</td></tr>
+  <tr><td>2</td><td class="ans">ב</td><td class="topic">השפעת הלוואה לזמן קצר על היחס השוטף: שיפור ל־0.67 בקירוב</td></tr>
+  <tr><td>3</td><td class="ans">ג</td><td class="topic">יחס מהיר: 1.25</td></tr>
+  <tr><td>4</td><td class="ans">ד</td><td class="topic">יחס התחייבויות להון עצמי: 1.50</td></tr>
+  <tr><td>5</td><td class="ans">א</td><td class="topic">קיצוץ הוצאות הנהלה וכלליות: הגולמי ללא שינוי, התפעולי גדל</td></tr>
+  <tr><td>6</td><td class="ans">ב</td><td class="topic">הלוואה לזמן ארוך: הנזילות משתפרת, האיתנות מורעת</td></tr>
+  <tr><td>7</td><td class="ans">ג</td><td class="topic">שיעור תפעולי עולה אך הרווח בשקלים קטן: העלאת מחירים</td></tr>
+  <tr><td>8</td><td class="ans">ד</td><td class="topic">יחס שוטף מנתוני מאזן: 1.00</td></tr>
+  <tr><td>9</td><td class="ans">א</td><td class="topic">היחס השוטף תמיד גדול מהיחס המהיר או שווה לו</td></tr>
+  <tr><td>10</td><td class="ans">ה</td><td class="topic">שיעור רווח נקי: 8.0%, ערך שאינו מופיע במסיחים</td></tr>
+</table>
+
+<h2 class="section">פתרונות מפורטים</h2>
+
+<!-- ================= Q1 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 1: שיעור הרווח הגולמי</h3><span class="badge">התשובה: א</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>חברה דיווחה לשנת 2025 על הנתונים הבאים:</p>
+      <p>היקף מכירות בסך 800,000 ש"ח; עלות מכירות בסך 600,000 ש"ח; הוצאות הנהלה וכלליות בסך 100,000 ש"ח.</p>
+      <p><b>הנדרש:</b> מהו שיעור (זוהי דרישה באחוזים) הרווח הגולמי של החברה לשנת 2025?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li class="is-correct"><span class="letter">א</span>25.0%</li>
+      <li><span class="letter">ב</span>75.0%</li>
+      <li><span class="letter">ג</span>12.5%</li>
+      <li><span class="letter">ד</span>50.0%</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">שלב ראשון: חישוב הרווח הגולמי</div>
+    <p>הרווח הגולמי מוגדר במלל: מכירות בניכוי עלות המכירות. הוא מבטא את המרווח הבסיסי בין ההכנסה העיקרית לבין עלות המוצרים שנמכרו, לפני כל העלויות העסקיות הנוספות.</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">ש"ח</th></tr>
+      <tr><td>מכירות</td><td class="num">800,000</td></tr>
+      <tr><td>עלות המכירות</td><td class="num">(600,000)</td></tr>
+      <tr class="total"><td>רווח גולמי</td><td class="num">200,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שני: חישוב שיעור הרווח הגולמי</div>
+    <p>שיעור הרווח הגולמי מוגדר כיחס שבין הרווח הגולמי לבין המכירות, מבוטא באחוזים:</p>
+    <div class="math">
+      <span class="lbl">שיעור רווח גולמי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">רווח גולמי</span><span class="bot">מכירות</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">200,000</span><span class="bot n">800,000</span></span>
+      <span class="op">=</span>
+      <span class="res">25.0%</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: א (25.0%).</b>
+      המשמעות: בממוצע, כל 1 ש"ח מכירה תורם 25 אגורות לרווח הגולמי.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>75.0% הוא שיעור עלות המכירות מתוך המכירות, כלומר הערך המשלים ל־100%, ולא שיעור הרווח הגולמי:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">600,000</span><span class="bot n">800,000</span></span>
+          <span class="op">=</span>
+          <span class="res">75.0%</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>12.5% מתקבל רק אם מנכים בטעות גם את הוצאות ההנהלה וכלליות. הוצאות אלה מופיעות אחרי שורת הרווח הגולמי בדוח רווח והפסד, ולכן 12.5% הוא למעשה שיעור הרווח התפעולי של החברה, ולא שיעור הרווח הגולמי שנשאל עליו. כפי שהודגש במחברת: הגורמים המשפיעים על שיעור הרווח הגולמי הם המכירות ועלות המכר בלבד.</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">800,000 − 600,000 − 100,000</span><span class="bot n">800,000</span></span>
+          <span class="op">=</span>
+          <span class="res">12.5%</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>50.0% אינו נובע מאף הגדרה לגיטימית של יחסי הרווחיות. הוא עשוי ללכוד למשל חלוקה שגויה של הוצאות ההנהלה וכלליות ברווח הגולמי, יחס שאינו קיים בקורס:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">100,000</span><span class="bot n">200,000</span></span>
+          <span class="op">=</span>
+          <span class="res">50.0%</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן קיימת תשובה נכונה (א).</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (מפגש 6):</b> "שיעור רווח גולמי מוגדר לפי היחס בין הרווח הגולמי להכנסות (יש לבטא באחוזים)". הרווח הגולמי הוא "המרווח בין המכירות לבין עלות המוצרים שנמכרו, לפני עלויות עסקיות נוספות".</div>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 2: השפעת נטילת הלוואה לזמן קצר על היחס השוטף</h3><span class="badge">התשובה: ב</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>נכסים שוטפים בסך 60,000 ש"ח; התחייבויות שוטפות בסך 100,000 ש"ח.</p>
+      <p>החברה נוטלת הלוואה לזמן קצר מהבנק בסך 20,000 ש"ח במזומן, אשר מוזרם ישירות לחשבון העו"ש שלה.</p>
+      <p><b>הנדרש:</b> כיצד תשפיע פעולה זו על היחס השוטף של החברה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>היחס השוטף יורע ויעמוד על 0.50</li>
+      <li class="is-correct"><span class="letter">ב</span>היחס השוטף ישתפר ויעמוד על 0.67 בקירוב</li>
+      <li><span class="letter">ג</span>היחס השוטף לא ישתנה כלל שכן שני אגפי היחס גדלו באותו סכום אבסולוטי</li>
+      <li><span class="letter">ד</span>היחס השוטף ישתפר ויעמוד על 0.80</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">שלב ראשון: היחס השוטף לפני הפעולה</div>
+    <p>היחס השוטף מוגדר במלל: כלל הנכסים השוטפים חלקי ההתחייבויות השוטפות.</p>
+    <div class="math">
+      <span class="lbl">יחס שוטף לפני הפעולה</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">נכסים שוטפים</span><span class="bot">התחייבויות שוטפות</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">60,000</span><span class="bot n">100,000</span></span>
+      <span class="op">=</span>
+      <span class="res">0.60</span>
+    </div>
+
+    <div class="block-title">שלב שני: השפעת הפעולה על אגפי היחס</div>
+    <p>נטילת הלוואה לזמן קצר מגדילה את ההתחייבויות השוטפות (סעיף הלוואות לזמן קצר) וכן את הנכסים השוטפים (סעיף עו"ש), באותו סכום:</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">לפני</th><th class="num">שינוי</th><th class="num">אחרי</th></tr>
+      <tr><td>נכסים שוטפים</td><td class="num">60,000</td><td class="num">+20,000</td><td class="num">80,000</td></tr>
+      <tr><td>התחייבויות שוטפות</td><td class="num">100,000</td><td class="num">+20,000</td><td class="num">120,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שלישי: היחס השוטף לאחר הפעולה</div>
+    <div class="math">
+      <span class="lbl">יחס שוטף לאחר הפעולה</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">80,000</span><span class="bot n">120,000</span></span>
+      <span class="op">≈</span>
+      <span class="res">0.67</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ב.</b>
+      היחס השוטף השתפר מ־0.60 ל־0.67 בקירוב. העיקרון: כאשר היחס נמוך מ־1, הוספת סכום זהה לשני אגפי היחס מקרבת אותו אל 1 כלפי מעלה, כלומר משפרת אותו.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>שגוי כפליים. ראשית, היחס דווקא משתפר, שכן ערכו ההתחלתי נמוך מ־1. שנית, הערך 0.50 היה מתקבל רק אילו ההלוואה הייתה מגדילה את המכנה בלבד, בניגוד לנתון המפורש שהמזומן הוזרם לעו"ש:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">60,000</span><span class="bot n">120,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.50</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>זוהי טעות נפוצה שהמחברת מזהירה מפניה במפורש. גידול זהה בסכום אבסולוטי בשני אגפי היחס אינו משמר את ערכו, אלא אם ערכו ההתחלתי הוא בדיוק 1. כאן הערך ההתחלתי הוא 0.60, ולכן היחס בהכרח משתנה.</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>הערך 0.80 מתקבל רק אם מגדילים בטעות את המונה בלבד, תוך התעלמות מכך שההלוואה לזמן קצר היא בעצמה התחייבות שוטפת המצטרפת למכנה:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">80,000</span><span class="bot n">100,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.80</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ב נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 12.3):</b> "אם לא נאמר אחרת: נטילת הלוואה לזמן קצר מגדילה את ההתחייבויות השוטפות וכן את הנכסים השוטפים באותו הסכום... אם היחס השוטף בחברה נמוך מ־1: נטילת הלוואה לזמן קצר תגדיל (תשפר) את היחס השוטף".</div>
+  </div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 3: היחס המהיר</h3><span class="badge">התשובה: ג</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>מתוך מאזן חברת "תעשיות" ליום 31.12.2025:</p>
+      <p>סך נכסים שוטפים בסך 240,000 ש"ח, מתוכם מלאי בשווי 90,000 ש"ח; סך התחייבויות שוטפות בסך 120,000 ש"ח.</p>
+      <p><b>הנדרש:</b> מהו היחס המהיר של החברה למועד זה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>2.00</li>
+      <li><span class="letter">ב</span>0.75</li>
+      <li class="is-correct"><span class="letter">ג</span>1.25</li>
+      <li><span class="letter">ד</span>1.50</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">שלב ראשון: הגדרה וחישוב המונה</div>
+    <p>היחס המהיר מוגדר במלל: הנכסים השוטפים בניכוי המלאי, חלקי ההתחייבויות השוטפות. היחס מנטרל את המלאי מתוך תפיסה שמרנית שלפיה מימוש מלאי לצורך פירעון הוא מסוכן ומוטל בספק (מעין Stress-test).</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">ש"ח</th></tr>
+      <tr><td>נכסים שוטפים</td><td class="num">240,000</td></tr>
+      <tr><td>בניכוי מלאי</td><td class="num">(90,000)</td></tr>
+      <tr class="total"><td>נכסים שוטפים ללא מלאי</td><td class="num">150,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שני: חישוב היחס המהיר</div>
+    <div class="math">
+      <span class="lbl">יחס מהיר</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">נכסים שוטפים − מלאי</span><span class="bot">התחייבויות שוטפות</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">150,000</span><span class="bot n">120,000</span></span>
+      <span class="op">=</span>
+      <span class="res">1.25</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ג (1.25).</b>
+      גם בתרחיש השמרני של אי־מימוש המלאי, לחברה די נכסים נזילים לכיסוי מלוא התחייבויותיה השוטפות, שכן היחס גדול מ־1.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>2.00 הוא היחס השוטף, ללא נטרול המלאי, בעוד השאלה מבקשת במפורש את היחס המהיר:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">240,000</span><span class="bot n">120,000</span></span>
+          <span class="op">=</span>
+          <span class="res">2.00</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>0.75 מתקבל מחישוב הפוך ושגוי, שבו המלאי בלבד מוצב במונה. המלאי הוא הרכיב המנוטרל מהמונה, לא המונה עצמו:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">90,000</span><span class="bot n">120,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.75</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>1.50 אינו נובע מהגדרות היחסים על נתוני השאלה (מתקבל למשל מניכוי שגוי של 60,000 בלבד מהמונה).</p>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ג נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 12):</b> "יחס מהיר: היחס בין הנכסים השוטפים בניכוי המלאי לבין ההתחייבויות השוטפות... יחס זה בוחן את היכולת לסלק התחייבויות שוטפות על בסיס כלל הנכסים השוטפים למעט המלאי", מתוך תפיסה שמימוש מלאי "מסוכן / מוטל בספק".</div>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 4: יחס התחייבויות להון עצמי (מדד מינוף/איתנות)</h3><span class="badge">התשובה: ד</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>חברה מציגה בדוחותיה הכספיים: סך נכסים במאזן של 1,000,000 ש"ח והון עצמי בסך 400,000 ש"ח.</p>
+      <p><b>הנדרש:</b> מהו יחס ההתחייבויות להון העצמי של החברה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>0.40</li>
+      <li><span class="letter">ב</span>0.60</li>
+      <li><span class="letter">ג</span>2.50</li>
+      <li class="is-correct"><span class="letter">ד</span>1.50</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">שלב ראשון: גזירת סך ההתחייבויות ממשוואת המאזן</div>
+    <p>משוואת המאזן קובעת במלל: סך הנכסים שווה לסך ההתחייבויות בתוספת ההון העצמי. מכאן, ההתחייבויות הן סך הנכסים בניכוי ההון העצמי.</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">ש"ח</th></tr>
+      <tr><td>סך נכסים</td><td class="num">1,000,000</td></tr>
+      <tr><td>בניכוי הון עצמי</td><td class="num">(400,000)</td></tr>
+      <tr class="total"><td>סך התחייבויות</td><td class="num">600,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שני: חישוב היחס</div>
+    <div class="math">
+      <span class="lbl">יחס התחייבויות להון עצמי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">סך התחייבויות</span><span class="bot">הון עצמי</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">600,000</span><span class="bot n">400,000</span></span>
+      <span class="op">=</span>
+      <span class="res">1.50</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ד (1.50).</b>
+      המשמעות: על כל 1 ש"ח של הון עצמי גייסה החברה 1.5 ש"ח של התחייבויות.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>0.40 הוא יחס ההון העצמי לנכסים, יחס האיתנות השני הנלמד בקורס, אך לא היחס שנשאל עליו:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">400,000</span><span class="bot n">1,000,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.40</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>0.60 הוא יחס ההתחייבויות לנכסים, כלומר בלבול במכנה (נכסים במקום הון עצמי):</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">600,000</span><span class="bot n">1,000,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.60</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>2.50 הוא היחס בין סך הנכסים להון העצמי (מכפיל הון), שאינו אחד משני יחסי האיתנות המחייבים בקורס:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">1,000,000</span><span class="bot n">400,000</span></span>
+          <span class="op">=</span>
+          <span class="res">2.50</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ד נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 13):</b> "יחס ההתחייבויות להון מבטא עקרונית, בממוצע, כמה שקלים של חוב גויסו בגין כל 1 ש"ח של הון עצמי... ככל שיחס זה גבוה יותר הסיכון גבוה יותר".</div>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 5: השפעת קיצוץ שכר הנהלה על שיעורי הרווחיות</h3><span class="badge">התשובה: א</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>חברה מסחרית ביצעה תהליך התייעלות שבמסגרתו קוצצו משמעותית עלויות השכר של המנהלות והמנהלים הכלליים במשרדי ההנהלה (הוצאות הנהלה וכלליות).</p>
+      <p>נתון כי מחירי המכירה ועלויות רכישת המלאי לא השתנו.</p>
+      <p><b>הנדרש:</b> כיצד ישפיע קיצוץ השכר על שיעור הרווח הגולמי ועל שיעור הרווח התפעולי, בהתאמה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li class="is-correct"><span class="letter">א</span>שיעור הרווח הגולמי יישאר ללא שינוי, ושיעור הרווח התפעולי יגדל</li>
+      <li><span class="letter">ב</span>שני שיעורי הרווחיות יגדלו במקביל ובאותו אחוז בדיוק</li>
+      <li><span class="letter">ג</span>שיעור הרווח הגולמי יגדל, ושיעור הרווח התפעולי יישאר ללא שינוי</li>
+      <li><span class="letter">ד</span>שני שיעורי הרווחיות יקטנו בשל הפגיעה במוטיבציה הניהולית</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">ניתוח: מיקום הוצאות ההנהלה במבנה דוח רווח והפסד</div>
+    <p>נזכיר את מבנה דוח רווח והפסד כפי שהוצג במחברת. שימו לב היכן ממוקמות הוצאות ההנהלה וכלליות ביחס לשורת הרווח הגולמי:</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">השפעת הקיצוץ</th></tr>
+      <tr><td>מכירות</td><td class="num">ללא שינוי</td></tr>
+      <tr><td>בניכוי עלות המכירות</td><td class="num">ללא שינוי</td></tr>
+      <tr class="total"><td>רווח גולמי</td><td class="num">ללא שינוי</td></tr>
+      <tr><td>בניכוי הוצאות מכירה ושיווק</td><td class="num">ללא שינוי</td></tr>
+      <tr><td>בניכוי הוצאות הנהלה וכלליות</td><td class="num">ההוצאה קטנה</td></tr>
+      <tr class="total"><td>רווח תפעולי</td><td class="num">גדל</td></tr>
+    </table>
+
+    <div class="block-title">המסקנה לגבי שיעורי הרווחיות</div>
+    <p>שיעור הרווח הגולמי: המונה (רווח גולמי) והמכנה (מכירות) לא השתנו, ולכן השיעור נותר ללא שינוי.</p>
+    <div class="math">
+      <span class="lbl">שיעור רווח גולמי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">רווח גולמי (ללא שינוי)</span><span class="bot">מכירות (ללא שינוי)</span></span>
+      <span class="op">⇐</span>
+      <span class="res">ללא שינוי</span>
+    </div>
+    <p>שיעור הרווח התפעולי: המונה (רווח תפעולי) גדל בעקבות הקטנת ההוצאה, בעוד המכנה (מכירות) נותר קבוע, ולכן השיעור גדל.</p>
+    <div class="math">
+      <span class="lbl">שיעור רווח תפעולי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">רווח תפעולי (גדל)</span><span class="bot">מכירות (ללא שינוי)</span></span>
+      <span class="op">⇐</span>
+      <span class="res">גדל</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: א.</b>
+      הוצאות הנהלה וכלליות ממוקמות מתחת לשורת הרווח הגולמי, ולכן קיצוצן אינו נוגע כלל לרווח הגולמי ולשיעורו, אך הוא מגדיל את הרווח התפעולי ואת שיעורו. זאת בהנחה, העולה מנתוני השאלה (מחירי המכירה ועלויות רכישת המלאי לא השתנו), שהיקף המכירות עצמו נותר קבוע.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>שיעור הרווח הגולמי אינו גדל כלל, שכן רכיביו (מכירות ועלות מכר) לא השתנו. לכן לא ייתכן ששני השיעורים יגדלו, ובוודאי שלא "באותו אחוז בדיוק".</p>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>היפוך התשובה הנכונה: המסיח מייחס את השינוי לרווח הגולמי במקום לתפעולי. זוהי בדיוק הטענה השגויה שנדונה ונפסלה במחברת (שאלת מור דומיניץ 1, טענה 3): הקטנת משכורות ההנהלה אינה מעלה את הרווח הגולמי ושיעורו.</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>"פגיעה במוטיבציה הניהולית" היא ספקולציה עסקית שאינה חלק מנתוני השאלה. על פי הנתונים החשבונאיים בלבד, ההשפעה היא הגדלת הרווח התפעולי, לא הקטנתו.</p>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן א נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (סיכום ביניים ליחסי הרווחיות):</b> "יחס שיעור הרווח הגולמי: הגורמים המשפיעים עליו הם המכירות ועלות המכר בלבד. יחס שיעור הרווח התפעולי מושפע מהגורמים המשפיעים על הרווח הגולמי, אבל גם משינויים בהוצאות מכירה ושיווק, הנהלה וכלליות".</div>
+  </div>
+</div>
+
+<!-- ================= Q6 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 6: הלוואה לזמן ארוך, נזילות מול איתנות</h3><span class="badge">התשובה: ב</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>חברת "השקעות" נטלה הלוואה לזמן ארוך מתאגיד בנקאי בסך 500,000 ש"ח, והפקידה את מלוא המזומן שהתקבל בחשבון העו"ש שלה (נכס שוטף).</p>
+      <p><b>הנדרש:</b> כיצד משפיע האירוע על יחסי הנזילות לטווח קצר ועל יחסי האיתנות הפיננסית לטווח ארוך, בהשוואה למצבם ערב נטילת ההלוואה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>יחסי הנזילות ויחסי האיתנות ישתפרו שניהם במקביל</li>
+      <li class="is-correct"><span class="letter">ב</span>יחסי הנזילות ישתפרו, אך יחסי האיתנות יורעו (הסיכון הפיננסי לטווח ארוך יגדל)</li>
+      <li><span class="letter">ג</span>יחסי הנזילות יורעו, אך יחסי האיתנות ישתפרו משמעותית</li>
+      <li><span class="letter">ד</span>לא יחול כל שינוי או השפעה על יחסי הנזילות או האיתנות</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">ניתוח ראשון: ההשפעה על יחסי הנזילות</div>
+    <p>ההלוואה היא לזמן ארוך, ולכן היא אינה מגדילה את ההתחייבויות השוטפות. המזומן שהתקבל מגדיל את הנכסים השוטפים:</p>
+    <table class="acct">
+      <tr><th>רכיב היחס</th><th class="num">שינוי</th></tr>
+      <tr><td>נכסים שוטפים (עו"ש)</td><td class="num">+500,000</td></tr>
+      <tr><td>התחייבויות שוטפות</td><td class="num">ללא שינוי</td></tr>
+    </table>
+    <div class="math">
+      <span class="lbl">יחס שוטף ויחס מהיר</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">מונה גדל</span><span class="bot">מכנה קבוע</span></span>
+      <span class="op">⇐</span>
+      <span class="res">הנזילות משתפרת</span>
+    </div>
+
+    <div class="block-title">ניתוח שני: ההשפעה על יחסי האיתנות</div>
+    <p>סך ההתחייבויות של החברה גדל ב־500,000 ש"ח בעוד ההון העצמי נותר ללא שינוי (נטילת הלוואה אינה עסקה הונית):</p>
+    <table class="acct">
+      <tr><th>רכיב</th><th class="num">שינוי</th></tr>
+      <tr><td>סך התחייבויות</td><td class="num">+500,000</td></tr>
+      <tr><td>הון עצמי</td><td class="num">ללא שינוי</td></tr>
+      <tr><td>סך נכסים</td><td class="num">+500,000</td></tr>
+    </table>
+    <div class="math">
+      <span class="lbl">התחייבויות להון עצמי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">מונה גדל</span><span class="bot">מכנה קבוע</span></span>
+      <span class="op">⇐</span>
+      <span class="res">היחס עולה, הסיכון גדל</span>
+    </div>
+    <div class="math">
+      <span class="lbl">הון עצמי לנכסים</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">מונה קבוע</span><span class="bot">מכנה גדל</span></span>
+      <span class="op">⇐</span>
+      <span class="res">היחס יורד, האיתנות נפגעת</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ב.</b>
+      ההלוואה מזרימה נכס שוטף מבלי להגדיל התחייבות שוטפת, ולכן הנזילות משתפרת. במקביל היא מגדילה את מצבת החוב הכוללת, ולכן האיתנות הפיננסית נפגעת והסיכון הפיננסי לטווח ארוך גדל.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>האיתנות אינה משתפרת: נוסף חוב של 500,000 ש"ח ללא כל גידול בהון העצמי. שני יחסי האיתנות נעים בכיוון של החמרת הסיכון, כמוצג בניתוח לעיל.</p>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>היפוך גמור של הכיוונים: הנזילות דווקא משתפרת, שכן מזומן נכנס לנכסים השוטפים בעוד ההתחייבויות השוטפות נותרות קבועות (ההלוואה איננה שוטפת), והאיתנות דווקא נפגעת.</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>שגוי בעליל: גם רכיבי יחסי הנזילות וגם רכיבי יחסי האיתנות השתנו. הטעות הגלומה במסיח היא ההנחה שהלוואה "רק מחליפה כסף בכסף", בעוד שבפועל נוצרים בו־זמנית גם נכס וגם התחייבות.</p>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ב נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלת מור דומיניץ 4 ושאלה 14.2):</b> "כאשר חברה נוטלת הלוואה לזמן ארוך ומפקידה את כספיה בעו"ש, היחס השוטף ישתפר... אך הערכת הסיכון הפיננסי על פי יחסי האיתנות תגדל". וכן: "סיכון פיננסי מושפע מכל סוגי ההתחייבויות בחברה, גם אלו שהן לזמן קצר וגם אלו שהן לזמן ארוך".</div>
+  </div>
+</div>
+
+<!-- ================= Q7 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 7: שיעור תפעולי עולה אך הרווח התפעולי בשקלים קטן</h3><span class="badge">התשובה: ג</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>במעבר משנת 2024 לשנת 2025 הציגה חברה עלייה מהותית בשיעור הרווח התפעולי שלה (באחוזים), אך במקביל התברר כי הרווח התפעולי האבסולוטי בשקלים קטן.</p>
+      <p><b>הנדרש:</b> מהו ההסבר החשבונאי והעסקי האפשרי לתופעה זו?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>חלה עלייה חדה בהוצאות המימון ובהוצאות המס של החברה במהלך שנת הדיווח</li>
+      <li><span class="letter">ב</span>החברה רכשה פריטי רכוש קבוע רבים במזומן, דבר שהגדיל את נכסי החברה</li>
+      <li class="is-correct"><span class="letter">ג</span>החברה ביצעה העלאת מחירים חדה שהגדילה את המרווח היחסי לכל שקל מכירה, אך הובילה לירידה דרסטית בהיקף ובכמויות המכירה הכוללות</li>
+      <li><span class="letter">ד</span>חלה ירידה משמעותית ביתרת הלקוחות והחייבים במאזן לטובת מזומנים</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">המחשה מספרית (מבוססת על הדוגמה מהמחברת)</div>
+    <p>נניח שהחברה מכרה בעבר במחירים זולים מאוד ובהיקף גבוה, וכי העלאת המחירים הובילה להקטנה מהותית של היקף המכירות:</p>
+    <table class="acct">
+      <tr><th>סעיף</th><th class="num">לפני (2024)</th><th class="num">אחרי (2025)</th></tr>
+      <tr><td>מכירות</td><td class="num">1,000,000</td><td class="num">500,000</td></tr>
+      <tr><td>עלות המכירות</td><td class="num">(900,000)</td><td class="num">(420,000)</td></tr>
+      <tr class="total"><td>רווח גולמי</td><td class="num">100,000</td><td class="num">80,000</td></tr>
+      <tr><td>הוצאות מכירה ושיווק</td><td class="num">(10,000)</td><td class="num">(10,000)</td></tr>
+      <tr><td>הוצאות הנהלה וכלליות</td><td class="num">(30,000)</td><td class="num">(30,000)</td></tr>
+      <tr class="total"><td>רווח תפעולי</td><td class="num">60,000</td><td class="num">40,000</td></tr>
+    </table>
+
+    <div class="block-title">חישוב שיעורי הרווח התפעולי בשתי השנים</div>
+    <div class="math">
+      <span class="lbl">שיעור תפעולי 2024</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">60,000</span><span class="bot n">1,000,000</span></span>
+      <span class="op">=</span>
+      <span class="res">6.0%</span>
+    </div>
+    <div class="math">
+      <span class="lbl">שיעור תפעולי 2025</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">40,000</span><span class="bot n">500,000</span></span>
+      <span class="op">=</span>
+      <span class="res">8.0%</span>
+    </div>
+    <p>וכך מתקבלת בדיוק התופעה שבשאלה: השיעור עלה מ־6.0% ל־8.0%, בעוד הרווח האבסולוטי ירד מ־60,000 ש"ח ל־40,000 ש"ח.</p>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ג.</b>
+      העלאת מחירים מגדילה את הרווח היחסי על כל שקל מכירה, אך אם היא גורמת לצניחה חדה בהיקף המכירות, הסכום הכולל בשקלים עלול לקטון. זהו ההסבר היחיד המיישב את שני חלקי התופעה.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>הרווח התפעולי הוא רווח לפני מימון ומסים. לכן כל שינוי בהוצאות המימון ובמסים אינו משפיע כשלעצמו על הרווח התפעולי ועל שיעורו (כלשון המחברת בשאלה 11.1). המסיח אינו יכול להסביר לא את העלייה בשיעור ולא את הירידה בסכום.</p>
+      </div></div>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>רכישת רכוש קבוע במזומן היא עסקה מאזנית (החלפת נכס בנכס) שאינה נוגעת ישירות לשורות הרווח התפעולי בשנת הרכישה. השפעת הפחת העתידי ממילא הייתה מקטינה גם את השיעור וגם את הסכום, ולכן אינה מסבירה עלייה בשיעור.</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>גביית חובות מלקוחות היא אירוע מאזני ותזרימי: המרת נכס (לקוחות) בנכס (מזומן). אין לה כל השפעה על ההכנסות, על ההוצאות התפעוליות או על הרווח התפעולי ושיעורו.</p>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ג נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 11.1):</b> "לעתים, כשמוכרים במחיר גבוה יותר, מרוויחים יותר בממוצע באופן יחסי על כל 1 ש"ח מכירות, אך ייתכן, לאור ירידה אפשרית שתנבע מכך בהיקף המכירות, שהרווח הכולל יקטן (לא לבלבל בין שיעור רווחיות יחסית באחוזים לבין רווח כולל בש"ח, הם לא תמיד משתנים באותו הכיוון)".</div>
+  </div>
+</div>
+
+<!-- ================= Q8 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 8: חישוב יחס שוטף מנתוני מאזן</h3><span class="badge">התשובה: ד</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>יתרות מתוך מאזן חברה ליום 31.12.2025 (בש"ח):</p>
+      <p>מזומנים ושווי מזומנים 50,000 | לקוחות 70,000 | מלאי 80,000 | השקעות לזמן ארוך 200,000</p>
+      <p>ספקים ונותני שירותים 100,000 | אשראי לזמן קצר מהבנק 100,000 | הלוואות לזמן ארוך 300,000</p>
+      <p><b>הנדרש:</b> מהו היחס השוטף של החברה ליום 31.12.2025?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>2.00</li>
+      <li><span class="letter">ב</span>0.67</li>
+      <li><span class="letter">ג</span>0.50</li>
+      <li class="is-correct"><span class="letter">ד</span>1.00</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">שלב ראשון: מיון וסיכום הנכסים השוטפים</div>
+    <p>לחישוב היחס השוטף נכללים אך ורק הנכסים השוטפים. השקעות לזמן ארוך אינן נכס שוטף בהגדרה, ולכן אינן נכללות:</p>
+    <table class="acct">
+      <tr><th>נכסים שוטפים</th><th class="num">ש"ח</th></tr>
+      <tr><td>מזומנים ושווי מזומנים</td><td class="num">50,000</td></tr>
+      <tr><td>לקוחות</td><td class="num">70,000</td></tr>
+      <tr><td>מלאי</td><td class="num">80,000</td></tr>
+      <tr class="total"><td>סך נכסים שוטפים</td><td class="num">200,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שני: מיון וסיכום ההתחייבויות השוטפות</div>
+    <p>באופן מקביל, הלוואות לזמן ארוך אינן התחייבות שוטפת, ולכן אינן נכללות במכנה:</p>
+    <table class="acct">
+      <tr><th>התחייבויות שוטפות</th><th class="num">ש"ח</th></tr>
+      <tr><td>ספקים ונותני שירותים</td><td class="num">100,000</td></tr>
+      <tr><td>אשראי לזמן קצר מהבנק</td><td class="num">100,000</td></tr>
+      <tr class="total"><td>סך התחייבויות שוטפות</td><td class="num">200,000</td></tr>
+    </table>
+
+    <div class="block-title">שלב שלישי: חישוב היחס השוטף</div>
+    <div class="math">
+      <span class="lbl">יחס שוטף</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">נכסים שוטפים</span><span class="bot">התחייבויות שוטפות</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">200,000</span><span class="bot n">200,000</span></span>
+      <span class="op">=</span>
+      <span class="res">1.00</span>
+    </div>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ד (1.00).</b>
+      לחברה בדיוק די נכסים שוטפים לכיסוי התחייבויותיה השוטפות, והיא עומדת בדיוק בערך הייחוס 1 שהוצג במחברת.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>2.00 מתקבל אם כוללים בטעות את ההשקעות לזמן ארוך בנכסים השוטפים. השקעות לזמן ארוך אינן נכס שוטף בהגדרה:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">200,000 + 200,000</span><span class="bot n">200,000</span></span>
+          <span class="op">=</span>
+          <span class="res">2.00</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>0.67 מתקבל אם מציבים במכנה בטעות את ההלוואות לזמן ארוך במקום את ההתחייבויות השוטפות. הלוואות לזמן ארוך אינן חלק מהגדרת היחס השוטף כלל:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">200,000</span><span class="bot n">300,000</span></span>
+          <span class="op">≈</span>
+          <span class="res">0.67</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>0.50 מתקבל למשל אם מציבים במכנה את הספקים בתוספת ההלוואות לזמן ארוך, תוך השמטת האשראי לזמן קצר. גם כאן מדובר בהכללה אסורה של התחייבות לא־שוטפת בחישוב:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">200,000</span><span class="bot n">100,000 + 300,000</span></span>
+          <span class="op">=</span>
+          <span class="res">0.50</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן ד נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 12):</b> "יחס שוטף: היחס בין כלל הנכסים השוטפים [מזומן, לקוחות, חייבים, מלאי, השקעות למסחר...] לבין ההתחייבויות השוטפות [הלוואות לזמן קצר, ספקים, זכאים...]". נכסים והתחייבויות לזמן ארוך נותרים מחוץ לחישוב.</div>
+  </div>
+</div>
+
+<!-- ================= Q9 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 9: הקשר המתמטי בין היחס השוטף ליחס המהיר</h3><span class="badge">התשובה: א</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>על פי ההגדרות המתמטיות והחשבונאיות המקובלות של יחסי הנזילות:</p>
+      <p><b>הנדרש:</b> איזו מהטענות הבאות נכונה באופן מוחלט לגבי הקשר הכללי בין היחס השוטף לבין היחס המהיר, בכל נקודת זמן שהיא?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li class="is-correct"><span class="letter">א</span>הערך המספרי של היחס השוטף תמיד יהיה גדול מהערך של היחס המהיר או שווה לו</li>
+      <li><span class="letter">ב</span>הערך המספרי של היחס המהיר תמיד יהיה גדול מהערך של היחס השוטף או שווה לו</li>
+      <li><span class="letter">ג</span>היחס השוטף והיחס המהיר מניבים בהכרח תוצאה זהה לחלוטין בכל החברות בשוק</li>
+      <li><span class="letter">ד</span>היחס המהיר בוחן כושר פירעון לטווח ארוך, בעוד היחס השוטף בוחן נזילות מיידית בלבד</li>
+      <li><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">הוכחה מתוך ההגדרות</div>
+    <p>נציב את שתי ההגדרות זו מול זו:</p>
+    <div class="math">
+      <span class="lbl">יחס שוטף</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">נכסים שוטפים</span><span class="bot">התחייבויות שוטפות</span></span>
+    </div>
+    <div class="math">
+      <span class="lbl">יחס מהיר</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">נכסים שוטפים − מלאי</span><span class="bot">התחייבויות שוטפות</span></span>
+    </div>
+    <p>המכנה בשני היחסים זהה. המונה של היחס המהיר מתקבל מהמונה של היחס השוטף בניכוי המלאי, והמלאי לעולם אינו יכול להיות שלילי:</p>
+    <div class="math">
+      <span class="lbl">מלאי ≥ 0</span>
+      <span class="op">⇐</span>
+      <span class="lbl">נכסים שוטפים − מלאי ≤ נכסים שוטפים</span>
+      <span class="op">⇐</span>
+      <span class="res">יחס שוטף ≥ יחס מהיר</span>
+    </div>
+    <p>השוויון מתקיים בדיוק כאשר אין מלאי כלל, למשל בחברות שירותים.</p>
+
+    <div class="correct">
+      <b>התשובה הנכונה: א.</b>
+      זהו קשר הגדרתי־מתמטי מוחלט: ניכוי רכיב אי־שלילי (מלאי) מהמונה בלבד, כאשר המכנה זהה, לעולם אינו מגדיל את היחס.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים</b>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>היפוך הקשר הנכון. במחברת נקבע במפורש שטענה כזו שגויה בהגדרה: לא ייתכן שהיחס המהיר יעלה על היחס השוטף, שכן המלאי אינו יכול להיות שלילי.</p>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>השוויון בין שני היחסים מתקיים רק בחברות ללא מלאי. בחברות המחזיקות מלאי היחסים שונים זה מזה, ובוודאי שאין זהות תוצאות "בכל החברות בשוק".</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>בלבול כפול בין קטגוריות היחסים: שני היחסים גם יחד הם יחסי נזילות הבוחנים כושר פירעון לטווח קצר. כושר הפירעון לטווח ארוך נבחן על ידי יחסי האיתנות הפיננסית (הון עצמי לנכסים, התחייבויות להון עצמי).</p>
+      </div></div>
+      <div class="item"><span class="letter">ה</span><div class="body">
+        <p>נפסלת, שכן א נכונה.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלת שחר 3):</b> "לעולם הערך המספרי של היחס השוטף יהיה גבוה או לכל הפחות זהה ליחס המהיר... טענה 1 נכונה [בכל מועד דיווח, היחס המהיר יהיה נמוך או זהה ליחס השוטף]; טענה 2 שגויה (כשאין מלאי היחסים זהים); טענה 3 שגויה בהגדרה".</div>
+  </div>
+</div>
+
+<!-- ================= Q10 ================= -->
+<div class="q">
+  <div class="q-head"><h3>שאלה 10: שיעור הרווח הנקי</h3><span class="badge">התשובה: ה</span></div>
+  <div class="q-body">
+
+    <div class="qdata">
+      <p>נתוני החברה לשנת הדיווח:</p>
+      <p>הכנסות ממכירות 1,000,000 ש"ח | רווח גולמי 400,000 ש"ח | רווח תפעולי 150,000 ש"ח | רווח נקי 80,000 ש"ח</p>
+      <p><b>הנדרש:</b> מהו שיעור הרווח הנקי של החברה?</p>
+    </div>
+
+    <div class="block-title">אפשרויות המענה</div>
+    <ul class="options">
+      <li><span class="letter">א</span>40.0%</li>
+      <li><span class="letter">ב</span>15.0%</li>
+      <li><span class="letter">ג</span>4.0%</li>
+      <li><span class="letter">ד</span>80.0%</li>
+      <li class="is-correct"><span class="letter">ה</span>כל יתר התשובות שגויות</li>
+    </ul>
+
+    <div class="block-title">חישוב שיעור הרווח הנקי</div>
+    <p>שיעור הרווח הנקי מוגדר במלל: הרווח הנקי חלקי ההכנסות ממכירות, מבוטא באחוזים. הרווח הנקי הוא מכלול ההכנסות בניכוי מכלול ההוצאות, השורה התחתונה של הדוח:</p>
+    <div class="math">
+      <span class="lbl">שיעור רווח נקי</span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top">רווח נקי</span><span class="bot">הכנסות ממכירות</span></span>
+      <span class="op">=</span>
+      <span class="frac"><span class="top n">80,000</span><span class="bot n">1,000,000</span></span>
+      <span class="op">=</span>
+      <span class="res">8.0%</span>
+    </div>
+    <p>הערך המחושב, 8.0%, אינו מופיע באף אחד מהמסיחים א עד ד. לפיכך התשובה הנכונה היא ה.</p>
+
+    <div class="correct">
+      <b>התשובה הנכונה: ה (כל יתר התשובות שגויות).</b>
+      החישוב הנכון מניב 8.0%, ערך שאינו מוצע. המשמעות: על כל 1 ש"ח מכירה נותרות לבעלים 8 אגורות של רווח נקי.
+    </div>
+
+    <div class="elim">
+      <b class="title">פסילת המסיחים השגויים (וזיהוי מקור כל טעות)</b>
+      <div class="item"><span class="letter">א</span><div class="body">
+        <p>40.0% הוא שיעור הרווח הגולמי, לא הנקי. נתון הרווח הגולמי שולב בשאלה כפיתיון:</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">400,000</span><span class="bot n">1,000,000</span></span>
+          <span class="op">=</span>
+          <span class="res">40.0%</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ב</span><div class="body">
+        <p>15.0% הוא שיעור הרווח התפעולי. הרווח התפעולי הוא רווח לפני מימון ומסים ואינו "השורה התחתונה":</p>
+        <div class="mini-math">
+          <span class="frac"><span class="top n">150,000</span><span class="bot n">1,000,000</span></span>
+          <span class="op">=</span>
+          <span class="res">15.0%</span>
+        </div>
+      </div></div>
+      <div class="item"><span class="letter">ג</span><div class="body">
+        <p>4.0% אינו נובע מאף הגדרה של יחסי הרווחיות בקורס, וכפי הנראה נועד ללכוד טעויות חישוב אקראיות, למשל שימוש במכנה שגוי.</p>
+      </div></div>
+      <div class="item"><span class="letter">ד</span><div class="body">
+        <p>80.0% הוא טעות של סדר גודל: התייחסות למספר 80,000 כאל אחוז באופן ישיר, או חלוקה שגויה ב־100,000. היחס הנכון הוא 0.08, כלומר 8%, ולא 80%.</p>
+      </div></div>
+    </div>
+
+    <div class="lect"><b>ביסוס מהמחברת (שאלה 11):</b> "שיעור רווח נקי מוגדר לפי היחס בין הרווח הנקי להכנסות (יש לבטא באחוזים)". הרווח הנקי הוא "מכלול ההכנסות בניכוי מכלול ההוצאות".</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

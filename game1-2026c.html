@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCADE חשבונאות | שיעור 1</title>
+<style>
+  :root{
+    --bg:#0b0b1e; --panel:#141432; --neon:#00f5ff; --pink:#ff2fb3; --yellow:#ffe14d;
+    --green:#3dfc8f; --red:#ff4d6d; --text:#eaf6ff;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+    font-family:"Segoe UI", Arial, "David", sans-serif; overflow-x:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:50;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+  }
+  #game{ width:min(760px,96vw); margin:16px auto; position:relative; z-index:1; }
+  .frame{
+    background:var(--panel); border:3px solid var(--neon);
+    border-radius:14px; box-shadow:0 0 22px rgba(0,245,255,.35), inset 0 0 40px rgba(0,0,0,.5);
+    padding:18px 20px;
+  }
+  h1{
+    text-align:center; font-size:clamp(22px,4.5vw,34px); margin:4px 0 2px;
+    color:var(--yellow); text-shadow:0 0 8px rgba(255,225,77,.8), 0 0 24px rgba(255,47,179,.5);
+    letter-spacing:1px;
+  }
+  .sub{text-align:center; color:var(--neon); margin:0 0 10px; font-size:15px;}
+  #hud{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    font-weight:bold; font-size:clamp(14px,2.6vw,18px);
+    border-bottom:2px dashed rgba(0,245,255,.4); padding-bottom:8px; margin-bottom:12px;
+  }
+  #hud .lives{color:var(--red); letter-spacing:2px;}
+  #hud .score{color:var(--green);}
+  #hud .lvl{color:var(--pink);}
+  #timerbar{height:10px; background:#0a0a22; border:1px solid var(--neon); border-radius:6px; overflow:hidden; margin:6px 0 14px;}
+  #timerfill{height:100%; width:100%; background:linear-gradient(90deg,var(--green),var(--yellow),var(--red)); transition:width .1s linear;}
+  .screen{display:none; animation:pop .25s ease;}
+  .screen.active{display:block;}
+  @keyframes pop{from{transform:scale(.96); opacity:.4;} to{transform:scale(1); opacity:1;}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .shake{animation:shake .3s ease;}
+  @keyframes blink{50%{opacity:.25;}}
+  .blink{animation:blink 1.1s step-end infinite;}
+  .item-card{
+    background:#0a0a22; border:2px solid var(--pink); border-radius:12px;
+    text-align:center; font-size:clamp(18px,3.6vw,26px); font-weight:bold; padding:24px 14px;
+    margin:6px 0 16px; color:var(--yellow); text-shadow:0 0 10px rgba(255,225,77,.6);
+    box-shadow:0 0 14px rgba(255,47,179,.35);
+    min-height:110px; display:flex; align-items:center; justify-content:center;
+  }
+  .choices{display:grid; gap:10px;}
+  .choices.g2{grid-template-columns:1fr 1fr;}
+  .choices.g3{grid-template-columns:repeat(3,1fr);}
+  .choices.g1{grid-template-columns:1fr;}
+  @media(max-width:560px){ .choices.g3{grid-template-columns:1fr 1fr;} }
+  button.choice{
+    background:#0a0a22; color:var(--text); border:2px solid var(--neon); border-radius:10px;
+    padding:13px 10px; font-size:clamp(14px,2.8vw,17px); font-weight:bold; cursor:pointer;
+    font-family:inherit; transition:transform .08s ease, background .12s; text-align:center;
+  }
+  button.choice:hover{background:#101040; transform:translateY(-2px);}
+  button.choice.correct{background:#0c3d22; border-color:var(--green); color:var(--green);}
+  button.choice.wrong{background:#3d0c18; border-color:var(--red); color:var(--red);}
+  .bigbtn{
+    display:block; margin:18px auto 4px; background:var(--pink); color:#fff; border:none;
+    font-size:clamp(17px,3.4vw,22px); font-weight:bold; padding:14px 44px; border-radius:12px; cursor:pointer;
+    font-family:inherit; box-shadow:0 0 18px rgba(255,47,179,.6);
+  }
+  .bigbtn:hover{transform:scale(1.04);}
+  .menu{display:grid; gap:12px; margin:14px 0 6px;}
+  button.mode{
+    background:#0a0a22; border:2px solid var(--pink); color:var(--text); border-radius:12px;
+    padding:14px 16px; font-size:clamp(15px,3vw,18px); font-weight:bold; cursor:pointer; font-family:inherit;
+    text-align:right; transition:transform .1s, box-shadow .1s;
+  }
+  button.mode:hover{transform:translateY(-2px); box-shadow:0 0 16px rgba(255,47,179,.5); background:#12123d;}
+  button.mode .desc{display:block; font-weight:normal; font-size:13px; color:#9fd8e8; margin-top:3px;}
+  .center{text-align:center;}
+  .feedback{min-height:26px; text-align:center; font-weight:bold; font-size:17px; margin-top:10px;}
+  .feedback.good{color:var(--green);}
+  .feedback.bad{color:var(--red);}
+  .lvl-intro{
+    background:#0a0a22; border:2px dashed var(--yellow); border-radius:12px; padding:14px 16px; margin:10px 0;
+    font-size:16px; line-height:1.7;
+  }
+  .boss-wrap{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
+  .boss-emoji{font-size:52px; filter:drop-shadow(0 0 10px var(--red));}
+  .bosshp{flex:1; height:16px; background:#0a0a22; border:2px solid var(--red); border-radius:8px; overflow:hidden;}
+  .bosshpfill{height:100%; width:100%; background:linear-gradient(90deg,#ff2fb3,#ff4d6d); transition:width .3s;}
+  table.rank{margin:12px auto; border-collapse:collapse; font-size:15px;}
+  table.rank td{border:1px solid rgba(0,245,255,.4); padding:6px 14px;}
+  .flash{position:fixed; inset:0; background:rgba(255,77,109,.25); z-index:40; pointer-events:none; opacity:0; }
+  .flash.on{animation:flashA .35s ease;}
+  @keyframes flashA{from{opacity:1;} to{opacity:0;}}
+  .small{font-size:13px; color:#9fd8e8;}
+  .combo{color:var(--yellow); font-weight:bold;}
+  .credits p{text-align:center; margin:7px 0; font-size:16px;}
+  .credits .role{color:var(--neon); font-size:13px; display:block;}
+  .backlink{background:none; border:none; color:var(--neon); cursor:pointer; font-family:inherit; font-size:14px; text-decoration:underline; display:block; margin:10px auto 0;}
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+<div id="game">
+  <div class="frame">
+    <h1>🕹️ ARCADE חשבונאות 🕹️</h1>
+    <p class="sub">קורס 13002 - חשבונאות למנהלים | שיעור 1: מבוא לחשבונאות ודיווח כספי</p>
+
+    <div id="hud" style="display:none;">
+      <span class="lvl" id="hudLvl"></span>
+      <span class="score">נקודות: <span id="hudScore">0</span> <span class="combo" id="hudCombo"></span></span>
+      <span class="lives" id="hudLives">❤❤❤</span>
+    </div>
+    <div id="timerbar" style="display:none;"><div id="timerfill"></div></div>
+
+    <!-- MENU -->
+    <div class="screen active" id="scrMenu">
+      <p class="center blink" style="color:var(--yellow); font-weight:bold; font-size:18px; margin:6px 0;">▼ INSERT COIN ▼ (בעצם לא צריך, זה בחינם, תודו שזה עדיף מקזינו)</p>
+      <div class="menu">
+        <button class="mode" onclick="startMode('campaign')">🎮 מסע הקמפיין המלא
+          <span class="desc">4 שלבים + בוס הזהות החשבונאית. המסלול הקלאסי למי שרוצה את הכתר.</span></button>
+        <button class="mode" onclick="startMode('quiz')">🇺🇸 אמריקאיות בלץ
+          <span class="desc">10 שאלות רב-ברירה בסגנון הממ"ן, עם חברות שאתם מכירים מהחיים (פחות או יותר).</span></button>
+        <button class="mode" onclick="startMode('tf')">⚡ נכון / לא נכון טורבו
+          <span class="desc">12 היגדים, 7 שניות לכל אחד. המוח שלכם על בסיס צבירה, הלב על בסיס מזומן.</span></button>
+        <button class="mode" onclick="startMode('sort')">🗂️ ספרינט המיון
+          <span class="desc">16 פריטים, 8 שניות: נכס? התחייבות? הון? המאזן לא ימיין את עצמו.</span></button>
+        <button class="mode" onclick="startMode('bossrush')">👾 קרב בוס ישיר
+          <span class="desc">בלי חימום, בלי רחמים: ישר אל בוס הזהות החשבונאית. לאמיצים בלבד.</span></button>
+      </div>
+      <button class="backlink" onclick="show('scrCredits')">🎬 קרדיטים</button>
+      <p class="center small">© ד"ר שי צבאן | פותח לצורכי תרגול. כל דמיון לחברות אמיתיות - מקרי בהחלט.</p>
+    </div>
+
+    <!-- CREDITS -->
+    <div class="screen credits" id="scrCredits">
+      <h1 style="color:var(--neon)">🎬 קרדיטים</h1>
+      <p><span class="role">בימוי, תסריט ובקרה תקציבית</span><b style="color:var(--yellow); font-size:20px;">ד"ר שי צבאן</b></p>
+      <p><span class="role">ניהול סיכונים</span>3 לבבות בלבד. חיו עם זה</p>
+      <p><span class="role">פחת נצבר על המשחק</span>0 ש"ח - עדיין חדש מהניילונים</p>
+      <p><span class="role">אחריות חברתית</span>אף עודף לא נפגע במהלך ההפקה</p>
+      <p><span class="role">גילוי נאות</span>המשחק סופק על בסיס צבירה: נהנים עכשיו, משלמים בממ"ן</p>
+      <p><span class="role">תודה מיוחדת</span>ללוקה פצ'ולי, שהמציא את הרישום הכפול ב-1494 ולא גבה תמלוגים</p>
+      <button class="bigbtn" onclick="show('scrMenu')">← חזרה לתפריט</button>
+    </div>
+
+    <!-- STAGE INTRO -->
+    <div class="screen" id="scrIntro">
+      <div class="lvl-intro" id="introText"></div>
+      <button class="bigbtn" onclick="beginStage()">GO!</button>
+    </div>
+
+    <!-- QUESTION -->
+    <div class="screen" id="scrQ">
+      <div class="item-card" id="qCard"></div>
+      <div class="boss-wrap" id="bossWrap" style="display:none;">
+        <span class="boss-emoji">👾</span>
+        <div class="bosshp"><div class="bosshpfill" id="bossHp"></div></div>
+      </div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="screen" id="scrOver">
+      <h1 style="color:var(--red)">GAME OVER 💀</h1>
+      <p class="center" style="font-size:20px;">הניקוד שלכם: <b id="overScore" style="color:var(--green)"></b></p>
+      <p class="center" id="overMsg"></p>
+      <button class="bigbtn" onclick="startMode(mode)">↻ נסו שוב</button>
+      <button class="backlink" onclick="show('scrMenu')">← חזרה לתפריט</button>
+    </div>
+
+    <!-- WIN -->
+    <div class="screen" id="scrWin">
+      <h1 style="color:var(--green)" id="winTitle">🏆 ניצחון! 🏆</h1>
+      <p class="center" style="font-size:20px;">ניקוד סופי: <b id="winScore" style="color:var(--yellow)"></b></p>
+      <p class="center" style="font-size:18px;" id="winRankLine">הדרגה שלכם: <b id="winRank" style="color:var(--neon)"></b></p>
+      <table class="rank" id="rankTable">
+        <tr><td>עד 7,999</td><td>מתלמד/ת שסופר/ת מהדקים</td></tr>
+        <tr><td>8,000 - 14,999</td><td>מנה"ח שמאזן/ת מתוך שינה</td></tr>
+        <tr><td>15,000 - 21,999</td><td>חשב/ת שחולם/ת בחובה-זכות</td></tr>
+        <tr><td>22,000 - 29,999</td><td>רו"ח עם עט זהב</td></tr>
+        <tr><td>30,000+</td><td>סמנכ"ל/ית כספים שמס הכנסה מפחד ממנו/ה 👑</td></tr>
+      </table>
+      <button class="bigbtn" onclick="startMode(mode)">↻ שחקו שוב</button>
+      <button class="backlink" onclick="show('scrMenu')">← חזרה לתפריט</button>
+      <p class="center small">מוכנים לממ"ן 1? עברו גם על 20 שאלות התרגול שבמערך השיעור.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ---------- audio ---------- */
+let actx = null;
+function beep(freq, dur, type, vol){
+  try{
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "square"; o.frequency.value = freq;
+    g.gain.value = vol || 0.06;
+    o.connect(g); g.connect(actx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + (dur || 0.15));
+    o.stop(actx.currentTime + (dur || 0.15));
+  }catch(e){}
+}
+const sndGood = () => { beep(660,.09); setTimeout(()=>beep(880,.12),70); };
+const sndBad  = () => { beep(180,.25,"sawtooth",.09); };
+const sndLvl  = () => { [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.12),i*90)); };
+const sndWin  = () => { [523,659,784,1046,1318,1568].forEach((f,i)=>setTimeout(()=>beep(f,.15),i*110)); };
+const sndOver = () => { [400,300,220,150].forEach((f,i)=>setTimeout(()=>beep(f,.2,"sawtooth",.08),i*160)); };
+
+/* ---------- humor ---------- */
+const GOOD_QUIPS = [
+  "✔ חד/ה כמו עיפרון של רואת חשבון!",
+  "✔ המאזן מאוזן והלב שלנו חם",
+  "✔ וורן באפט מהנהן אי שם",
+  "✔ העודפים שלכם תופחים כמו בצק שמרים",
+  "✔ צבירה נקייה! איזה יופי",
+  "✔ לוקה פצ'ולי גאה בך מ-1494",
+  "✔ תשובה כזו לא רואים גם בביקורת",
+];
+const BAD_QUIPS = [
+  "✘ אאוץ'. הביקורת בדרך אליכם",
+  "✘ זה היה יצירתי. יצירתי זה לא נכון",
+  "✘ המאזן בכה קצת. הוא יתאושש",
+  "✘ טעות מהותית! רו\"ח המבקר מרים גבה",
+  "✘ החובה והזכות מסרבות להיפגש",
+  "✘ הדוח הזה לא היה עובר ביקורת עמיתים",
+];
+const TIME_QUIPS = [
+  "⏰ הזמן אזל - כמו המזומן בסוף החודש",
+  "⏰ הדוח הוגש באיחור. קנס!",
+  "⏰ דדליין זו לא המלצה, זו התחייבות (שוטפת)",
+];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+/* ---------- content ---------- */
+const CAT5 = ["נכס שוטף","נכס לא שוטף","התחייבות שוטפת","התחייבות לא שוטפת","הון עצמי"];
+const L_SORT = [
+  ["מזומן",0],["לקוחות",0],["מלאי",0],["השקעה לזמן קצר (פיקדון ל-3 חודשים)",0],["הוצאות מראש",0],
+  ["מכונת ייצור",1],["מבנה המפעל",1],["כלי רכב",1],["נדל\"ן להשקעה",1],["השקעה לזמן ארוך",1],
+  ["ספקים",2],["זכאים (משכורות לשלם)",2],["הלוואה לפירעון בעוד 9 חודשים",2],["מקדמה שהתקבלה מלקוח (הכנסה נדחית)",2],["דיבידנד לשלם",2],["ריבית לשלם",2],
+  ["הלוואה בנקאית לפירעון בעוד 5 שנים",3],["אגרות חוב לפירעון בעוד 3 שנים",3],
+  ["הון מניות",4],["פרמיה על מניות",4],["עודפים",4],
+];
+const L_TF = [
+  ["הכנסה מוכרת רק כאשר התמורה מתקבלת במזומן", false],
+  ["מקדמה שהתקבלה מלקוח בגין שירות עתידי היא התחייבות", true],
+  ["חשמל שנצרך בדצמבר וישולם בינואר - הוצאה של שנת הצריכה", true],
+  ["תשלום מראש עבור שירות של השנה הבאה נרשם כהוצאה מיידית", false],
+  ["דיבידנד שהוכרז נרשם כהוצאה בדוח רווח והפסד", false],
+  ["הפסד שנתי מקטין את יתרת העודפים", true],
+  ["גבייה במזומן מלקוח מגדילה את סך הנכסים", false],
+  ["רכישת מכונה במזומן אינה משנה את סך המאזן", true],
+  ["רכישת מכונה באשראי ספקים מגדילה את סך המאזן", true],
+  ["הון המניות משקף את הרווחים שנצברו בחברה", false],
+  ["הביאורים הם חלק בלתי נפרד מהדוחות הכספיים", true],
+  ["המאזן ערוך לתקופה, ודוח רווח והפסד לנקודת זמן", false],
+  ["מכירה באשראי יוצרת הכנסה וגם נכס לקוחות", true],
+  ["הדוחות הכספיים כוללים המלצה האם להשקיע בחברה", false],
+  ["פירעון הלוואה במזומן מקטין את סך המאזן", true],
+];
+const CATPL = ["עלות המכר","הוצאות מכירה ושיווק","הוצאות הנהלה וכלליות","הוצאות מימון","מסים על ההכנסה"];
+const L_PL = [
+  ["עלות הסחורה שנמכרה ללקוחות",0],
+  ["קמפיין פרסום ברשתות החברתיות",1],
+  ["שכר אנשי המכירות",1],
+  ["הובלת סחורה ללקוחות (הפצה)",1],
+  ["שכר המנכ\"לית ומטה ההנהלה",2],
+  ["שכר דירה של משרדי ההנהלה",2],
+  ["ריבית על הלוואה בנקאית",3],
+  ["עמלות בנק",3],
+  ["מס חברות על הרווח",4],
+  ["חשמל ומים במשרדי המטה",2],
+];
+const L_MC = [
+  { q:'חברת "פלאפל הזהב" מכרה מנות ב-10,000 ש"ח באשראי. הלקוח נשבע לשלם "אחרי החגים". מה יירשם היום?', opts:[
+    "שום דבר - נחכה שישלם, אולי אחרי החגים באמת",
+    "הכנסה 10,000 + נכס לקוחות 10,000",
+    "מזומן 10,000 + הכנסה 10,000",
+    "הוצאה 10,000 - כי כנראה לא נראה את הכסף"], a:1 },
+  { q:'חברת "חתול ברזל" קיבלה מקדמה 5,000 ש"ח על אילוף חתולים שיתבצע בשנה הבאה (בהצלחה). מה יירשם?', opts:[
+    "מזומן 5,000+ | הכנסה 5,000+ - כסף זה כסף",
+    "מזומן 5,000+ | הכנסה נדחית (התחייבות) 5,000+",
+    "לקוחות 5,000+ | הכנסה 5,000+",
+    "אין רישום עד שהחתול ישב לפי פקודה"], a:1 },
+  { q:'המנכ"ל של "בורקס אחזקות" דורש לרשום את העובדים כנכס במאזן, כי "הם שווים זהב". מה אומרים לו?', opts:[
+    "רעיון מצוין, נרשום לפי שווי שוק של זהב",
+    "אפשר, אבל רק את עובדי המטבח",
+    "לא ניתן - העובדים אינם משאב בשליטת החברה העונה להגדרת נכס",
+    "נרשום אותם כהתחייבות, כי צריך לשלם להם שכר"], a:2 },
+  { q:'חברה שילמה בדצמבר 2025 ביטוח שנתי מראש עבור 2026. ההוצאה תוכר...', opts:[
+    "ב-2025 - שילמנו? הוצאנו!",
+    "ב-2026, ובינתיים יוצג נכס (הוצאות מראש) במאזן 2025",
+    "חצי ב-2025 וחצי ב-2026, ליתר ביטחון",
+    "לעולם לא - ביטוח זו השקעה"], a:1 },
+  { q:'איזה מהפריטים הבאים לא יופיע בדוח על המצב הכספי?', opts:[
+    "מזומנים ושווי מזומנים",
+    "ספקים",
+    "הכנסות ממכירות",
+    "עודפים"], a:2 },
+  { q:'סך הנכסים 500,000 ש"ח; סך ההתחייבויות 320,000 ש"ח. ההון העצמי הוא...', opts:[
+    "820,000 ש\"ח - חיברנו, גדלנו",
+    "180,000 ש\"ח",
+    "320,000 ש\"ח",
+    "אי אפשר לדעת בלי לשאול את הבנק"], a:1 },
+  { q:'חברת "גלידה בקיץ" הרוויחה 70,000 ש"ח נטו והכריזה דיבידנד 20,000 ש"ח. יתרת העודפים...', opts:[
+    "גדלה ב-70,000 - הדיבידנד זו בעיה של שנה הבאה",
+    "גדלה ב-50,000 נטו",
+    "קטנה ב-20,000",
+    "נמסה - זו גלידה בקיץ"], a:1 },
+  { q:'מי מהבאים משפיע על הרווח הגולמי?', opts:[
+    "שכר המנכ\"ל (במיוחד אם הוא גבוה)",
+    "ריבית לבנק",
+    "עלות המכר",
+    "מס חברות"], a:2 },
+  { q:'החברה פרעה הלוואה של 30,000 ש"ח במזומן. סך המאזן...', opts:[
+    "קטן ב-30,000 - ירדו נכס והתחייבות במקביל",
+    "גדל ב-30,000 - שילמנו, התאמצנו",
+    "לא משתנה - זו סתם העברת כסף",
+    "קטן ב-60,000 - פעמיים 30,000"], a:0 },
+  { q:'לקוח שחייב 8,000 ש"ח שילם סוף-סוף (אחרי 4 תזכורות ועוגיות). סך הנכסים...', opts:[
+    "גדל ב-8,000 - נכנס כסף!",
+    "קטן ב-8,000 - נעלם הלקוח מהמאזן",
+    "לא משתנה - מזומן נכנס, לקוחות ירד. החלפת נכס בנכס",
+    "תלוי אם העוגיות נרשמו כהוצאה"], a:2 },
+  { q:'"דוח רווח והפסד הוא סרטון, המאזן הוא תמונת סטילס." המשפט משקף ש...', opts:[
+    "רווח והפסד לתקופה, והמאזן לנקודת זמן",
+    "המאזן לתקופה, ורווח והפסד לנקודת זמן",
+    "שניהם לנקודת זמן, רק בפילטרים שונים",
+    "צריך צלם בישיבת הדירקטוריון"], a:0 },
+  { q:'חברת "נודניק דיגיטל" קיבלה חשבון חשמל על דצמבר, ותשלם בפברואר. בדוחות דצמבר יופיעו...', opts:[
+    "כלום - נדבר בפברואר",
+    "הוצאת חשמל + התחייבות (זכאים)",
+    "הוצאת חשמל + קיטון מזומן",
+    "נכס חשמל - האור עוד דולק"], a:1 },
+];
+const L_BOSS = [
+  { q:"החברה הנפיקה מניות תמורת 50,000 ש\"ח במזומן", opts:[
+    "מזומן 50,000+ | הון מניות 50,000+",
+    "מזומן 50,000+ | הכנסות 50,000+",
+    "מזומן 50,000+ | הלוואה 50,000+",
+    "אין רישום עד לחלוקת דיבידנד"], a:0 },
+  { q:"החברה סיפקה שירות בשווי 20,000 ש\"ח; התמורה טרם נגבתה", opts:[
+    "אין רישום - המזומן טרם התקבל",
+    "לקוחות 20,000+ | הכנסות 20,000+",
+    "מזומן 20,000+ | הכנסות 20,000+",
+    "לקוחות 20,000+ | הכנסה נדחית 20,000+"], a:1 },
+  { q:"החברה שילמה 8,000 ש\"ח לספק בגין חוב קיים", opts:[
+    "מזומן 8,000- | הוצאות 8,000+",
+    "ספקים 8,000- | הכנסות 8,000+",
+    "מזומן 8,000- | ספקים 8,000-",
+    "אין רישום - החוב כבר נרשם בעבר"], a:2 },
+  { q:"החברה הכריזה על דיבידנד 6,000 ש\"ח שטרם שולם", opts:[
+    "הוצאות דיבידנד 6,000+ | מזומן 6,000-",
+    "אין רישום עד לתשלום בפועל",
+    "עודפים 6,000- | דיבידנד לשלם 6,000+",
+    "הון מניות 6,000- | מזומן 6,000-"], a:2 },
+  { q:"החברה צרכה חשמל ב-2,000 ש\"ח שטרם שולם", opts:[
+    "הוצאות חשמל 2,000+ (הרווח קטן) | זכאים 2,000+",
+    "אין רישום עד לתשלום",
+    "הוצאות חשמל 2,000+ | מזומן 2,000-",
+    "זכאים 2,000+ | הכנסות 2,000+"], a:0 },
+  { q:"החברה קיבלה מקדמה 10,000 ש\"ח בגין שירות שיסופק בשנה הבאה", opts:[
+    "מזומן 10,000+ | הכנסות 10,000+",
+    "מזומן 10,000+ | הכנסה נדחית (התחייבות) 10,000+",
+    "לקוחות 10,000+ | הכנסות 10,000+",
+    "אין רישום - השירות טרם סופק"], a:1 },
+];
+
+/* ---------- modes ---------- */
+const STAGE_DEFS = {
+  sort:{ title:"🟦 מיין או תיעלם", desc:(n,s)=>"מופיע פריט - שייכו אותו למקומו בדוח על המצב הכספי. "+n+" פריטים, "+s+" שניות לכל אחד.", cats:CAT5, layout:"g3", data:()=>L_SORT },
+  tf:{ title:"🟩 אמת או בלוף", desc:(n,s)=>"היגד על בסיס הצבירה והדוחות - נכון או שגוי? "+n+" היגדים, "+s+" שניות לכל אחד.", cats:["✔ נכון","✘ שגוי"], layout:"g2", data:()=>L_TF },
+  pl:{ title:"🟨 המדרג הגדול", desc:(n,s)=>"לאן שייך כל סעיף בדוח רווח והפסד? "+n+" סעיפים, "+s+" שניות.", cats:CATPL, layout:"g3", data:()=>L_PL },
+  mc:{ title:"🇺🇸 אמריקאיות בלץ", desc:(n,s)=>n+" שאלות רב-ברירה. "+s+" שניות לשאלה. בלי הנמקה הפעם - אבל בממ\"ן חובה!", layout:"g1", data:()=>L_MC },
+  boss:{ title:"🟥 בוס הזהות החשבונאית", desc:(n,s)=>"הבוס שולף עסקאות - בחרו את התיעוד הנכון ברמת הסעיף. "+n+" מכות והוא נופל! "+s+" שניות למכה.", layout:"g1", data:()=>L_BOSS },
+};
+const MODES = {
+  campaign:{ name:"🎮 הקמפיין", seq:[ {t:"sort",n:12,s:12}, {t:"tf",n:10,s:10}, {t:"pl",n:8,s:10}, {t:"boss",n:6,s:18} ] },
+  quiz:{ name:"🇺🇸 אמריקאיות", seq:[ {t:"mc",n:10,s:20} ] },
+  tf:{ name:"⚡ טורבו", seq:[ {t:"tf",n:12,s:7} ] },
+  sort:{ name:"🗂️ ספרינט", seq:[ {t:"sort",n:16,s:8} ] },
+  bossrush:{ name:"👾 בוס ראש", seq:[ {t:"boss",n:6,s:14} ] },
+};
+
+/* ---------- state ---------- */
+let mode, stageIdx, lives, score, combo, qi, pool, timerId, timeLeft, timeMax, bossHpMax, bossHpNow, locked;
+
+const $ = id => document.getElementById(id);
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function curStage(){ return MODES[mode].seq[stageIdx]; }
+function stageDef(){ return STAGE_DEFS[curStage().t]; }
+function hud(){
+  $("hudScore").textContent = score.toLocaleString();
+  $("hudLives").textContent = "❤".repeat(lives) + "🖤".repeat(Math.max(0,3-lives));
+  const seq = MODES[mode].seq;
+  $("hudLvl").textContent = seq.length>1 ? ("שלב "+(stageIdx+1)+"/"+seq.length) : MODES[mode].name;
+  $("hudCombo").textContent = combo>=2 ? " x"+Math.min(combo,5)+" רצף!" : "";
+}
+function startMode(m){
+  mode=m; stageIdx=0; lives=3; score=0; combo=0;
+  $("hud").style.display="flex"; $("timerbar").style.display="block";
+  hud(); introStage();
+  beep(523,.1);
+}
+function introStage(){
+  const st=curStage(), def=stageDef();
+  $("introText").innerHTML = "<b style='color:var(--yellow); font-size:19px;'>"+def.title+"</b><br>"+def.desc(st.n,st.s);
+  show("scrIntro"); sndLvl();
+}
+function beginStage(){
+  const st=curStage(), def=stageDef();
+  qi=0; timeMax=st.s;
+  pool = shuffle(def.data()).slice(0, st.n);
+  if(st.t==="boss"){ bossHpMax=pool.length; bossHpNow=bossHpMax; }
+  $("bossWrap").style.display = st.t==="boss" ? "flex" : "none";
+  show("scrQ"); nextQ();
+}
+function nextQ(){
+  locked=false;
+  $("feedback").textContent=""; $("feedback").className="feedback";
+  if(qi>=pool.length){ endStage(); return; }
+  const st=curStage(), def=stageDef();
+  const cEl=$("choices");
+  cEl.innerHTML="";
+  let card, opts;
+  if(st.t==="mc" || st.t==="boss"){ card=(st.t==="boss"?"👾 ":"")+pool[qi].q; opts=pool[qi].opts; }
+  else { card=pool[qi][0]; opts=def.cats; }
+  if(st.t==="boss"){ $("bossHp").style.width=(bossHpNow/bossHpMax*100)+"%"; }
+  $("qCard").textContent=card;
+  opts.forEach((t,i)=>{
+    const b=document.createElement("button");
+    b.className="choice"; b.textContent=t;
+    b.onclick=()=>answer(i,b);
+    cEl.appendChild(b);
+  });
+  cEl.className="choices "+def.layout;
+  startTimer();
+}
+function correctIndex(){
+  const st=curStage();
+  if(st.t==="mc" || st.t==="boss") return pool[qi].a;
+  if(st.t==="tf") return pool[qi][1] ? 0 : 1;
+  return pool[qi][1];
+}
+function startTimer(){
+  clearInterval(timerId);
+  timeLeft=timeMax;
+  $("timerfill").style.width="100%";
+  timerId=setInterval(()=>{
+    timeLeft-=0.1;
+    $("timerfill").style.width=Math.max(0,timeLeft/timeMax*100)+"%";
+    if(timeLeft<=0){ clearInterval(timerId); timeOut(); }
+  },100);
+}
+function timeOut(){
+  if(locked) return;
+  locked=true; combo=0;
+  loseLife(pick(TIME_QUIPS));
+}
+function answer(i,btn){
+  if(locked) return;
+  locked=true;
+  clearInterval(timerId);
+  const st=curStage();
+  const ci=correctIndex();
+  const btns=[...$("choices").children];
+  if(i===ci){
+    btn.classList.add("correct");
+    combo++;
+    const base = st.t==="boss" ? 300 : 100;
+    const bonus = Math.round(Math.max(0,timeLeft)*10);
+    const mult = Math.min(combo,5);
+    const gained = (base+bonus)*mult;
+    score+=gained;
+    $("feedback").textContent=pick(GOOD_QUIPS)+" +"+gained.toLocaleString()+" נק'";
+    $("feedback").className="feedback good";
+    sndGood();
+    if(st.t==="boss"){ bossHpNow--; $("bossHp").style.width=(bossHpNow/bossHpMax*100)+"%"; }
+    hud();
+    setTimeout(()=>{ qi++; nextQ(); }, 800);
+  }else{
+    btn.classList.add("wrong");
+    if(btns[ci]) btns[ci].classList.add("correct");
+    combo=0;
+    loseLife(pick(BAD_QUIPS));
+  }
+}
+function loseLife(msg){
+  lives--;
+  hud();
+  $("flash").classList.remove("on"); void $("flash").offsetWidth; $("flash").classList.add("on");
+  $("game").classList.remove("shake"); void $("game").offsetWidth; $("game").classList.add("shake");
+  $("feedback").textContent=msg+" 💔";
+  $("feedback").className="feedback bad";
+  sndBad();
+  if(lives<=0){ setTimeout(gameOver, 950); }
+  else{ setTimeout(()=>{ qi++; nextQ(); }, 1200); }
+}
+function endStage(){
+  clearInterval(timerId);
+  const seq=MODES[mode].seq;
+  if(stageIdx < seq.length-1){
+    score += 250;
+    stageIdx++;
+    hud();
+    introStage();
+  }else{
+    win();
+  }
+}
+function gameOver(){
+  clearInterval(timerId);
+  $("overScore").textContent=score.toLocaleString();
+  $("overMsg").textContent = score>=8000
+    ? "קרוב מאוד! עוד סיבוב ואתם שם. הבוס כבר מזיע."
+    : "המחברת מחכה לכם בחלקים ג-ו. היא לא שיפוטית, מבטיחים.";
+  show("scrOver"); sndOver();
+}
+function win(){
+  clearInterval(timerId);
+  score += lives*400;
+  $("winScore").textContent=score.toLocaleString();
+  const isCampaign = mode==="campaign";
+  $("winTitle").textContent = isCampaign ? "🏆 הבוס נפל! ניצחתם! 🏆" : "🏁 סיימתם את המסלול! 🏁";
+  $("rankTable").style.display = isCampaign ? "table" : "none";
+  if(isCampaign){
+    const r = score>=30000 ? "סמנכ\"ל/ית כספים שמס הכנסה מפחד ממנו/ה 👑"
+      : score>=22000 ? "רו\"ח עם עט זהב"
+      : score>=15000 ? "חשב/ת שחולם/ת בחובה-זכות"
+      : score>=8000 ? "מנה\"ח שמאזן/ת מתוך שינה"
+      : "מתלמד/ת שסופר/ת מהדקים";
+    $("winRank").textContent = r;
+    $("winRankLine").style.display="block";
+  }else{
+    const r = lives===3 ? "בלי שריטה! ההון העצמי שלכם בשיא" : lives===2 ? "יציב כמו מאזן מבוקר" : "ניצחון בנקודות - גם זה נחשב";
+    $("winRank").textContent = r;
+    $("winRankLine").style.display="block";
+  }
+  show("scrWin"); sndWin();
+}
+</script>
+</body>
+</html>

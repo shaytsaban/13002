@@ -23,8 +23,14 @@
   .frame{
     background:var(--panel); border:3px solid var(--neon);
     border-radius:14px; box-shadow:0 0 22px rgba(0,245,255,.35), inset 0 0 40px rgba(0,0,0,.5);
-    padding:18px 20px;
+    padding:18px 20px; position:relative;
   }
+  #sndBtn{
+    position:absolute; top:10px; left:12px; z-index:5;
+    background:#0a0a22; border:2px solid var(--neon); border-radius:10px;
+    font-size:18px; padding:5px 10px; cursor:pointer; color:var(--text);
+  }
+  #sndBtn:hover{box-shadow:0 0 10px rgba(0,245,255,.6);}
   h1{
     text-align:center; font-size:clamp(22px,4.5vw,34px); margin:4px 0 2px;
     color:var(--yellow); text-shadow:0 0 8px rgba(255,225,77,.8), 0 0 24px rgba(255,47,179,.5);
@@ -110,6 +116,7 @@
 <div class="flash" id="flash"></div>
 <div id="game">
   <div class="frame">
+    <button id="sndBtn" onclick="toggleSound()" title="הפעלה/השתקה של צלילים">🔊</button>
     <h1>🕹️ ARCADE חשבונאות 🕹️</h1>
     <p class="sub">קורס 13002 - חשבונאות למנהלים | שיעור 1: מבוא לחשבונאות ודיווח כספי</p>
 
@@ -198,25 +205,80 @@
 
 <script>
 "use strict";
-/* ---------- audio ---------- */
-let actx = null;
-function beep(freq, dur, type, vol){
+/* ---------- audio engine ---------- */
+let actx = null, master = null, muted = false, musicTimer = null, musStep = 0;
+function ensureCtx(){
+  if(!actx){
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    master = actx.createGain(); master.gain.value = 1; master.connect(actx.destination);
+  }
+  if(actx.state === "suspended") actx.resume(); // חובה בדפדפנים מודרניים: אודיו רק אחרי מחוות משתמש
+  return actx;
+}
+function tone(freq, dur, type, vol, when, slideTo){
   try{
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    const o = actx.createOscillator(), g = actx.createGain();
-    o.type = type || "square"; o.frequency.value = freq;
-    g.gain.value = vol || 0.06;
-    o.connect(g); g.connect(actx.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + (dur || 0.15));
-    o.stop(actx.currentTime + (dur || 0.15));
+    const ctx = ensureCtx(); if(muted) return;
+    const t0 = ctx.currentTime + (when||0);
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || "square";
+    o.frequency.setValueAtTime(freq, t0);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
+    g.gain.setValueAtTime(vol || 0.06, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(master);
+    o.start(t0); o.stop(t0 + dur + 0.02);
   }catch(e){}
 }
-const sndGood = () => { beep(660,.09); setTimeout(()=>beep(880,.12),70); };
-const sndBad  = () => { beep(180,.25,"sawtooth",.09); };
-const sndLvl  = () => { [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.12),i*90)); };
-const sndWin  = () => { [523,659,784,1046,1318,1568].forEach((f,i)=>setTimeout(()=>beep(f,.15),i*110)); };
-const sndOver = () => { [400,300,220,150].forEach((f,i)=>setTimeout(()=>beep(f,.2,"sawtooth",.08),i*160)); };
+function noise(dur, vol, when){
+  try{
+    const ctx = ensureCtx(); if(muted) return;
+    const t0 = ctx.currentTime + (when||0);
+    const n = Math.floor(ctx.sampleRate * dur);
+    const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for(let i=0;i<n;i++) d[i] = (Math.random()*2-1) * (1 - i/n);
+    const s = ctx.createBufferSource(); s.buffer = buf;
+    const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 900;
+    const g = ctx.createGain(); g.gain.value = vol || 0.15;
+    s.connect(f); f.connect(g); g.connect(master);
+    s.start(t0);
+  }catch(e){}
+}
+const beep = (f,d,t,v) => tone(f,d,t,v);
+const sndClick = () => tone(700,.06,"square",.05);
+const sndGood  = () => { tone(988,.07,"square",.06); tone(1319,.12,"square",.06,.07); };            // מטבע ארקייד
+const sndBad   = () => { tone(220,.18,"sawtooth",.08); tone(160,.22,"sawtooth",.08,.12); };          // באזזר
+const sndLife  = () => { noise(.35,.2); tone(300,.4,"sawtooth",.09,0,80); };                          // פיצוץ לב
+const sndTick  = () => tone(1250,.05,"square",.05);                                                   // טיק שעון
+const sndHit   = () => { noise(.12,.12); tone(150,.15,"square",.1); tone(988,.07,"square",.05,.1); tone(1319,.1,"square",.05,.17); }; // מכה לבוס
+const sndLvl   = () => { [523,659,784,1046].forEach((f,i)=>tone(f,.12,"square",.06,i*.09)); };
+const sndWin   = () => { [523,659,784,1046,784,1046,1318,1568].forEach((f,i)=>tone(f,.16,"square",.07,i*.11)); noise(.4,.08,.9); };
+const sndOver  = () => { [392,330,262,196,131].forEach((f,i)=>tone(f,.22,"sawtooth",.08,i*.17)); };
+/* מוזיקת רקע: לופ צ'יפ-טיון עדין בזמן משחק */
+const MUS = [131,0,196,0,165,0,196,247];
+function musicStart(){
+  musicStop();
+  try{ ensureCtx(); }catch(e){ return; }
+  musStep = 0;
+  musicTimer = setInterval(()=>{
+    const f = MUS[musStep % MUS.length];
+    if(f && !muted) tone(f,.12,"triangle",.035);
+    musStep++;
+  }, 250);
+}
+function musicStop(){ clearInterval(musicTimer); musicTimer = null; }
+function toggleSound(){
+  muted = !muted;
+  document.getElementById("sndBtn").textContent = muted ? "🔇" : "🔊";
+  if(!muted) sndClick();
+}
+/* צליל קליק לכפתורי ניווט (לא לכפתורי תשובה - להם יש צליל משלהם) */
+if(document.addEventListener){
+  document.addEventListener("click", e=>{
+    const b = e.target.closest ? e.target.closest("button") : null;
+    if(b && (b.classList.contains("mode") || b.classList.contains("bigbtn") || b.classList.contains("backlink"))) sndClick();
+  });
+}
 
 /* ---------- humor ---------- */
 const GOOD_QUIPS = [
@@ -400,6 +462,7 @@ const $ = id => document.getElementById(id);
 function show(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   $(id).classList.add("active");
+  if(id!=="scrQ") musicStop();
 }
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
 function curStage(){ return MODES[mode].seq[stageIdx]; }
@@ -428,7 +491,7 @@ function beginStage(){
   pool = shuffle(def.data()).slice(0, st.n);
   if(st.t==="boss"){ bossHpMax=pool.length; bossHpNow=bossHpMax; }
   $("bossWrap").style.display = st.t==="boss" ? "flex" : "none";
-  show("scrQ"); nextQ();
+  show("scrQ"); musicStart(); nextQ();
 }
 function nextQ(){
   locked=false;
@@ -460,10 +523,13 @@ function correctIndex(){
 function startTimer(){
   clearInterval(timerId);
   timeLeft=timeMax;
+  let lastTick=99;
   $("timerfill").style.width="100%";
   timerId=setInterval(()=>{
     timeLeft-=0.1;
     $("timerfill").style.width=Math.max(0,timeLeft/timeMax*100)+"%";
+    const s=Math.ceil(timeLeft);
+    if(timeLeft>0 && s<=3 && s!==lastTick){ lastTick=s; sndTick(); } // טיק-טוק בשניות האחרונות
     if(timeLeft<=0){ clearInterval(timerId); timeOut(); }
   },100);
 }
@@ -489,8 +555,8 @@ function answer(i,btn){
     score+=gained;
     $("feedback").textContent=pick(GOOD_QUIPS)+" +"+gained.toLocaleString()+" נק'";
     $("feedback").className="feedback good";
-    sndGood();
-    if(st.t==="boss"){ bossHpNow--; $("bossHp").style.width=(bossHpNow/bossHpMax*100)+"%"; }
+    if(st.t==="boss"){ sndHit(); bossHpNow--; $("bossHp").style.width=(bossHpNow/bossHpMax*100)+"%"; }
+    else{ sndGood(); }
     hud();
     setTimeout(()=>{ qi++; nextQ(); }, 800);
   }else{
@@ -507,7 +573,7 @@ function loseLife(msg){
   $("game").classList.remove("shake"); void $("game").offsetWidth; $("game").classList.add("shake");
   $("feedback").textContent=msg+" 💔";
   $("feedback").className="feedback bad";
-  sndBad();
+  sndBad(); sndLife();
   if(lives<=0){ setTimeout(gameOver, 950); }
   else{ setTimeout(()=>{ qi++; nextQ(); }, 1200); }
 }
